@@ -17,10 +17,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin', function () {
-    return view('admin');
-});
+//Route::get('/admin', function () {
+//    return view('admin');
+//});
+//
+//Route::get('/login',  ['as' => 'getLogin', 'uses' => 'App\Http\Controllers\LoginController@getLogin']);
+//
+//Route::post('/login', ['as' => 'postLogin', 'uses'=> 'App\Http\Controllers\LoginController@getLogin']);
 
-Route::get('/login',  ['as' => 'getLogin', 'uses' => 'App\Http\Controllers\LoginController@getLogin']);
+Auth::routes();
 
-Route::post('/login', ['as' => 'postLogin', 'uses'=> 'App\Http\Controllers\LoginController@getLogin']);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
