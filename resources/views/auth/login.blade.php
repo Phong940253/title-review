@@ -46,12 +46,11 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between flex-row">
+                    <div class="d-flex justify-content-between flex-row align-items-center">
                         <div class="col-xs-8">
-                            <div class="checkbox icheck">
-                                <label>
-                                    <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>{{ __(' Ghi nhớ') }}
-                                </label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                <label class="form-check-label">{{ __('Ghi nhớ') }}</label>
                             </div>
                         </div>
                         <div class="col-xs-4">
@@ -59,8 +58,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mb-0">
-                        <div class="col-md-8 offset-md-4">
+                    <div class="form-group row mb-0 justify-content-center">
+                        <div class="">
                             @if (Route::has('password.request'))
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     {{ __('Quên mật khẩu?') }}
