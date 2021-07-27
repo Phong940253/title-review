@@ -20,9 +20,6 @@ Route::get('/', function () {
 //Route::get('/admin', function () {
 //    return view('admin');
 //});
-//
-Route::get('/loginu',  ['as' => 'getLogin', 'uses' => 'App\Http\Controllers\LoginController@getLogin']);
-//
 //Route::post('/login', ['as' => 'postLogin', 'uses'=> 'App\Http\Controllers\LoginController@getLogin']);
 
 Auth::routes();
