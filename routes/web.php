@@ -21,7 +21,7 @@ Route::get('/', function () {
 //    return view('admin');
 //});
 //
-//Route::get('/login',  ['as' => 'getLogin', 'uses' => 'App\Http\Controllers\LoginController@getLogin']);
+Route::get('/loginu',  ['as' => 'getLogin', 'uses' => 'App\Http\Controllers\LoginController@getLogin']);
 //
 //Route::post('/login', ['as' => 'postLogin', 'uses'=> 'App\Http\Controllers\LoginController@getLogin']);
 
