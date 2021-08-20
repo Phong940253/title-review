@@ -6,13 +6,13 @@
             <div class="card-body" style="width: 350px;">
                 <h6 class="text-muted text-center">Đăng kí</h6>
                 <form action="{{ route('register') }}" method="post">
-                    {{ csrf_field() }}
+                    @csrf
 
                     <div class="form-group">
                         <div class="input-group">
-                            <input id="name" type="text" placeholder="Mã CB/SV/GV..." class="form-control @error('maso') is-invalid @enderror" name="maso" value="{{ old('maso') }}" required autocomplete="name" autofocus>
+                            <input id="ms" type="text" placeholder="Mã CB/SV/GV..." class="form-control @error('ms') is-invalid @enderror" name="ms" value="{{ old('ms') }}" required autocomplete="ms" autofocus>
 
-                            @error('maso')
+                            @error('ms')
                             <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -75,26 +75,33 @@
                     <div class="form-group">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <label class="input-group-text" for="inputGroupSelect01">{{ __('Đơn vị') }}</label>
+                                <label class="input-group-text" for="unitSelected">{{ __('Đơn vị') }}</label>
                             </div>
-                            <select class="custom-select" id="inputGroupSelect01">
-                                <option selected></option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select class="custom-select" id="unitSelected" name="id_unit" required>
+                                <option selected>{{ __('Chọn...') }}</option>
+                                {{$units = DB::table('unit')->select('name', 'id')->get()}}
+                                @foreach ($units as $unit)
+                                    <option value="{{$unit->id}}">{{$unit->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
 
                     <!-- Google reCaptcha -->
-                    <div class="form-group">
+                    <div class="form-group @error('g-recaptcha-response') is-invalid @enderror">
                         <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY')  }}"></div>
+
+                        @error('g-recaptcha-response')
+                            <span class="help-block with-errors text-danger">
+                                <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <!-- End Google reCaptcha -->
 
                     <div class="col-xs-8">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="accept" id="accept">
+                            <input class="form-check-input" type="checkbox" name="accept" id="accept" required>
                             <label class="form-check-label">{{ __('Đồng ý với các quy định của chương trình') }}</label>
                         </div>
                     </div>

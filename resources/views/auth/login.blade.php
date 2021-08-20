@@ -6,7 +6,7 @@
             <div class="card-body" style="width: 350px;">
                 <h6 class="text-muted text-center">Đăng nhập</h6>
                 <form action="{{ route('login') }}" method="post">
-                    {{ csrf_field() }}
+                    @csrf
                     <div class="form-group">
                         <div class="input-group">
                             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"

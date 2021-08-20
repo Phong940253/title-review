@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,12 @@ Route::get('/', function () {
 //    return view('admin');
 //});
 //Route::post('/login', ['as' => 'postLogin', 'uses'=> 'App\Http\Controllers\LoginController@getLogin']);
+
+//Route::get('/register', function() {
+//    $units = DB::table('unit')->select('name', 'id')->get();
+////    return view('register', ['units' => $units]);
+//    return "Xin chao";
+//})->name('register');
 
 Auth::routes();
 
