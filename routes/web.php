@@ -14,21 +14,12 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-//Route::get('/admin', function () {
-//    return view('admin');
-//});
-//Route::post('/login', ['as' => 'postLogin', 'uses'=> 'App\Http\Controllers\LoginController@getLogin']);
-
-//Route::get('/register', function() {
-//    $units = DB::table('unit')->select('name', 'id')->get();
-////    return view('register', ['units' => $units]);
-//    return "Xin chao";
-//})->name('register');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/', function () {
+//    return view('home');
+//});
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
