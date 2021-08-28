@@ -1,73 +1,71 @@
-@extends('layouts.app')
+@extends('layouts.app', ['class' => 'bg-default'])
 
 @section('content')
-    <div class="d-flex justify-content-center align-items-center h-100">
-        <div class="card shadow rounded ">
-            <div class="card-body" style="width: 350px;">
-                <h6 class="text-muted text-center">Đăng nhập</h6>
-                <form action="{{ route('login') }}" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                                   placeholder="Email ..." autofocus=""
-                                   value="{{ old('email') }}" required autocomplete="email"
+    @include('layouts.headers.guest')
 
-                            >
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <i class="fas fa-envelope"></i>
+    <div class="container mt--8 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-7">
+                <div class="card bg-secondary shadow border-0">
+                    <div class="card-body px-lg-5 py-lg-5">
+                        <div class="text-center text-muted mb-4">
+                            {{ __('Đăng nhập') }}
+                        </div>
+                        <form role="form" method="POST" action="{{ route('login') }}">
+                            @csrf
+
+                            <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }} mb-3">
+                                <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                    </div>
+                                    <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email') }}" type="email" name="email" value="{{ old('email') }}" value="admin@argon.com" required autofocus>
                                 </div>
+                                @if ($errors->has('email'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
                             </div>
-
-                            @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="password" name="password" class="form-control " placeholder="Mật khẩu ..."
-                                   class="form-control @error('password') is-invalid @enderror" required
-                                   autocomplete="current-password" autofocus="">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <i class="fas fa-eye"></i>
+                            <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
+                                <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                    </div>
+                                    <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="{{ __('Mật khẩu') }}" type="password" value="secret" required>
                                 </div>
+                                @if ($errors->has('password'))
+                                    <span class="invalid-feedback" style="display: block;" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
                             </div>
-
-
-                            @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                   <strong>{{ $message }}</strong>
-                               </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between flex-row align-items-center">
-                        <div class="col-xs-8">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                <label class="form-check-label">{{ __('Ghi nhớ') }}</label>
+                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                <input class="custom-control-input" name="remember" id="customCheckLogin" type="checkbox" {{ old('remember') ? 'checked' : '' }}>
+                                <label class="custom-control-label" for="customCheckLogin">
+                                    <span class="text-muted">{{ __('Ghi nhớ') }}</span>
+                                </label>
                             </div>
-                        </div>
-                        <div class="col-xs-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Đăng nhập') }}</button>
-                        </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary my-4">{{ __('Đăng nhập') }}</button>
+                            </div>
+                        </form>
                     </div>
-
-                    <div class="form-group row mb-0 justify-content-center">
-                        <div class="">
-                            @if (Route::has('password.request'))
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Quên mật khẩu?') }}
-                                </a>
-                            @endif
-                        </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-6">
+                        @if (Route::has('password.request'))
+                            <a href="{{ route('password.request') }}" class="text-light">
+                                <small>{{ __('Quên mật khẩu?') }}</small>
+                            </a>
+                        @endif
                     </div>
-                </form>
+                    <div class="col-6 text-right">
+                        <a href="{{ route('register') }}" class="text-light">
+                            <small>{{ __('Tạo tài khoản') }}</small>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
