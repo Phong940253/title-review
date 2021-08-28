@@ -15,11 +15,14 @@ class CreateNoidungTable extends Migration
     {
         Schema::create('noidung', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_tieuchuan');
+            $table->unsignedInteger('id_tieuchuan')->nullable();
+            $table->unsignedInteger('id_tieuchi')->nullable();
             $table->string('name');
             $table->string('minhchung');
             $table->timestamps();
             $table->foreign('id_tieuchuan')->references('id')->on('tieuchuan')
+                ->onDelete('cascade');
+            $table->foreign('id_tieuchi')->references('id')->on('tieuchi')
                 ->onDelete('cascade');
         });
     }
