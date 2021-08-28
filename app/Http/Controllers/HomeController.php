@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -19,10 +19,15 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\View\View
      */
     public function index()
     {
-        return view('home');
+        $tieuchis = DB::table('tieuchi')->select('name', 'id')->where('id_danhhieu', '=', 1)->get();
+        foreach ($tieuchis as $tieuchi) {
+            $tieuchuan = DB::table('tieuchuan')->select('name', 'id')->where('id_tieuchi', '=', $tieuchi->id)->get();
+            $tieuchi->tieuchuans = $tieuchuan;
+        }
+        return view('dashboard', ['tieuchis' => $tieuchis]);
     }
 }
