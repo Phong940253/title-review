@@ -282,72 +282,72 @@
                 <script>
 
                 </script>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">
-                        <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Laravel Examples') }}</span>
-                    </a>
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">--}}
+{{--                        <i class="fab fa-laravel" style="color: #f4645f;"></i>--}}
+{{--                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Laravel Examples') }}</span>--}}
+{{--                    </a>--}}
 
-                    <div class="collapse show" id="navbar-examples">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile.edit') }}">
-                                    {{ __('User profile') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.index') }}">
-                                    {{ __('User Management') }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+{{--                    <div class="collapse show" id="navbar-examples">--}}
+{{--                        <ul class="nav nav-sm flex-column">--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a class="nav-link" href="{{ route('profile.edit') }}">--}}
+{{--                                    {{ __('User profile') }}--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                            <li class="nav-item">--}}
+{{--                                <a class="nav-link" href="{{ route('user.index') }}">--}}
+{{--                                    {{ __('User Management') }}--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </li>--}}
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('icons') }}">
-                        <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="{{ route('map') }}">
-                        <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('table') }}">
-                      <i class="ni ni-bullet-list-67 text-default"></i>
-                      <span class="nav-link-text">Tables</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}
-                    </a>
-                </li>
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" href="{{ route('icons') }}">--}}
+{{--                        <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item ">--}}
+{{--                    <a class="nav-link" href="{{ route('map') }}">--}}
+{{--                        <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" href="{{ route('table') }}">--}}
+{{--                      <i class="ni ni-bullet-list-67 text-default"></i>--}}
+{{--                      <span class="nav-link-text">Tables</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" href="#">--}}
+{{--                        <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}--}}
+{{--                    </a>--}}
+{{--                </li>--}}
             </ul>
             <!-- Divider -->
             <hr class="my-3">
             <!-- Heading -->
-            <h6 class="navbar-heading text-muted">Documentation</h6>
+            <h6 class="navbar-heading text-muted">Quy chế</h6>
             <!-- Navigation -->
-            <ul class="navbar-nav mb-md-3">
-                <li class="nav-item">
-                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/getting-started/overview.html">
-                        <i class="ni ni-spaceship"></i> Getting started
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/foundation/colors.html">
-                        <i class="ni ni-palette"></i> Foundation
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/components/alerts.html">
-                        <i class="ni ni-ui-04"></i> Components
-                    </a>
-                </li>
-            </ul>
+{{--            <ul class="navbar-nav mb-md-3">--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/getting-started/overview.html">--}}
+{{--                        <i class="ni ni-spaceship"></i> Getting started--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/foundation/colors.html">--}}
+{{--                        <i class="ni ni-palette"></i> Foundation--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/components/alerts.html">--}}
+{{--                        <i class="ni ni-ui-04"></i> Components--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            </ul>--}}
         </div>
     </div>
 </nav>
