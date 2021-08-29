@@ -46,27 +46,27 @@ class TitleData extends Seeder
         DB::table('danhhieu_doituong')->insert($danhhieu_doituong);
 
         $tieuchi = [[
-            'id_danhhieu' => 1,
+            'id_danhhieu_doituong' => 1,
             'name' => 'Đạo đức tốt',
             'created_at' => new \DateTime(),
             'updated_at' => new \DateTime()
         ], [
-            'id_danhhieu' => 1,
+            'id_danhhieu_doituong' => 1,
             'name' => 'Học tập tốt',
             'created_at' => new \DateTime(),
             'updated_at' => new \DateTime()
         ], [
-            'id_danhhieu' => 1,
+            'id_danhhieu_doituong' => 1,
             'name' => 'Thể lực tốt',
             'created_at' => new \DateTime(),
             'updated_at' => new \DateTime()
         ], [
-            'id_danhhieu' => 1,
+            'id_danhhieu_doituong' => 1,
             'name' => 'Tình nguyện tốt',
             'created_at' => new \DateTime(),
             'updated_at' => new \DateTime()
         ], [
-            'id_danhhieu' => 1,
+            'id_danhhieu_doituong' => 1,
             'name' => 'Hội nhập tốt',
             'created_at' => new \DateTime(),
             'updated_at' => new \DateTime()

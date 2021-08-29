@@ -15,10 +15,10 @@ class CreateTieuchiTable extends Migration
     {
         Schema::create('tieuchi', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_danhhieu');
+            $table->unsignedInteger('id_danhhieu_doituong');
             $table->string('name');
             $table->timestamps();
-            $table->foreign('id_danhhieu')->references('id')->on('danhhieu')
+            $table->foreign('id_danhhieu_doituong')->references('id')->on('danhhieu_doituong')
                 ->onDelete('cascade');
         });
     }
