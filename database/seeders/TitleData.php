@@ -21,6 +21,30 @@ class TitleData extends Seeder
         ];
         DB::table('danhhieu')->insert($danhhieu);
 
+        $doituong = [[
+            'name' => 'Sinh viên năm 1',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ], [
+            'name' => 'Sinh viên năm 2',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]];
+        DB::table('doituong')->insert($doituong);
+
+        $danhhieu_doituong = [[
+            'id_danhhieu'=> 1,
+            'id_doituong' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ], [
+            'id_danhhieu'=> 1,
+            'id_doituong' => 2,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]];
+        DB::table('danhhieu_doituong')->insert($danhhieu_doituong);
+
         $tieuchi = [[
             'id_danhhieu' => 1,
             'name' => 'Đạo đức tốt',
