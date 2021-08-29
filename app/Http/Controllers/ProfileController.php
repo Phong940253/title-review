@@ -17,12 +17,25 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit()
+    public function edit(Request $request)
     {
-        $tieuchis = DB::table('tieuchi')->select('name', 'id')->where('id_danhhieu', '=', 1)->get();
-        foreach ($tieuchis as $tieuchi) {
-            $tieuchuan = DB::table('tieuchuan')->select('name', 'id')->where('id_tieuchi', '=', $tieuchi->id)->get();
-            $tieuchi->tieuchuans = $tieuchuan;
+        $id_title = $request->session()->get('id_title');
+        $id_object = $request->session()->get('id_object');
+        $tieuchis = [];
+        if (!is_null($id_title) && !(is_null($id_object))) {
+            $tieuchis = DB::table('tieuchi')
+                ->select('name', 'tieuchi.id')
+                ->join('danhhieu_doituong', 'tieuchi.id_danhhieu_doituong', '=', 'danhhieu_doituong.id')
+                ->where('id_danhhieu', '=', $id_title)
+                ->where('id_doituong', '=', $id_object)
+                ->get();
+            foreach ($tieuchis as $tieuchi) {
+                $tieuchuan = DB::table('tieuchuan')
+                    ->select('name', 'id')
+                    ->where('id_tieuchi', '=', $tieuchi->id)
+                    ->get();
+                $tieuchi->tieuchuans = $tieuchuan;
+            }
         }
         return view('profile.edit', ['tieuchis' => $tieuchis]);
     }

@@ -33,7 +33,10 @@ class SelectTitleController extends Controller
             $html = '<option value="">Chọn đối tượng</option>';
         } else {
             $html = '';
-            $objects = DB::table('doituong')->join('danhhieu_doituong', 'doituong.id', '=', 'danhhieu_doituong.id_doituong')->where('id_danhhieu', '=', $request->id_title)->get();
+            $objects = DB::table('doituong')
+                ->join('danhhieu_doituong', 'doituong.id', '=', 'danhhieu_doituong.id_doituong')
+                ->where('id_danhhieu', '=', $request->id_title)
+                ->get();
             foreach ($objects as $object) {
                 $html .= '<option value="'.$object->id.'">'.$object->name.'</option>';
             }
