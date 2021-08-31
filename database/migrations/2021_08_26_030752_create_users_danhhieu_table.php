@@ -23,6 +23,7 @@ class CreateUsersDanhhieuTable extends Migration
             $table->foreign('id_danhhieu')->references('id')->on('danhhieu')
                 ->onDelete('cascade');
             $table->primary(['id_users', 'id_danhhieu'], 'users_has_danhhieu');
+
         });
     }
 

@@ -29,6 +29,7 @@ class UpdateUsersTable extends Migration
             $table->string('current_position')->nullable();
             $table->string('highest_position')->nullable();
             $table->tinyInteger('year')->nullable();
+            $table->string('url_image')->nullable();
         });
     }
 
