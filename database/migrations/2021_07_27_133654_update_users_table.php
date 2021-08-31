@@ -17,6 +17,18 @@ class UpdateUsersTable extends Migration
             $table->unsignedInteger('id_unit')->nullable();
             $table->foreign('id_unit')->references('id')->on('unit')
                 ->onDelete('cascade');
+            $table->string('telephone')->nullable();
+            $table->timestamp('birthDay')->nullable();
+            $table->binary('gender')->nullable();
+            $table->tinyInteger('nation')->nullable();
+            $table->string('permanent_address')->nullable();
+            $table->string('contact_address')->nullable();
+            $table->timestamp('date_admission_doan')->nullable();
+            $table->timestamp('date_admission_dang_reserve')->nullable();
+            $table->timestamp('date_admission_dang_official')->nullable();
+            $table->string('current_position')->nullable();
+            $table->string('highest_position')->nullable();
+            $table->tinyInteger('year')->nullable();
         });
     }
 
