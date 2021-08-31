@@ -21,8 +21,8 @@ Auth::routes();
 //Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('select.title');
-    Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('select.title');
+    Route::get('/', 'App\Http\Controllers\ProfileController@edit')->name('home')->middleware('select.title');
+    Route::get('/home', 'App\Http\Controllers\ProfileController@edit')->name('home')->middleware('select.title');
     Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
     Route::get('object/get_by_title', 'App\Http\Controllers\SelectTitleController@get_by_title')->name('user.object.get_by_title');
     Route::get('select-title', 'App\Http\Controllers\SelectTitleController@index')->name('select-title');
