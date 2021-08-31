@@ -6,7 +6,6 @@
         'description' => __('Đây là trang thông tin cơ bản, bạn có thể xem và chỉnh sửa thông tin của mình ở đây.'),
         'class' => 'col-lg-7'
     ])
-
     <div class="container-fluid mt--7">
         <div class="row">
             <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
@@ -29,6 +28,9 @@
                             <div class="col">
                                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                                     <div class="text-center">
+                                        <input class="d-none" id="upload_image" type="file" name="upload_avarta">
+                                        <button class="btn btn-success mb-1"
+                                                type="button" onclick="ChangeAvarta();">{{ __('Thay hình đại diện') }}</button>
                                         <h3>
                                             {{ auth()->user()->name }}<span class="font-weight-light"></span>
                                         </h3>
@@ -42,7 +44,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -320,7 +321,86 @@
                 </div>
             </div>
         </div>
+        <div id="uploadimageModal" class="modal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+{{--                        <button type="button" class="close" data-dismiss="modal">&times;</button>--}}
+                        <h4 class="modal-title">Upload & Crop Image</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-8 text-center">
+                                <div id="image_demo" style="width:350px; margin-top:30px"></div>
+                            </div>
 
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button class="btn btn-success crop_image">Crop & Upload Image</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         @include('layouts.footers.auth')
     </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/croppie.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/croppie.css') }}"/>
+    <script>
+        const ChangeAvarta = () => {
+            $("#upload_image").trigger('click');
+        }
+
+        $(document).ready(function () {
+            $image_crop = $('#image_demo').croppie({
+                enableExif: true,
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'circle' //circle
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
+                }
+            });
+
+            $('#upload_image').on('change', function () {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    $image_crop.croppie('bind', {
+                        url: event.target.result
+                    }).then(function () {
+                        console.log('jQuery bind complete');
+                    });
+                }
+                reader.readAsDataURL(this.files[0]);
+                $('#uploadimageModal').modal('show');
+            });
+
+            $('.crop_image').click(function (event) {
+                $image_crop.croppie('result', {
+                    type: 'canvas',
+                    size: 'viewport'
+                }).then(function (response) {
+                    $.ajax({
+                        url: "upload.php",
+                        type: "POST",
+                        data: {"image": response},
+                        success: function (data) {
+                            $('#uploadimageModal').modal('hide');
+                            $('#uploaded_image').html(data);
+                        }
+                    });
+                })
+            });
+        });
+    </script>
 @endsection
