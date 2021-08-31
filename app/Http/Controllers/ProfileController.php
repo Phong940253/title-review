@@ -6,6 +6,8 @@ use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use anlutro\LaravelSettings\Facade as Setting;
 
 /**
  *
@@ -37,7 +39,11 @@ class ProfileController extends Controller
                 $tieuchi->tieuchuans = $tieuchuan;
             }
         }
-        return view('profile.edit', ['tieuchis' => $tieuchis]);
+        $nations = '<option value="" selected>Chọn dân tộc</option>';
+        for ($i = 1; $i <= 55; $i++) {
+            $nations .= '<option value="'.$i.'">'.Setting('nation'.$i).'</option>';
+        }
+        return view('profile.edit', ['tieuchis' => $tieuchis, 'nations' => $nations]);
     }
 
     /**

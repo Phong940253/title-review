@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use anlutro\LaravelSettings\Facade as Setting;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -42,6 +43,10 @@ class HomeController extends Controller
                 $tieuchi->tieuchuans = $tieuchuan;
             }
         }
-        return view('dashboard', ['tieuchis' => $tieuchis]);
+        $nations = '<option value="1" selected>'.Setting('nation1').'</option>';
+        for ($i = 2; $i <= 55; $i++) {
+            $nations .= '<option value="'.$i.'">'.Setting('nation'.$i).'</option>';
+        }
+        return view('profile.edit', ['tieuchis' => $tieuchis, 'nations' => $nations]);
     }
 }
