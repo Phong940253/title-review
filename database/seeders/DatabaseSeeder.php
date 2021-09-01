@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call([TestData::class]);
         $this->call([TitleData::class]);
         $this->call([UsersTableSeeder::class]);
+        $this->call([Constant::class]);
     }
 }
