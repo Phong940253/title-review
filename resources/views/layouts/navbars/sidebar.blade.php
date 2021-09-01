@@ -185,7 +185,7 @@
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="media align-items-center">
                         <span class="avatar avatar-sm rounded-circle">
-                        <img alt="Image placeholder" src="{{ asset('argon') }}/img/theme/team-1-800x800.jpg">
+                        <img alt="Image placeholder" src="{{ asset('argon') }}/img/theme/default.jpg">
                         </span>
                     </div>
                 </a>
@@ -260,7 +260,7 @@
                                     <span class="nav-link-text ml-4">{{$tieuchi->name}}</span>
                                 </a>
                             @else
-                                <a class="nav-link" href="#navbar-{{$tieuchi->id}}">
+                                <a class="nav-link" href="{{route('tieuchuan')}}?id_tieuchi={{$tieuchi->id}}">
                                     <span class="nav-link-text ml-4">{{$tieuchi->name}}</span>
                                 </a>
                             @endif
@@ -269,7 +269,7 @@
 
                                         @foreach ($tieuchi->tieuchuans as $tieuchuan)
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{{ route('profile.edit') }}">
+                                                <a class="nav-link" href="{{ route('tieuchuan') }}?id_tieuchuan={{$tieuchuan->id}}&id_tieuchi={{$tieuchi->id}}">
                                                     {{$tieuchuan->name}}
                                                 </a>
                                             </li>
