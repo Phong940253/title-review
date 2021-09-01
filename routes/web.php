@@ -24,12 +24,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'App\Http\Controllers\ProfileController@edit')->name('home')->middleware('select.title');
     Route::get('/home', 'App\Http\Controllers\ProfileController@edit')->name('home')->middleware('select.title');
     Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
+
     Route::get('object/get_by_title', 'App\Http\Controllers\SelectTitleController@get_by_title')->name('user.object.get_by_title');
     Route::get('select-title', 'App\Http\Controllers\SelectTitleController@index')->name('select-title');
     Route::post('select-title', 'App\Http\Controllers\SelectTitleController@submitSelect')->name('select-title');
+
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit'])->middleware('select.title');
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update'])->middleware('select.title');
-    Route::get('upgrade', function () {return view('pages.upgrade');})->name('upgrade');
+
+    Route::post('upload-image', 'App\Http\Controllers\ProfileController@uploadImage')->name('upload-image');
+
+    Route::get('tieucuan', 'App\Http\Controllers\TieuchuanController@index')->name('tieuchuan');
+
     Route::get('map', function () {return view('pages.maps');})->name('map');
     Route::get('icons', function () {return view('pages.icons');})->name('icons');
     Route::get('table-list', function () {return view('pages.tables');})->name('table');
