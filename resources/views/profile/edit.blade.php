@@ -9,12 +9,20 @@
     <div class="container-fluid mt--7">
         <div class="row">
             <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+                <div class="col order-xl-2" id="alerts">
+                </div>
                 <div class="card card-profile shadow">
                     <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image">
-                                <a href="#">
-                                    <img src="{{ asset('argon') }}/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                                <a href="#" onclick="ChangeAvarta();" id="uploaded_image">
+                                    @if (isset(auth()->user()->url_image))
+                                        <img src="{{ asset('argon') }}/img/theme/default.jpg" alt="icon"
+                                             class="rounded-circle">
+                                    @else
+                                        <img src="{{ asset('argon') }}/img/theme/default.jpg" alt="icon"
+                                             class="rounded-circle">
+                                    @endif
                                 </a>
                             </div>
                         </div>
@@ -28,9 +36,16 @@
                             <div class="col">
                                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                                     <div class="text-center">
-                                        <input class="d-none" id="upload_image" type="file" name="upload_avarta">
+                                        {{--                                        <form method="POST" action="{{ route('upload-image')}}" id="form-upload-file">--}}
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                        <input class="d-none" id="upload_image" type="file" name="upload_avarta"
+                                               accept="image/*">
                                         <button class="btn btn-success mb-1"
-                                                type="button" onclick="ChangeAvarta();">{{ __('Thay hình đại diện') }}</button>
+                                                type="button" onclick="ChangeAvarta();">
+                                            {{ __('Thay hình đại diện') }}
+                                        </button>
+                                        {{--                                        </form>--}}
+
                                         <h3>
                                             {{ auth()->user()->name }}<span class="font-weight-light"></span>
                                         </h3>
@@ -45,8 +60,10 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
+
             <div class="col-xl-8 order-xl-1">
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
@@ -325,7 +342,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-{{--                        <button type="button" class="close" data-dismiss="modal">&times;</button>--}}
+                        {{--                        <button type="button" class="close" data-dismiss="modal">&times;</button>--}}
                         <h4 class="modal-title">Upload & Crop Image</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -390,13 +407,26 @@
                     type: 'canvas',
                     size: 'viewport'
                 }).then(function (response) {
+                    var fd = new FormData();
+                    fd.append("image", response);
+                    fd.append('_token', '{{ csrf_token() }}');
                     $.ajax({
-                        url: "upload.php",
+                        url: "upload-image",
                         type: "POST",
-                        data: {"image": response},
+                        data: fd,
+                        processData: false,
+                        contentType: false,
                         success: function (data) {
                             $('#uploadimageModal').modal('hide');
-                            $('#uploaded_image').html(data);
+                            if (data.success) {
+                                $('#uploaded_image').html(data.image);
+                            } else {
+                                const alert = "<div class='alert alert-danger alert-dismissible fade show mb-6' role='alert'>" +
+                                    // "<span class='alert-inner--icon'><i class='ni ni-like-2'></i></span>" +
+                                    "<span class='alert-inner--text'><strong>Lỗi! </strong>" + data.msg + "</span>" +
+                                    "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+                                $('#alerts').html(alert);
+                            }
                         }
                     });
                 })
