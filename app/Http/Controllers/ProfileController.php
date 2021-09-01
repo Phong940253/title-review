@@ -21,6 +21,20 @@ class ProfileController extends Controller
      */
     public function edit(Request $request)
     {
+        $tieuchis = $this->getTieuChuanTieuChi($request);
+        $nations = '<option value="" selected>Chọn dân tộc</option>';
+        for ($i = 1; $i <= 55; $i++) {
+            $nations .= '<option value="' . $i . '">' . Setting('nation' . $i) . '</option>';
+        }
+        return view('profile.edit', ['tieuchis' => $tieuchis, 'nations' => $nations]);
+    }
+
+    /**
+     * @param Request $request
+     * @return array|\Illuminate\Support\Collection
+     */
+    public static function getTieuChuanTieuChi(Request $request)
+    {
         $id_title = $request->session()->get('id_title');
         $id_object = $request->session()->get('id_object');
         $tieuchis = [];
@@ -39,20 +53,17 @@ class ProfileController extends Controller
                 $tieuchi->tieuchuans = $tieuchuan;
             }
         }
-        $nations = '<option value="" selected>Chọn dân tộc</option>';
-        for ($i = 1; $i <= 55; $i++) {
-            $nations .= '<option value="'.$i.'">'.Setting('nation'.$i).'</option>';
-        }
-        return view('profile.edit', ['tieuchis' => $tieuchis, 'nations' => $nations]);
+        return $tieuchis;
     }
 
     /**
      * Update the profile
      *
-     * @param  \App\Http\Requests\ProfileRequest  $request
+     * @param \App\Http\Requests\ProfileRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ProfileRequest $request)
+    public
+    function update(ProfileRequest $request)
     {
         if (auth()->user()->id == 1) {
             return back()->withErrors(['not_allow_profile' => __('You are not allowed to change data for a default user.')]);
@@ -66,10 +77,11 @@ class ProfileController extends Controller
     /**
      * Change the password
      *
-     * @param  \App\Http\Requests\PasswordRequest  $request
+     * @param \App\Http\Requests\PasswordRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function password(PasswordRequest $request)
+    public
+    function password(PasswordRequest $request)
     {
         if (auth()->user()->id == 1) {
             return back()->withErrors(['not_allow_password' => __('You are not allowed to change the password for a default user.')]);
@@ -78,5 +90,41 @@ class ProfileController extends Controller
         auth()->user()->update(['password' => Hash::make($request->get('password'))]);
 
         return back()->withPasswordStatus(__('Password successfully updated.'));
+    }
+
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public
+    function uploadImage(Request $request)
+    {
+        if ($request->hasFile('image')) {
+            //  Let's do everything here
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            $imageName = time() . '.' . auth()->user()->id;
+            $request->file('image')->move(public_path('user-image'), $imageName);
+
+            $update = DB::table('user')
+                ->where('id', auth()->user()->id)
+                ->limit(1)
+                ->update(['image' => $imageName]);
+
+            $image = '<img src="{asset("user-image")}/{$imageName}" alt="icon" class="rounded-circle">';
+            $response = [
+                'success' => true,
+                'image' => $image,
+                'msg' => "Cập nhật hình đại diện thành công"
+            ];
+            return $response;
+        }
+        $response = [
+            'success' => false,
+            'msg' => "Cập nhật thất bại. Ảnh chưa được tải lên thành công!"
+        ];
+        return $response;
     }
 }
