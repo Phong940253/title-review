@@ -19269,6 +19269,7 @@ textarea[resize='horizontal']
 }
 .navbar-vertical .navbar-nav .nav .nav-link
 {
+    margin-left: .5rem;
     padding-left: 3.25rem;
 }
 .navbar-vertical .navbar-nav .nav .nav .nav-link
@@ -21901,4 +21902,15 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
     bottom: 0;
 
     height: 3px;
+}
+
+
+/*Adding css*/
+.navbar-vertical .navbar-nav>.nav-item>.nav-link.active {
+    background: #f6f9fc;
+    margin-right: .5rem;
+    margin-left: .5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: .375rem;
 }
