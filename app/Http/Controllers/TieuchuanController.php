@@ -23,6 +23,8 @@ class TieuchuanController extends Controller
             'tieuchis' => ProfileController::getTieuChuanTieuChi($request),
             'noidungs' => $this->getNoiDung($request),
             'page' => $this->getBreadcrumb($request),
+            'id_tieuchi' => $request->id_tieuchi,
+            'id_tieuchuan' => $request->id_tieuchuan,
         ];
         return view('users.tieuchuan', $param);
     }

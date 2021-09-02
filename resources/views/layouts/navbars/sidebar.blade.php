@@ -27,162 +27,6 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="ni ni-bell-55"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden">
-                    <!-- Dropdown header -->
-                    <div class="px-3 py-3">
-                        <h6 class="text-sm text-muted m-0">You have <strong class="text-primary">13</strong> notifications.</h6>
-                    </div>
-                    <!-- List group -->
-                    <div class="list-group list-group-flush">
-                        <a href="#!" class="list-group-item list-group-item-action">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <!-- Avatar -->
-                                    <img alt="Image placeholder" src="https://argon-dashboard-pro-laravel.creative-tim.com/argon/img/theme/team-1.jpg" class="avatar rounded-circle">
-                                </div>
-                                <div class="col ml--2">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h4 class="mb-0 text-sm">John Snow</h4>
-                                        </div>
-                                        <div class="text-right text-muted">
-                                            <small>2 hrs ago</small>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm mb-0">Let's meet at Starbucks at 11:30. Wdyt?</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#!" class="list-group-item list-group-item-action">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <!-- Avatar -->
-                                    <img alt="Image placeholder" src="https://argon-dashboard-pro-laravel.creative-tim.com/argon/img/theme/team-2.jpg" class="avatar rounded-circle">
-                                </div>
-                                <div class="col ml--2">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h4 class="mb-0 text-sm">John Snow</h4>
-                                        </div>
-                                        <div class="text-right text-muted">
-                                            <small>3 hrs ago</small>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm mb-0">A new issue has been reported for Argon.</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#!" class="list-group-item list-group-item-action">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <!-- Avatar -->
-                                    <img alt="Image placeholder" src="https://argon-dashboard-pro-laravel.creative-tim.com/argon/img/theme/team-3.jpg" class="avatar rounded-circle">
-                                </div>
-                                <div class="col ml--2">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h4 class="mb-0 text-sm">John Snow</h4>
-                                        </div>
-                                        <div class="text-right text-muted">
-                                            <small>5 hrs ago</small>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm mb-0">Your posts have been liked a lot.</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#!" class="list-group-item list-group-item-action">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <!-- Avatar -->
-                                    <img alt="Image placeholder" src="https://argon-dashboard-pro-laravel.creative-tim.com/argon/img/theme/team-4.jpg" class="avatar rounded-circle">
-                                </div>
-                                <div class="col ml--2">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h4 class="mb-0 text-sm">John Snow</h4>
-                                        </div>
-                                        <div class="text-right text-muted">
-                                            <small>2 hrs ago</small>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm mb-0">Let's meet at Starbucks at 11:30. Wdyt?</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#!" class="list-group-item list-group-item-action">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <!-- Avatar -->
-                                    <img alt="Image placeholder" src="https://argon-dashboard-pro-laravel.creative-tim.com/argon/img/theme/team-5.jpg" class="avatar rounded-circle">
-                                </div>
-                                <div class="col ml--2">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h4 class="mb-0 text-sm">John Snow</h4>
-                                        </div>
-                                        <div class="text-right text-muted">
-                                            <small>3 hrs ago</small>
-                                        </div>
-                                    </div>
-                                    <p class="text-sm mb-0">A new issue has been reported for Argon.</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- View all -->
-                    <a href="#!" class="dropdown-item text-center text-primary font-weight-bold py-3">View all</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="ni ni-ungroup"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default dropdown-menu-right">
-                    <div class="row shortcuts px-4">
-                        <a href="#!" class="col-4 shortcut-item">
-                                <span class="shortcut-media avatar rounded-circle bg-gradient-red">
-                                    <i class="ni ni-calendar-grid-58"></i>
-                                </span>
-                            <small>Calendar</small>
-                        </a>
-                        <a href="#!" class="col-4 shortcut-item">
-                                <span class="shortcut-media avatar rounded-circle bg-gradient-orange">
-                                    <i class="ni ni-email-83"></i>
-                                </span>
-                            <small>Email</small>
-                        </a>
-                        <a href="#!" class="col-4 shortcut-item">
-                                <span class="shortcut-media avatar rounded-circle bg-gradient-info">
-                                    <i class="ni ni-credit-card"></i>
-                                </span>
-                            <small>Payments</small>
-                        </a>
-                        <a href="#!" class="col-4 shortcut-item">
-                                <span class="shortcut-media avatar rounded-circle bg-gradient-green">
-                                    <i class="ni ni-books"></i>
-                                </span>
-                            <small>Reports</small>
-                        </a>
-                        <a href="#!" class="col-4 shortcut-item">
-                                <span class="shortcut-media avatar rounded-circle bg-gradient-purple">
-                                    <i class="ni ni-pin-3"></i>
-                                </span>
-                            <small>Maps</small>
-                        </a>
-                        <a href="#!" class="col-4 shortcut-item">
-                                <span class="shortcut-media avatar rounded-circle bg-gradient-yellow">
-                                    <i class="ni ni-basket"></i>
-                                </span>
-                            <small>Shop</small>
-                        </a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="media align-items-center">
                         <span class="avatar avatar-sm rounded-circle">
                         <img alt="Image placeholder" src="{{ asset('argon') }}/img/theme/default.jpg">
@@ -248,7 +92,7 @@
             <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('profile.edit') }}">
+                    <a class="nav-link {{(isset($id_tieuchi) || isset($id_tieuchuan)) ? "" : "active"}}" href="{{ route('profile.edit') }}">
                         <i class="ni ni-circle-08 text-primary"></i> {{ __('Thông tin cá nhân') }}
                     </a>
                 </li>
@@ -256,20 +100,20 @@
                     @foreach($tieuchis as $tieuchi)
                         <li class="nav-item">
                             @if (count($tieuchi->tieuchuans) != 0)
-                                <a class="nav-link" href="#navbar-{{$tieuchi->id}}" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-{{$tieuchi->id}}">
+                                <a class="nav-link {{isset($id_tieuchi) ? ($id_tieuchi == $tieuchi->id ? "active" : "" ): ""}}" href="#navbar-{{$tieuchi->id}}" data-toggle="collapse" role="button" aria-expanded="{{isset($id_tieuchi) ? ($id_tieuchi == $tieuchi->id ? "true" : "false") : "false"}}" aria-controls="navbar-{{$tieuchi->id}}">
                                     <span class="nav-link-text ml-4">{{$tieuchi->name}}</span>
                                 </a>
                             @else
-                                <a class="nav-link" href="{{route('tieuchuan')}}?id_tieuchi={{$tieuchi->id}}">
+                                <a class="nav-link {{isset($id_tieuchi) ? ($id_tieuchi == $tieuchi->id ? "active" : "" ): ""}}" href="{{route('tieuchuan')}}?id_tieuchi={{$tieuchi->id}}">
                                     <span class="nav-link-text ml-4">{{$tieuchi->name}}</span>
                                 </a>
                             @endif
-                                <div class="collapse" id="navbar-{{$tieuchi->id}}">
+                                <div class="collapse {{isset($id_tieuchi) ? ($id_tieuchi == $tieuchi->id ? "show" : "") : ""}}" id="navbar-{{$tieuchi->id}}">
                                     <ul class="nav nav-sm flex-column">
 
                                         @foreach ($tieuchi->tieuchuans as $tieuchuan)
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{{ route('tieuchuan') }}?id_tieuchuan={{$tieuchuan->id}}&id_tieuchi={{$tieuchi->id}}">
+                                                <a class="nav-link  {{isset($id_tieuchuan) ? ($id_tieuchuan == $tieuchuan->id ? "active" : "" ): ""}}" href="{{ route('tieuchuan') }}?id_tieuchuan={{$tieuchuan->id}}&id_tieuchi={{$tieuchi->id}}">
                                                     {{$tieuchuan->name}}
                                                 </a>
                                             </li>
