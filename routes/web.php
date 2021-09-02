@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('upload-image', 'App\Http\Controllers\ProfileController@uploadImage')->name('upload-image');
 
-    Route::get('tieucuan', 'App\Http\Controllers\TieuchuanController@index')->name('tieuchuan');
+    Route::get('tieucuan', 'App\Http\Controllers\TieuchuanController@index')->name('tieuchuan')->middleware('select.title');
 
     Route::get('map', function () {return view('pages.maps');})->name('map');
     Route::get('icons', function () {return view('pages.icons');})->name('icons');
