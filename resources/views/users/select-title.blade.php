@@ -19,13 +19,16 @@
                             <div class="form-group{{ $errors->has('id_title') ? ' has-danger' : '' }}">
                                 <div class="input-group input-group-alternative">
                                     <div class="input-group-prepend">
-                                        <label class="input-group-text" for="titleSelected">{{ __('Danh hiệu') }}</label>
+                                        <label class="input-group-text"
+                                               for="titleSelected">{{ __('Danh hiệu') }}</label>
                                     </div>
                                     <select class="custom-select" id="titleSelected" name="id_title" required>
                                         <option value="">{{ __('Chọn danh hiệu') }}</option>
-                                        @foreach ($titles as $title)
-                                            <option value="{{$title->id}}">{{$title->name}}</option>
-                                        @endforeach
+                                        @isset($titles)
+                                            @foreach ($titles as $title)
+                                                <option value="{{$title->id}}">{{$title->name}}</option>
+                                            @endforeach
+                                        @endisset
                                     </select>
                                 </div>
                                 @if ($errors->has('id_title'))
@@ -37,7 +40,8 @@
                             <div class="form-group{{ $errors->has('id_object') ? ' has-danger' : '' }}">
                                 <div class="input-group input-group-alternative">
                                     <div class="input-group-prepend">
-                                        <label class="input-group-text" for="objectSelected">{{ __('Đối tượng') }}</label>
+                                        <label class="input-group-text"
+                                               for="objectSelected">{{ __('Đối tượng') }}</label>
                                     </div>
                                     <select class="custom-select" id="objectSelected" name="id_object" required>
                                         <option selected>{{ __('Chọn đối tượng') }}</option>
@@ -63,11 +67,11 @@
 
 @section('scripts')
     <script type="text/javascript">
-        $("#titleSelected").change(function(){
+        $("#titleSelected").change(function () {
             $.ajax({
                 url: "{{ route('user.object.get_by_title') }}?id_title=" + $(this).val(),
                 method: 'GET',
-                success: function(data) {
+                success: function (data) {
                     $('#objectSelected').html(data.html);
                 }
             });
