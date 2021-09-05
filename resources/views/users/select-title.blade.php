@@ -22,7 +22,7 @@
                                         <label class="input-group-text"
                                                for="titleSelected">{{ __('Danh hiệu') }}</label>
                                     </div>
-                                    <select class="custom-select" id="titleSelected" name="id_title" required>
+                                    <select class="custom-select form-control form-control-alternative" id="titleSelected" name="id_title" required>
                                         <option value="">{{ __('Chọn danh hiệu') }}</option>
                                         @isset($titles)
                                             @foreach ($titles as $title)
@@ -43,7 +43,7 @@
                                         <label class="input-group-text"
                                                for="objectSelected">{{ __('Đối tượng') }}</label>
                                     </div>
-                                    <select class="custom-select" id="objectSelected" name="id_object" required>
+                                    <select class="custom-select form-control form-control-alternative" id="objectSelected" name="id_object" required>
                                         <option selected>{{ __('Chọn đối tượng') }}</option>
                                     </select>
                                 </div>
