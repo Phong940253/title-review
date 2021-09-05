@@ -81,8 +81,8 @@
                                     <div class="input-group-prepend">
                                         <label class="input-group-text" for="unitSelected">{{ __('Đơn vị') }}</label>
                                     </div>
-                                    <select class="custom-select" id="unitSelected" name="id_unit" required>
-                                        <option selected>{{ __('Chọn') }}</option>
+                                    <select class="custom-select form-control form-control-alternative" id="unitSelected" name="id_unit" required>
+                                        <option selected>{{ __('Chọn đơn vị') }}</option>
                                         {{$units = DB::table('unit')->select('name', 'id')->get()}}
                                         @foreach ($units as $unit)
                                             <option value="{{$unit->id}}">{{$unit->name}}</option>
