@@ -22,10 +22,7 @@ class ProfileController extends Controller
     public function edit(Request $request)
     {
         $tieuchis = $this->getTieuChuanTieuChi($request);
-        $nations = '<option value="" selected>Chọn dân tộc</option>';
-        for ($i = 1; $i <= 55; $i++) {
-            $nations .= '<option value="' . $i . '">' . Setting('nation' . $i) . '</option>';
-        }
+        $nations = $this->getNation();
         return view('profile.edit', ['tieuchis' => $tieuchis, 'nations' => $nations]);
     }
 
@@ -126,5 +123,13 @@ class ProfileController extends Controller
             'msg' => "Cập nhật thất bại. Ảnh chưa được tải lên thành công!"
         ];
         return $response;
+    }
+
+    public static function getNation() {
+        $nations = '<option value="" selected>Chọn dân tộc</option>';
+        for ($i = 1; $i <= 55; $i++) {
+            $nations .= '<option value="' . $i . '">' . Setting('nation' . $i) . '</option>';
+        }
+        return $nations;
     }
 }
