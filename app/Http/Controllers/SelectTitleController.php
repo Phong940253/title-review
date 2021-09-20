@@ -29,10 +29,9 @@ class SelectTitleController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function get_by_title(Request $request) {
-        if (!$request->id_title) {
+        $html = '<option value="">Chọn đối tượng</option>';
+        if ($request->id_title) {
             $html = '<option value="">Chọn đối tượng</option>';
-        } else {
-            $html = '';
             $objects = DB::table('doituong')
                 ->join('danhhieu_doituong', 'doituong.id', '=', 'danhhieu_doituong.id_doituong')
                 ->where('id_danhhieu', '=', $request->id_title)
