@@ -155,9 +155,12 @@
                                     <label class="form-control-label" for="input_dan_toc">{{ __('Dân tộc') }}</label>
                                     <select class="form-control m-b" name="dan_toc" id="input_dan_toc"
                                             placeholder="{{ __('Chọn')}}">
-                                        {!! $nations !!}
+                                        @isset($nation)
+                                            {!! $nations !!}
+                                        @endisset
                                     </select>
                                 </div>
+
                                 <div class="form-group{{ $errors->has('dia_chi_thuong_tru') ? ' has-danger' : '' }}">
                                     <label class="form-control-label"
                                            for="input_dia_chi_thuong_tru">{{ __('Địa chỉ thường trú') }}</label>
