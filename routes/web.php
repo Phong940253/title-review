@@ -29,6 +29,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('select-title', 'App\Http\Controllers\SelectTitleController@index')->name('select-title');
     Route::post('select-title', 'App\Http\Controllers\SelectTitleController@submitSelect')->name('select-title');
 
+    Route::get('input-info', 'App\Http\Controllers\InputInfoController@index')->name('input-info');
+    Route::get('get-district', 'App\Http\Controllers\InputInfoController@getDistrictByIdProvince')->name('get-district');
+    Route::get('get-ward', 'App\Http\Controllers\InputInfoController@getWardByIdDistrict')->name('get-ward');
+
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit'])->middleware('select.title');
     Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update'])->middleware('select.title');
 
