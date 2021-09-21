@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+class FillInfomationProfile
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param Request $request
+     * @param Closure $next
+     * @return mixed
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        if ($request->user()->hasRole('admin') || $request->user()->hasRole('super admin'))
+            return $next($request);
+        else if (
+//                isset(auth()->user()->url_image) &&
+
+            isset(auth()->user()->telephone) && isset(auth()->user()->gender) &&
+            isset(auth()->user()->nation) && isset(auth()->user()->id_religion) &&
+            isset(auth()->user()->id_province) && isset(auth()->user()->id_district) &&
+            isset(auth()->user()->id_ward) && isset(auth()->user()->street) &&
+            isset(auth()->user()->id_current_province) && isset(auth()->user()->id_current_district) &&
+            isset(auth()->user()->id_current_ward) && isset(auth()->user()->current_street))
+            return $next($request);
+        else {
+            return redirect('input-info');
+        }
+
+    }
+}
