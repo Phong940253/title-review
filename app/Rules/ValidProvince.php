@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class ValidProvince implements Rule
 {
@@ -23,7 +24,7 @@ class ValidProvince implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         return DB::table('provinces')->where('id', $value)->exists();
     }
@@ -33,7 +34,7 @@ class ValidProvince implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'Giá trị không hợp lệ.';
     }

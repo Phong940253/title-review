@@ -14,19 +14,19 @@
                         <div class="text-center text-muted mb-4">
                             {{ __('Nhập đầy đủ thông tin') }}
                         </div>
-                        <form role="form" method="POST" action="{{ route('select-title') }}">
+                        <form role="form" method="POST" action="{{ route('fill-info') }}">
                             @csrf
                             <div class="form-group{{ $errors->has('sdt') ? ' has-danger' : '' }}">
                                 <label class="form-control-label"
                                        for="input-sdt">{{ __('Điện thoại liên hệ') }}<font color="red"> *</font></label>
                                 <input type="number" name="sdt" id="input-sdt"
                                        class="form-control form-control-alternative{{ $errors->has('sdt') ? ' is-invalid' : '' }}"
-                                       placeholder="{{ __('Số điện thoại') }}" value="" autofocus>
+                                       placeholder="{{ __('Số điện thoại') }}" value="{{ old('sdt') }}" autofocus required>
 
                                 @if ($errors->has('sdt'))
                                     <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('sdt') }}</strong>
-                                        </span>
+                                        <strong>{{ $errors->first('sdt') }}</strong>
+                                    </span>
                                 @endif
                             </div>
                             <div class="form-group{{ $errors->has('gender') ? ' has-danger' : '' }}">
@@ -34,14 +34,20 @@
                                        for="ratio-gender">{{ __('Giới tính') }}<font color="red"> *</font></label>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" name="gender" id="radio-male" class="custom-control-input"
-                                           checked="">
+                                           {{ !old('gender') ? "checked" : "" }} value="0">
                                     <label class="custom-control-label" for="radio-male">{{ __('Nam') }}</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" name="gender" id="radio-female"
-                                           class="custom-control-input">
+                                           class="custom-control-input" {{ old('gender') ? "checked" : "" }} value="1">
                                     <label class="custom-control-label" for="radio-female">{{ __('Nữ') }}</label>
                                 </div>
+
+                                @if ($errors->has('gender'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('gender') }}</strong>
+                                    </span>
+                                @endif
                             </div>
 
                             <div class="form-group{{ $errors->has('dan_toc') ? ' has-danger' : '' }}">
@@ -55,8 +61,8 @@
 
                                 @if ($errors->has('dan_toc'))
                                     <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('dan_toc') }}</strong>
-                                        </span>
+                                        <strong>{{ $errors->first('dan_toc') }}</strong>
+                                    </span>
                                 @endif
                             </div>
                             <div class="form-group{{ $errors->has('religion') ? ' has-danger' : '' }}">
@@ -118,7 +124,7 @@
                             <div class="form-group{{ $errors->has('street') ? ' has-danger' : '' }}">
                                 <input type="text" name="street" id="input-street"
                                        class="form-control form-control-alternative{{ $errors->has('street') ? ' is-invalid' : '' }}"
-                                       placeholder="{{ __('Nhập số nhà, tên đường') }}" value="" autofocus required>
+                                       placeholder="{{ __('Nhập số nhà, tên đường') }}" value="{{ old('street') }}" autofocus required>
 
                                 @if ($errors->has('street'))
                                     <span class="invalid-feedback" role="alert">
@@ -170,7 +176,7 @@
                             <div class="form-group{{ $errors->has('current_street') ? ' has-danger' : '' }}">
                                 <input type="text" name="current_street" id="input-current-street"
                                        class="form-control form-control-alternative{{ $errors->has('current_street') ? ' is-invalid' : '' }}"
-                                       placeholder="{{ __('Nhập số nhà, tên đường') }}" value="" autofocus required>
+                                       placeholder="{{ __('Nhập số nhà, tên đường') }}" value="{{ old('current_street') }}" autofocus required>
 
                                 @if ($errors->has('current_street'))
                                     <span class="invalid-feedback" role="alert">

@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class ValidReligion implements Rule
 {
@@ -23,7 +24,7 @@ class ValidReligion implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         return DB::table('religion')->where('id', $value)->exists();
     }
@@ -33,7 +34,7 @@ class ValidReligion implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'Tôn giáo không hợp lệ.';
     }

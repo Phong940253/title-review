@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use anlutro\LaravelSettings\Facade as Setting;
+use Illuminate\View\View;
 
 /**
  *
@@ -17,9 +20,9 @@ class ProfileController extends Controller
     /**
      * Show the form for editing the profile.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function edit(Request $request)
+    public function edit(Request $request): View
     {
         $tieuchis = $this->getTieuChuanTieuChi($request);
         $nations = $this->getNation();
@@ -28,7 +31,7 @@ class ProfileController extends Controller
 
     /**
      * @param Request $request
-     * @return array|\Illuminate\Support\Collection
+     * @return array|Collection
      */
     public static function getTieuChuanTieuChi(Request $request)
     {
@@ -56,11 +59,11 @@ class ProfileController extends Controller
     /**
      * Update the profile
      *
-     * @param \App\Http\Requests\ProfileRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param ProfileRequest $request
+     * @return RedirectResponse
      */
     public
-    function update(ProfileRequest $request)
+    function update(ProfileRequest $request): RedirectResponse
     {
         if (auth()->user()->id == 1) {
             return back()->withErrors(['not_allow_profile' => __('You are not allowed to change data for a default user.')]);
@@ -74,11 +77,11 @@ class ProfileController extends Controller
     /**
      * Change the password
      *
-     * @param \App\Http\Requests\PasswordRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param PasswordRequest $request
+     * @return RedirectResponse
      */
     public
-    function password(PasswordRequest $request)
+    function password(PasswordRequest $request): RedirectResponse
     {
         if (auth()->user()->id == 1) {
             return back()->withErrors(['not_allow_password' => __('You are not allowed to change the password for a default user.')]);
@@ -91,10 +94,10 @@ class ProfileController extends Controller
 
     /**
      * @param Request $request
-     * @return string
+     * @return array
      */
     public
-    function uploadImage(Request $request)
+    function uploadImage(Request $request): array
     {
         if ($request->hasFile('image')) {
             //  Let's do everything here
@@ -125,7 +128,8 @@ class ProfileController extends Controller
         return $response;
     }
 
-    public static function getNation() {
+    public static function getNation(): string
+    {
         $nations = '<option value="" selected>Chọn dân tộc</option>';
         for ($i = 1; $i <= 55; $i++) {
             $nations .= '<option value="' . $i . '">' . Setting('nation' . $i) . '</option>';

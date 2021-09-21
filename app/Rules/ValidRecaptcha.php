@@ -25,7 +25,7 @@ class ValidRecaptcha implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         // Khoi tao http client
         $client = new Client([
@@ -51,7 +51,7 @@ class ValidRecaptcha implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'xác thực ReCaptcha thất bại!';
     }
