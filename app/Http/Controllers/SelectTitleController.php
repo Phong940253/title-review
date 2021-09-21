@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 /**
  *
@@ -15,7 +18,7 @@ class SelectTitleController extends Controller
     /**
      * return viwe select title
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function index() {
         $titles = DB::table('danhhieu')->select('name', 'id')->get();
@@ -26,9 +29,10 @@ class SelectTitleController extends Controller
      * return object by title id
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function get_by_title(Request $request) {
+    public function get_by_title(Request $request): JsonResponse
+    {
         $html = '<option value="">Chọn đối tượng</option>';
         if ($request->id_title) {
             $html = '<option value="">Chọn đối tượng</option>';
