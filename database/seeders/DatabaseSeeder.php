@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call([TitleData::class]);
         $this->call([UsersTableSeeder::class]);
         $this->call([Constant::class]);
+        $this->call([ReligionData::class]);
     }
 }
