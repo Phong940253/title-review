@@ -63,8 +63,8 @@
                                 <label class="form-control-label" for="input_religion">{{ __('Tôn giáo') }}<font
                                         color="red"> *</font></label>
                                 <select class="form-control form-control-alternative m-b" name="religion" id="input_religion">
-                                    @isset($nation)
-                                        {!! $nation !!}
+                                    @isset($religion)
+                                        {!! $religion !!}
                                     @endisset
                                 </select>
 
@@ -118,7 +118,7 @@
                             <div class="form-group{{ $errors->has('street') ? ' has-danger' : '' }}">
                                 <input type="text" name="street" id="input-street"
                                        class="form-control form-control-alternative{{ $errors->has('street') ? ' is-invalid' : '' }}"
-                                       placeholder="{{ __('Nhập số nhà, tên đường') }}" value="" autofocus>
+                                       placeholder="{{ __('Nhập số nhà, tên đường') }}" value="" autofocus required>
 
                                 @if ($errors->has('street'))
                                     <span class="invalid-feedback" role="alert">
@@ -170,7 +170,7 @@
                             <div class="form-group{{ $errors->has('current_street') ? ' has-danger' : '' }}">
                                 <input type="text" name="current_street" id="input-current-street"
                                        class="form-control form-control-alternative{{ $errors->has('current_street') ? ' is-invalid' : '' }}"
-                                       placeholder="{{ __('Nhập số nhà, tên đường') }}" value="" autofocus>
+                                       placeholder="{{ __('Nhập số nhà, tên đường') }}" value="" autofocus required>
 
                                 @if ($errors->has('current_street'))
                                     <span class="invalid-feedback" role="alert">
