@@ -32,12 +32,12 @@ class UpdateUserTable extends Migration
             $table->foreign('id_current_province')->references('id')->on('provinces')
                 ->onDelete('cascade');
 
-            $table->unsignedBigInteger('input_current_district')->nullable();
-            $table->foreign('input_current_district')->references('id')->on('districts')
+            $table->unsignedBigInteger('id_current_district')->nullable();
+            $table->foreign('id_current_district')->references('id')->on('districts')
                 ->onDelete('cascade');
 
-            $table->unsignedBigInteger('input_current_ward')->nullable();
-            $table->foreign('input_current_ward')->references('id')->on('wards')
+            $table->unsignedBigInteger('id_current_ward')->nullable();
+            $table->foreign('id_current_ward')->references('id')->on('wards')
                 ->onDelete('cascade');
 
             $table->string('current_street')->nullable();
