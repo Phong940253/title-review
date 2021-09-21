@@ -23,6 +23,25 @@ class User extends Authenticatable
         'email',
         'password',
         'id_unit',
+        'telephone',
+        'birthDay',
+        'gender',
+        'nation',
+        'date_admission_doan',
+        'date_admission_dang_reserve',
+        'date_admission_dang_official',
+        'current_position',
+        'highest_position',
+        'year',
+        'url_image',
+        'id_province',
+        'id_district',
+        'id_ward',
+        'street',
+        'id_current_province',
+        'input_current_district',
+        'input_current_ward',
+        'current_street'
     ];
 
     /**
