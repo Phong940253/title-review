@@ -19,7 +19,7 @@ class UpdateUsersTable extends Migration
                 ->onDelete('cascade');
             $table->string('telephone')->nullable();
             $table->timestamp('birthDay')->nullable();
-            $table->binary('gender')->nullable();
+            $table->boolean('gender')->nullable();
             $table->tinyInteger('nation')->nullable();
             $table->timestamp('date_admission_doan')->nullable();
             $table->timestamp('date_admission_dang_reserve')->nullable();
