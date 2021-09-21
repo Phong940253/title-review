@@ -50,6 +50,14 @@ class ReligionData extends Seeder
             'name' => 'Cơ Đốc Phục Lâm',
             'created_at' => now(),
             'updated_at' => now(),
+        ],[
+            'name' => 'Khác',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],[
+            'name' => 'Không có',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]];
 
         DB::table('religion')->insert($religions);

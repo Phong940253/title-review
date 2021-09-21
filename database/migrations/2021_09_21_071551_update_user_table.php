@@ -41,6 +41,11 @@ class UpdateUserTable extends Migration
                 ->onDelete('cascade');
 
             $table->string('current_street')->nullable();
+
+            $table->unsignedInteger('id_religion')->nullable();
+            $table->foreign('id_religion')->references('id')->on('religion')
+                ->onDelete('cascade');
+
         });
     }
 
