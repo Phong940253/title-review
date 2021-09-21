@@ -128,11 +128,11 @@ class ProfileController extends Controller
         return $response;
     }
 
-    public static function getNation(): string
+    public static function getNation($attribute = NULL): string
     {
-        $nations = '<option value="" selected>Chọn dân tộc</option>';
+        $nations = '<option value="" selected disabled>Chọn dân tộc</option>';
         for ($i = 1; $i <= 55; $i++) {
-            $nations .= '<option value="' . $i . '">' . Setting('nation' . $i) . '</option>';
+            $nations .= '<option ' . (old($attribute) == $i ? "selected" : "") . ' value="' . $i . '">' . Setting('nation' . $i) . '</option>';
         }
         return $nations;
     }
