@@ -21,7 +21,8 @@
                                        for="input-sdt">{{ __('Điện thoại liên hệ') }}<font color="red"> *</font></label>
                                 <input type="number" name="sdt" id="input-sdt"
                                        class="form-control form-control-alternative{{ $errors->has('sdt') ? ' is-invalid' : '' }}"
-                                       placeholder="{{ __('Số điện thoại') }}" value="{{ old('sdt') }}" autofocus required>
+                                       placeholder="{{ __('Số điện thoại') }}" value="{{ old('sdt') }}" autofocus
+                                       required>
 
                                 @if ($errors->has('sdt'))
                                     <span class="invalid-feedback" role="alert">
@@ -53,7 +54,9 @@
                             <div class="form-group{{ $errors->has('dan_toc') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input_dan_toc">{{ __('Dân tộc') }}<font
                                         color="red"> *</font></label>
-                                <select class="form-control form-control-alternative m-b" name="dan_toc" id="input_dan_toc">
+                                <select class="form-control form-control-alternative m-b" name="dan_toc"
+                                        id="input_dan_toc"
+                                        required>
                                     @isset($nation)
                                         {!! $nation !!}
                                     @endisset
@@ -68,7 +71,9 @@
                             <div class="form-group{{ $errors->has('religion') ? ' has-danger' : '' }}">
                                 <label class="form-control-label" for="input_religion">{{ __('Tôn giáo') }}<font
                                         color="red"> *</font></label>
-                                <select class="form-control form-control-alternative m-b" name="religion" id="input_religion">
+                                <select class="form-control form-control-alternative m-b" name="religion"
+                                        id="input_religion"
+                                        required>
                                     @isset($religion)
                                         {!! $religion !!}
                                     @endisset
@@ -82,9 +87,12 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('province') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input_province">{{ __('Địa chỉ thường trú') }}<font
+                                <label class="form-control-label" for="input_province">{{ __('Địa chỉ thường trú') }}
+                                    <font
                                         color="red"> *</font></label>
-                                <select class="form-control form-control-alternative m-b" name="province" id="input_province">
+                                <select class="form-control form-control-alternative m-b" name="province"
+                                        id="input_province"
+                                        required>
                                     @isset($city)
                                         {!! $city !!}
                                     @endisset
@@ -98,7 +106,9 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('district') ? ' has-danger' : '' }}">
-                                <select class="form-control form-control-alternative m-b" name="district" id="input_district">
+                                <select class="form-control form-control-alternative m-b" name="district"
+                                        id="input_district"
+                                        required>
                                     <option value="">{{ __('Chọn huyện, quận, thị xã') }}</option>
                                 </select>
 
@@ -110,7 +120,8 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('ward') ? ' has-danger' : '' }}">
-                                <select class="form-control form-control-alternative m-b" name="ward" id="input_ward">
+                                <select class="form-control form-control-alternative m-b" name="ward" id="input_ward"
+                                        required>
                                     <option value="">{{ __('Chọn xã, phường, thị trấn') }}</option>
                                 </select>
 
@@ -124,7 +135,8 @@
                             <div class="form-group{{ $errors->has('street') ? ' has-danger' : '' }}">
                                 <input type="text" name="street" id="input-street"
                                        class="form-control form-control-alternative{{ $errors->has('street') ? ' is-invalid' : '' }}"
-                                       placeholder="{{ __('Nhập số nhà, tên đường') }}" value="{{ old('street') }}" autofocus required>
+                                       placeholder="{{ __('Nhập số nhà, tên đường') }}" value="{{ old('street') }}"
+                                       autofocus required>
 
                                 @if ($errors->has('street'))
                                     <span class="invalid-feedback" role="alert">
@@ -134,11 +146,13 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('current_province') ? ' has-danger' : '' }}">
-                                <label class="form-control-label" for="input_current_province">{{ __('Địa chỉ hiện tại') }}<font
+                                <label class="form-control-label"
+                                       for="input_current_province">{{ __('Địa chỉ hiện tại') }}<font
                                         color="red"> *</font></label>
-                                <select class="form-control form-control-alternative m-b" name="current_province" id="input_current_province">
-                                    @isset($city)
-                                        {!! $city !!}
+                                <select class="form-control form-control-alternative m-b" name="current_province"
+                                        id="input_current_province" required>
+                                    @isset($current_city)
+                                        {!! $current_city !!}
                                     @endisset
                                 </select>
 
@@ -150,7 +164,8 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('current_district') ? ' has-danger' : '' }}">
-                                <select class="form-control form-control-alternative m-b" name="current_district" id="input_current_district">
+                                <select class="form-control form-control-alternative m-b" name="current_district"
+                                        id="input_current_district" required>
                                     <option value="">{{ __('Chọn huyện, quận, thị xã') }}</option>
                                 </select>
 
@@ -162,7 +177,8 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('current_ward') ? ' has-danger' : '' }}">
-                                <select class="form-control form-control-alternative m-b" name="current_ward" id="input_current_ward">
+                                <select class="form-control form-control-alternative m-b" name="current_ward"
+                                        id="input_current_ward" required>
                                     <option value="">{{ __('Chọn xã, phường, thị trấn') }}</option>
                                 </select>
 
@@ -176,7 +192,8 @@
                             <div class="form-group{{ $errors->has('current_street') ? ' has-danger' : '' }}">
                                 <input type="text" name="current_street" id="input-current-street"
                                        class="form-control form-control-alternative{{ $errors->has('current_street') ? ' is-invalid' : '' }}"
-                                       placeholder="{{ __('Nhập số nhà, tên đường') }}" value="{{ old('current_street') }}" autofocus required>
+                                       placeholder="{{ __('Nhập số nhà, tên đường') }}"
+                                       value="{{ old('current_street') }}" autofocus required>
 
                                 @if ($errors->has('current_street'))
                                     <span class="invalid-feedback" role="alert">
