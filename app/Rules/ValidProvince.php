@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class ValidTelephone implements Rule
+class ValidProvince implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,7 +25,7 @@ class ValidTelephone implements Rule
      */
     public function passes($attribute, $value)
     {
-
+        return DB::table('provinces')->where('id', $value)->exists();
     }
 
     /**
