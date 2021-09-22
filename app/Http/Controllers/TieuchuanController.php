@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Reply;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
 
 /**
  *
@@ -45,6 +47,7 @@ class TieuchuanController extends Controller
             if (!$id_tieuchuan) {
                 $res = DB::table('noidung')
                     ->join('tieuchi', 'noidung.id_tieuchi', '=', 'tieuchi.id')
+                    ->select('noidung.id as id', 'tieuchi.id as id_tieuchi', 'content')
                     ->get();
             }
             //            Log::debug($res);
@@ -54,6 +57,7 @@ class TieuchuanController extends Controller
                 ->join('tieuchi', 'tieuchuan.id_tieuchi', '=', 'tieuchi.id')
                 ->where('tieuchuan.id', '=', $id_tieuchuan)
                 ->where('tieuchi.id', '=', $id_tieuchi)
+                ->select('noidung.id as id', 'tieuchi.id as id_tieuchi', 'tieuchuan.id as id_tieuchuan', 'content')
                 ->get();
             return $res;
         }
@@ -81,5 +85,25 @@ class TieuchuanController extends Controller
             ];
         }
         return $res;
+    }
+
+    public function submitReply(Request $request)
+    {
+        $content = $request->input('content');
+        $id_noidung = $request->input('id_noidung');
+        if ($content && $id_noidung && DB::table('noidung')->where('id', $id_noidung)->exists()) {
+            $reply = Reply::updateOrCreate(
+                ['id_users' => auth()->user()->id, 'id_noidung' => $id_noidung],
+                ['reply' => $content]
+            );
+            return Response::json([
+                'success' => true,
+                'message' => 'Lưu thành công'
+            ], 200);
+        }
+        return Response::json([
+            'success' => false,
+            'message' => 'Có lỗi xảy ra'
+        ], 400);
     }
 }

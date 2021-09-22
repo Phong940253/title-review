@@ -34,12 +34,11 @@ class UploadFilesController extends Controller
                 Log::debug('update database file');
                 $upload->save();
                 Log::debug('updated database file');
-
-                return Response::json([
-                    'success' => true,
-                    'message' => 'Lưu thành công'
-                ], 200);
             }
+            return Response::json([
+                'success' => true,
+                'message' => 'Lưu thành công'
+            ], 200);
         }
         return Response::json([
             'success' => false,
