@@ -18,7 +18,6 @@ class CreateNoidungTable extends Migration
             $table->unsignedInteger('id_tieuchuan')->nullable();
             $table->unsignedInteger('id_tieuchi')->nullable();
             $table->text('content');
-            $table->string('minhchung')->nullable();
             $table->timestamps();
             $table->foreign('id_tieuchuan')->references('id')->on('tieuchuan')
                 ->onDelete('cascade');
