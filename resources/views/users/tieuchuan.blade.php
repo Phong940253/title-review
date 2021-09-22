@@ -39,41 +39,53 @@
                                 <div class="tab-pane fade show {{($i == 1) ? 'active' : ''}}"
                                      id="tabs-icons-text-{{$i}}" role="tabpanel"
                                      aria-labelledby="tabs-icons-text-{{$i}}-tab">
-                                    <form action="{{route('home')}}" enctype="multipart/form-data" method="post"
-                                          class="d-flex flex-column justify-content-center">
+                                    <form action="{{route('submit-reply')}}" enctype="multipart/form-data" method="post"
+                                          class="d-flex flex-column justify-content-center" id="form{{$noidungs[$i-1]->id}}">
+                                        <input type="hidden" name="id_noidung" value="{{$noidungs[$i-1]->id}}">
                                         <p class="card-text">{{$noidungs[$i - 1]->content}}</p>
                                         <div class="form-group">
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="8"
+                                            <textarea name="content" class="form-control" id="FormControlTextarea{{$i}}" rows="8"
                                                       placeholder="Điền vào đây ..."></textarea>
                                         </div>
-
                                         <div class="form-group">
                                             {{ csrf_field() }}
                                             <label>{{__('Minh chứng')}}</label>
                                             <div id="dropzone-multiple-component"
-                                                 class="tab-pane tab-example-result fade active show" role="tabpanel"
+                                                 class="tab-pane tab-example-result fade active show"
+                                                 role="tabpanel"
                                                  aria-labelledby="dropzone-multiple-component-tab">
                                                 <div class="dropzone dropzone-multiple dz-clickable"
-                                                     data-toggle="dropzone" data-dropzone-multiple id="dropzone" value="{{$noidungs[$i-1]->id}}">
+                                                     data-toggle="dropzone" data-dropzone-multiple id="dropzone"
+                                                     value="{{$noidungs[$i-1]->id}}">
                                                     <ul class="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
                                                     </ul>
-                                                    <ul class="dz-preview dz-preview-multiple d-none list-group list-group-lg list-group-flush" id="preview">
+                                                    <ul class="dz-preview dz-preview-multiple d-none list-group list-group-lg list-group-flush"
+                                                        id="preview">
                                                         <li class="list-group-item px-0 dz-processing dz-image-preview">
                                                             <div class="row align-items-center">
                                                                 <div class="col-auto">
-                                                                    <img class="avatar img rounded" alt="Ảnh" data-dz-thumbnail>
+                                                                    <img class="avatar img rounded" alt="Ảnh"
+                                                                         data-dz-thumbnail>
                                                                 </div>
                                                                 <div class="col ml--3">
-                                                                    <h4 class="mb-1" data-dz-name="">Ảnh chụp màn hình (6).png</h4>
-                                                                    <p class="small text-muted mb-0" data-dz-size=""><strong>0.5</strong> MB</p>
+                                                                    <h4 class="mb-1" data-dz-name="">Ảnh chụp màn
+                                                                        hình (6).png</h4>
+                                                                    <p class="small text-muted mb-0"
+                                                                       data-dz-size=""><strong>0.5</strong> MB</p>
                                                                 </div>
                                                                 <div class="col-auto">
                                                                     <div class="dropdown">
-                                                                        <a href="#" class="dropdown-ellipses dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <a href="#"
+                                                                           class="dropdown-ellipses dropdown-toggle"
+                                                                           role="button" data-toggle="dropdown"
+                                                                           aria-haspopup="true"
+                                                                           aria-expanded="false">
                                                                             <i class="fe fe-more-vertical"></i>
                                                                         </a>
-                                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                                            <a href="#" class="dropdown-item" data-dz-remove="">
+                                                                        <div
+                                                                            class="dropdown-menu dropdown-menu-right">
+                                                                            <a href="#" class="dropdown-item"
+                                                                               data-dz-remove="">
                                                                                 Remove
                                                                             </a>
                                                                         </div>
@@ -88,8 +100,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <button type="submit" class="btn btn-primary my-2">Lưu tất cả</button>
+                                        <button type="submit" class="btn btn-primary my-2">Lưu</button>
                                     </form>
                                 </div>
                             @endfor
@@ -126,7 +137,7 @@
         // })
         $(document).ready(() => {
             const target = $('[data-toggle="dropzone"]');
-            target.map((index, value)=> {
+            target.map((index, value) => {
                 const container = $(value).find(".dz-preview");
                 const template = $(value).find('#preview');
                 const option = {
@@ -145,12 +156,12 @@
                     params: {
                         'noi_dung': $(value).attr('value')
                     },
-                    init: function() {
-                        this.on("addedfile", function(e) {
+                    init: function () {
+                        this.on("addedfile", function (e) {
                             console.log("A file has been added");
                             console.log(this);
                         });
-                        this.on("maxfilesexceeded", function(e) {
+                        this.on("maxfilesexceeded", function (e) {
                             this.removeFile(e);
                         });
                     },
@@ -160,6 +171,18 @@
                 };
                 $(value).dropzone(option);
             })
+
+
+            @for ($i = 1; $i <= count($noidungs); $i++)
+                $("#form{{$noidungs[$i - 1]->id}}").submit((e) => {
+                    e.preventDefault();
+                    const form = $("#form{{$noidungs[$i - 1]->id}}");
+                    const posting = $.post(form.attr('action'), form.serialize());
+                    posting.done((data) => {
+
+                    })
+                });
+            @endfor
         })
     </script>
 @endsection
