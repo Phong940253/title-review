@@ -56,6 +56,23 @@ class UpdateUserTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('users_id_province_foreign');
+            $table->dropForeign('users_id_district_foreign');
+            $table->dropForeign('users_id_ward_foreign');
+            $table->dropForeign('users_id_current_province_foreign');
+            $table->dropForeign('users_id_current_district_foreign');
+            $table->dropForeign('users_id_current_ward_foreign');
+            $table->dropForeign('users_id_religion_foreign');
+            $table->dropColumn('id_province');
+            $table->dropColumn('id_district');
+            $table->dropColumn('id_ward');
+            $table->dropColumn('street');
+            $table->dropColumn('id_current_province');
+            $table->dropColumn('id_current_district');
+            $table->dropColumn('id_current_ward');
+            $table->dropColumn('current_street');
+            $table->dropColumn('id_religion');
+        });
     }
 }

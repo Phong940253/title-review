@@ -62,14 +62,8 @@ class CreateHcvnTables extends Migration
      */
     public function down()
     {
-        $tableNames = config('hcvn.table_names');
-
-        if (empty($tableNames)) {
-            throw new \Exception('Error: config/hcvn.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.');
-        }
-
-        Schema::drop($tableNames['provinces']);
-        Schema::drop($tableNames['districts']);
-        Schema::drop($tableNames['wards']);
+        Schema::dropIfExists('wards');
+        Schema::dropIfExists('districts');
+        Schema::dropIfExists('provinces');
     }
 }
