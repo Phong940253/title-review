@@ -48,12 +48,13 @@
                                         </div>
 
                                         <div class="form-group">
+                                            {{ csrf_field() }}
                                             <label>{{__('Minh chứng')}}</label>
                                             <div id="dropzone-multiple-component"
                                                  class="tab-pane tab-example-result fade active show" role="tabpanel"
                                                  aria-labelledby="dropzone-multiple-component-tab">
                                                 <div class="dropzone dropzone-multiple dz-clickable"
-                                                     data-toggle="dropzone" data-dropzone-multiple id="dropzone">
+                                                     data-toggle="dropzone" data-dropzone-multiple id="dropzone" value="{{$noidungs[$i-1]->id}}">
                                                     <ul class="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
                                                     </ul>
                                                     <ul class="dz-preview dz-preview-multiple d-none list-group list-group-lg list-group-flush" id="preview">
@@ -130,9 +131,7 @@
                 const template = $(value).find('#preview');
                 const option = {
                     paramName: "file",
-                    url: "/file/post",
-                    thumbnailWidth: null,
-                    thumbnailHeight: null,
+                    url: "/upload-minh-chung",
                     previewsContainer: container.get(0),
                     previewTemplate: template.html(),
                     parallelUploads: 4,
@@ -140,12 +139,21 @@
                     maxFilesize: 2,
                     acceptedFiles: ".pdf,.png,.jpg,.doc,.docx,.xls,.xlsx",
                     uploadMultiple: true,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    params: {
+                        'noi_dung': $(value).attr('value')
+                    },
                     init: function() {
                         this.on("addedfile", function(e) {
                             console.log("A file has been added");
-                        })
+                            console.log(this);
+                        });
+                        this.on("maxfilesexceeded", function(e) {
+                            this.removeFile(e);
+                        });
                     },
-
                     accept: function (file, done) {
                         done();
                     }

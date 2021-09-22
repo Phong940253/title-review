@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\ProfileController;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -15,7 +19,7 @@ class TieuchuanController extends Controller
     //
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function index(Request $request)
     {
@@ -31,7 +35,7 @@ class TieuchuanController extends Controller
 
     /**
      * @param Request $request
-     * @return array
+     * @return Collection|array
      */
     public static function getNoiDung(Request $request)
     {
@@ -43,19 +47,20 @@ class TieuchuanController extends Controller
                     ->join('tieuchi', 'noidung.id_tieuchi', '=', 'tieuchi.id')
                     ->get();
             }
+            //            Log::debug($res);
+
             $res = DB::table('noidung')
                 ->join('tieuchuan', 'noidung.id_tieuchuan', '=', 'tieuchuan.id')
                 ->join('tieuchi', 'tieuchuan.id_tieuchi', '=', 'tieuchi.id')
                 ->where('tieuchuan.id', '=', $id_tieuchuan)
                 ->where('tieuchi.id', '=', $id_tieuchi)
                 ->get();
-            Log::debug($res);
             return $res;
         }
         return [];
     }
 
-    public function getBreadcrumb(Request $request)
+    public function getBreadcrumb(Request $request): array
     {
         $id_tieuchi = $request->id_tieuchi;
         $id_tieuchuan = $request->id_tieuchuan;

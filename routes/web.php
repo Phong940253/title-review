@@ -31,16 +31,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('fill-info', 'App\Http\Controllers\InputInfoController@submitInfo')->name('fill-info');
 
         Route::group(['middleware' => 'fill.info'], function() {
-            Route::get('/', 'App\Http\Controllers\ProfileController@edit')->name('home')->middleware('select.title');
-            Route::get('/home', 'App\Http\Controllers\ProfileController@edit')->name('home')->middleware('select.title');
+            Route::get('/', 'App\Http\Controllers\ProfileController@edit')->name('home');
+            Route::get('/home', 'App\Http\Controllers\ProfileController@edit')->name('home');
             Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 
-            Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit'])->middleware('select.title');
-            Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update'])->middleware('select.title');
+            Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
+            Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 
             Route::post('upload-image', 'App\Http\Controllers\ProfileController@uploadImage')->name('upload-image');
 
-            Route::get('tieucuan', 'App\Http\Controllers\TieuchuanController@index')->name('tieuchuan')->middleware('select.title');
+            Route::get('tieucuan', 'App\Http\Controllers\TieuchuanController@index')->name('tieuchuan');
+            Route::post('upload-minh-chung', 'App\Http\Controllers\UploadFilesController@store')->name('upload-minh-chung');
 
             Route::get('map', function () {return view('pages.maps');})->name('map');
             Route::get('icons', function () {return view('pages.icons');})->name('icons');
