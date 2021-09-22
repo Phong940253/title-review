@@ -21992,3 +21992,8 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 [data-dz-size] strong {
     font-weight: 400
 }
+
+.avatar-img {
+    width: 100%;
+    border-radius: .375rem;
+}

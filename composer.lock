@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a99e6cc5a49b978d2d109b518cc6651",
+    "content-hash": "f34de2b486ca5f8f5a0cc41303fa8e87",
     "packages": [
         {
             "name": "anlutro/l4-settings",
@@ -1512,6 +1512,46 @@
                 }
             ],
             "time": "2020-12-29T14:50:06+00:00"
+        },
+        {
+            "name": "enyo/dropzone",
+            "version": "v5.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dropzone/dropzone-packagist.git",
+                "reference": "286b2dc1f1195bd12169e4c9d5f91cfbe46e245f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dropzone/dropzone-packagist/zipball/286b2dc1f1195bd12169e4c9d5f91cfbe46e245f",
+                "reference": "286b2dc1f1195bd12169e4c9d5f91cfbe46e245f",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matias Meno",
+                    "email": "m@tias.me",
+                    "homepage": "http://www.yesmeno.com"
+                }
+            ],
+            "description": "Handles drag and drop of files for you.",
+            "homepage": "http://www.dropzonejs.com",
+            "keywords": [
+                "drag and drop",
+                "dragndrop",
+                "file upload",
+                "upload"
+            ],
+            "support": {
+                "issues": "https://github.com/dropzone/dropzone-packagist/issues",
+                "source": "https://github.com/dropzone/dropzone-packagist/tree/v5.9.3"
+            },
+            "time": "2021-09-21T17:03:36+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -9085,7 +9125,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3|^8.0"
+        "php": "^7.3|^8.0",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"

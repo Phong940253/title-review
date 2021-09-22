@@ -21,6 +21,9 @@
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
         <!-- Recapcha -->
         <script src='https://www.google.com/recaptcha/api.js'></script>
+        <!-- Dropzone -->
+{{--        <link href="{{ asset('assets') }}/vendor/dropzone/dist/min/basic.min.css" rel="stylesheet">--}}
+{{--        <link href="{{ asset('assets') }}/vendor/dropzone/dist/min/dropzone.min.css" rel="stylesheet">--}}
     </head>
     <body class="{{ $class ?? '' }}">
 

@@ -112,7 +112,7 @@
                                            for="input-sdt">{{ __('Điện thoại liên hệ') }}</label>
                                     <input type="number" name="sdt" id="input-sdt"
                                            class="form-control form-control-alternative{{ $errors->has('sdt') ? ' is-invalid' : '' }}"
-                                           placeholder="{{ __('Số điện thoại') }}" value="" autofocus>
+                                           placeholder="{{ __('Số điện thoại') }}" value="{{ old('sdt', auth()->user()->telephone) }}" autofocus>
 
                                     @if ($errors->has('sdt'))
                                         <span class="invalid-feedback" role="alert">
@@ -128,7 +128,7 @@
                                         </div>
                                         <input type="text" name="birthDay" id="input-birthDay"
                                                class="form-control datepicker{{ $errors->has('birthDay') ? ' is-invalid' : '' }}"
-                                               placeholder="{{ __('Chọn ngày') }}" value="" autofocus>
+                                               placeholder="{{ __('Chọn ngày') }}" value="{{ old('birthDay', auth()->user()->birthDay) }}" autofocus>
                                     </div>
                                     @if ($errors->has('birthDay'))
                                         <span class="invalid-feedback" role="alert">
@@ -140,13 +140,11 @@
                                     <label class="form-control-label mr-3"
                                            for="ratio-gender">{{ __('Giới tính') }}</label>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" name="gender" id="radio-male" class="custom-control-input"
-                                               checked="">
+                                        <input type="radio" name="gender" id="radio-male" class="custom-control-input" {{ is_null(old('gender')) ? (!auth()->user()->gender ? "checked" : "") : (!old('gender') ? "checked" : "")}} value="0">
                                         <label class="custom-control-label" for="radio-male">{{ __('Nam') }}</label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" name="gender" id="radio-female"
-                                               class="custom-control-input">
+                                        <input type="radio" name="gender" id="radio-female" class="custom-control-input" {{ is_null(old('gender')) ? (auth()->user()->gender ? "checked" : "") : (old('gender') ? "checked" : "")}} value="1">
                                         <label class="custom-control-label" for="radio-female">{{ __('Nữ') }}</label>
                                     </div>
                                 </div>
