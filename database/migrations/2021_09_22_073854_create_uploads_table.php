@@ -14,10 +14,10 @@ class CreateUploadsTable extends Migration
     public function up()
     {
         Schema::create('uploads', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('id_users');
             $table->unsignedInteger('id_noidung');
             $table->string('filename');
-            $table->string('resized_name');
             $table->string('original_name');
             $table->string('url');
             $table->timestamps();
@@ -26,8 +26,6 @@ class CreateUploadsTable extends Migration
                 ->onDelete('cascade');
             $table->foreign('id_noidung')->references('id')->on('noidung')
                 ->onDelete('cascade');
-
-            $table->primary(['id_users', 'id_noidung'], 'users_has_noidung');
         });
     }
 
