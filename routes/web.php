@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/info', function() {
+Route::get('/info', function () {
     return phpinfo();
 });
 
@@ -24,13 +24,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('select-title', 'App\Http\Controllers\SelectTitleController@index')->name('select-title');
     Route::post('select-title', 'App\Http\Controllers\SelectTitleController@submitSelect')->name('select-title');
 
-    Route::group(['middleware' => 'select.title'], function() {
+    Route::group(['middleware' => 'select.title'], function () {
         Route::get('input-info', 'App\Http\Controllers\InputInfoController@index')->name('input-info');
         Route::get('get-district', 'App\Http\Controllers\InputInfoController@getDistrictByIdProvince')->name('get-district');
         Route::get('get-ward', 'App\Http\Controllers\InputInfoController@getWardByIdDistrict')->name('get-ward');
         Route::post('fill-info', 'App\Http\Controllers\InputInfoController@submitInfo')->name('fill-info');
 
-        Route::group(['middleware' => 'fill.info'], function() {
+        Route::group(['middleware' => 'fill.info'], function () {
             Route::get('/', 'App\Http\Controllers\ProfileController@edit')->name('home');
             Route::get('/home', 'App\Http\Controllers\ProfileController@edit')->name('home');
             Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
@@ -42,10 +42,17 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('tieucuan', 'App\Http\Controllers\TieuchuanController@index')->name('tieuchuan');
             Route::post('upload-minh-chung', 'App\Http\Controllers\UploadFilesController@store')->name('upload-minh-chung');
+            Route::post('submit-reply', 'App\Http\Controllers\TieuchuanController@submitReply')->name('submit-reply');
 
-            Route::get('map', function () {return view('pages.maps');})->name('map');
-            Route::get('icons', function () {return view('pages.icons');})->name('icons');
-            Route::get('table-list', function () {return view('pages.tables');})->name('table');
+            Route::get('map', function () {
+                return view('pages.maps');
+            })->name('map');
+            Route::get('icons', function () {
+                return view('pages.icons');
+            })->name('icons');
+            Route::get('table-list', function () {
+                return view('pages.tables');
+            })->name('table');
             Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
         });
     });
