@@ -44,6 +44,9 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('upload-minh-chung', 'App\Http\Controllers\UploadFilesController@store')->name('upload-minh-chung');
             Route::post('submit-reply', 'App\Http\Controllers\TieuchuanController@submitReply')->name('submit-reply');
 
+            Route::get('print-info', 'App\Http\Controllers\PrintInfoController@index')->name('print-info');
+
+
             Route::get('map', function () {
                 return view('pages.maps');
             })->name('map');

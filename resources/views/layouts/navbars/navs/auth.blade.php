@@ -35,7 +35,7 @@
             </li>
             <li class="nav-item d-none d-lg-block ml-lg-3 mr-lg-3">
                 @if (session()->has('id_title') && session()->has('id_object'))
-                    <a href="https://argon-dashboard-pro-laravel.creative-tim.com/docs/getting-started/overview.html"
+                    <a href="{{route('print-info')}}"
                        target="_blank" class="btn btn-neutral btn-documentation btn-icon">
                         <span class="btn-inner--icon">
                             <i class="fas fa-download  mr-2"></i>

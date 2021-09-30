@@ -12,6 +12,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
+
 
 /**
  *
@@ -25,12 +27,16 @@ class TieuchuanController extends Controller
      */
     public function index(Request $request)
     {
+        $noidungs = $this->getNoiDung($request->id_tieuchi, $request->id_tieuchuan);
+        $replies = $this->getReplies($noidungs->pluck('id'));
+        Log::debug($replies);
         $param = [
             'tieuchis' => ProfileController::getTieuChuanTieuChi($request),
-            'noidungs' => $this->getNoiDung($request),
+            'noidungs' => $noidungs,
             'page' => $this->getBreadcrumb($request),
             'id_tieuchi' => $request->id_tieuchi,
             'id_tieuchuan' => $request->id_tieuchuan,
+            'replies' => $replies
         ];
         return view('users.tieuchuan', $param);
     }
@@ -39,10 +45,8 @@ class TieuchuanController extends Controller
      * @param Request $request
      * @return Collection|array
      */
-    public static function getNoiDung(Request $request)
+    public static function getNoiDung($id_tieuchi, $id_tieuchuan)
     {
-        $id_tieuchi = $request->id_tieuchi;
-        $id_tieuchuan = $request->id_tieuchuan;
         if ($id_tieuchi || $id_tieuchuan) {
             if (!$id_tieuchuan) {
                 $res = DB::table('noidung')
@@ -64,6 +68,16 @@ class TieuchuanController extends Controller
         return [];
     }
 
+    public function getReplies($noidungs) {
+        $replies = DB::table('replies')
+            ->join('noidung', 'noidung.id', '=','replies.id_noidung')
+            ->where('replies.id_users', '=', auth()->user()->id)
+            ->whereIn('noidung.id', $noidungs)
+            ->select('replies.id_users', 'replies.id_noidung', 'reply')
+            ->get();
+        return $replies;
+    }
+
     public function getBreadcrumb(Request $request): array
     {
         $id_tieuchi = $request->id_tieuchi;
@@ -76,12 +90,12 @@ class TieuchuanController extends Controller
                 ->select('name')
                 ->find($request->id_tieuchuan);
             $res = [
-                'currentPage' => $name_tieuchuan->name,
-                'parrentPage' => $name_tieuchi->name,
+                'currentPage' => $name_tieuchuan ? $name_tieuchuan->name : "",
+                'parrentPage' => $name_tieuchi ? $name_tieuchi->name : "",
             ];
         } else {
             $res = [
-                'currentPage' => $name_tieuchi->name,
+                'currentPage' => $name_tieuchi ? $name_tieuchi->name : "",
             ];
         }
         return $res;
@@ -105,5 +119,14 @@ class TieuchuanController extends Controller
             'success' => false,
             'message' => 'Có lỗi xảy ra'
         ], 400);
+    }
+
+    public function get_size($file_path): int
+    {
+        return Storage::size($file_path);
+    }
+
+    public function getMinhChung(Request $request) {
+
     }
 }

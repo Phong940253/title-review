@@ -45,7 +45,7 @@
                                         <p class="card-text">{{$noidungs[$i - 1]->content}}</p>
                                         <div class="form-group">
                                             <textarea name="content" class="form-control" id="FormControlTextarea{{$i}}" rows="8"
-                                                      placeholder="Điền vào đây ..."></textarea>
+                                                      placeholder="Điền vào đây ...">{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidungs[$i - 1]->id)) ? "" : $reply->reply}}</textarea>
                                         </div>
                                         <div class="form-group">
                                             {{ csrf_field() }}
@@ -117,24 +117,6 @@
     <script src="{{asset('assets')}}/vendor/dropzone/dist/min/dropzone.min.js"></script>
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
-        // $(document).ready(function () {
-        //     $("#dropzone").dropzone({
-        //         paramName: "file", // The name that will be used to transfer the file
-        //         maxFiles: 10,
-        //         maxFilesize: 2, // MB
-        //         parallelUploads: 2,
-        //         previewTemplate: document.querySelector('#preview').innerHTML,
-        //         uploadMultiple: true,
-        //         url: "/file/post",
-        //         accept: function (file, done) {
-        //             if (file.name == "justinbieber.jpg") {
-        //                 done("Naha, you don't.");
-        //             } else {
-        //                 done();
-        //             }
-        //         }
-        //     });
-        // })
         $(document).ready(() => {
             const target = $('[data-toggle="dropzone"]');
             target.map((index, value) => {

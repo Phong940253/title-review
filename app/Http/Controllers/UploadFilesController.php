@@ -20,6 +20,7 @@ class UploadFilesController extends Controller
             foreach ($files as $file) {
                 $name = sha1(date('YmdHis') . Str::random(30));
                 $save_name = $name . '.' . $file->getClientOriginalExtension();
+                $size = number_format($file->getSize() / 1048576, 2);
 //                $resize_name = $name . Str::random(2) . '.' . $file->getClientOriginalExtension();
                 Log::debug('saving file');
                 $storedPath = $file->move('images/minhchung/' . auth()->user()->id . '/', $save_name);
@@ -30,7 +31,9 @@ class UploadFilesController extends Controller
                 $upload->original_name = basename($file->getClientOriginalName());
                 $upload->id_noidung = $request->noi_dung;
                 $upload->id_users = auth()->user()->id;
+                $upload->size = $size;
                 $upload->url = $storedPath;
+
                 Log::debug('update database file');
                 $upload->save();
                 Log::debug('updated database file');
