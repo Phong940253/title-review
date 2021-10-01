@@ -20,15 +20,69 @@
     <!-- Argon CSS -->
     <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            padding: 0;
+            font-size: 12pt;
+            height: 100%;
+            margin: 0 auto;
+            background: rgb(204,204,204);
+        }
+
+        * {
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+
+        .main-page {
+            width: 210mm;
+            margin: 10mm auto;
+            background: white;
+            box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+
+        }
+
+        .sub-page {
+            max-width: 21cm;
+            margin: 0;
+            padding: 2cm 2cm 2cm 3cm;
+        }
+
         @media print {
+
             @page {
-                size: auto;
+               size: auto;
+                /*margin: 0;*/
+                margin: 2cm 2cm 2cm 3cm;
+            }
+
+            @page {
+                @bottom-left {
+                    content: counter(page) ' of ' counter(pages);
+                }
+            }
+
+            .sub-page {
+                max-width: 16cm !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            html, body {
+                width: 210mm;
+                height: 297mm;
                 margin: 0;
             }
 
-            body {
-                size: auto;
+            .main-page {
                 margin: 0;
+                border: initial;
+                border-radius: initial;
+                width: 21cm;
+                height: 29.7cm;
+                box-shadow: initial;
+                background: initial;
+                page-break-after: always;
             }
 
             #print {
@@ -37,29 +91,27 @@
         }
     </style>
 </head>
-<body class="{{ $class ?? '' }} bg-white text-dark m-0"
-      style="font-family: 'Times New Roman', serif; padding-top: 50px; padding-bottom: 20px; font-size: 17px;">
+<body class="{{ $class ?? '' }} bg-white text-dark m-0">
 @auth()
-    <button onclick="window.print()" id="print"> Print</button>
-    <div class="container" style="max-width: 750px;">
-        <div id="wrapper" style="margin: 0 auto; max-width: 595px; width:100%;" class="p-0 m-auto">
+    <div class="row">
+        <div class="col text-center">
+            <button type="button" class="btn btn-primary" onclick="window.print()" id="print">In báo cáo</button>
+        </div>
+    </div>
+    <div class="main-page ">
+        <div class="sub-page ">
             <div id="header">
                 <div class="row">
-                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 text-center">
+                    <div class="col-5 text-center">
                         <span>Đơn vị: <br>{{ DB::table('unit')->find(auth()->user()->id_unit)->name }}</span>
                     </div>
-                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
-                        <div class="header-right">
-                            <span>
-							    <i>TP. Hồ Chí Minh,</i>
-                            </span>
-                            <i> ngày {{ date('d') }} tháng {{ date('m') }} năm {{ date('Y') }}</i>
-                        </div>
+                    <div class="col-7">
+                        <i>TP. Hồ Chí Minh, ngày {{ date('d') }} tháng {{ date('m') }} năm {{ date('Y') }}</i>
                     </div>
                 </div>
                 <div class="row" style="padding-top: 15px">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center" style="margin-top: 15px;">
-                        <span style="font-size: 22px;"><b>BẢN GIỚI THIỆU THÀNH TÍCH</b></span><br>
+                    <div class="col-12 text-center" style="margin-top: 15px;">
+                        <span style="font-size: 16pt;"><b>BẢN GIỚI THIỆU THÀNH TÍCH</b></span><br>
                         <b>DỀ CỬ
                             "{{ is_null(session('id_title')) ? "" : mb_strtoupper(DB::table('danhhieu')->find(session('id_title'))->name) }}"<br></b>
                         <b><i>(Dành
@@ -67,13 +119,14 @@
                     </div>
                 </div>
             </div>
-            <div id="content" style="padding-top: 15px">
+            <br>
+            <div id="content">
                 <div><b>PHẦN A. LÝ LỊCH CÁ NHÂN</b></div>
                 <div class="row">
-                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                        <img src="" style="margin-top: 10px;" alt="" width="113px" height="151px" class="img-thumbnail">
+                    <div class="col-3">
+                        <img src="" style="margin-top: 10px;" alt="" width="113px" height="155px" class="img-thumbnail">
                     </div>
-                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                    <div class="col-9">
                         <div class="row">
                             1. Họ và tên: {{ mb_strtoupper(auth()->user()->name)  }}
                         </div>
@@ -83,7 +136,7 @@
                                 <div>3. Dân tộc: {{ Setting("nation" . auth()->user()->nation) }}</div>
                             </div>
                             <div class="col p-0">
-                                <div>3. Ngày sinh: {{ auth()->user()->birthDay }}</div>
+                                <div>3. Ngày sinh: {{ isset(auth()->user()->birthDay) ? isset(auth()->user()->birthDay) : "không có" }}</div>
                                 <div>5. Tôn
                                     giáo: {{ DB::table('religion')->find(auth()->user()->id_religion)->name }}</div>
                             </div>
@@ -94,15 +147,15 @@
                     </div>
                 </div>
                 <div class="row pt-2" style="padding-left: 15px">9. Ngày kết nạp
-                    Đoàn: {{ is_null(auth()->user()->date_admission_doan) ? "Không có" : auth()->user()->date_admission_doan }}</div>
+                    Đoàn: {{ is_null(auth()->user()->date_admission_doan) ? "không có" : auth()->user()->date_admission_doan }}</div>
                 <div class="row" style="padding-left: 15px">10. Ngày kết nạp Đảng (nếu có):
                     Dự
                     bị: {{ is_null(auth()->user()->date_admission_dang_reserve) ? "Không có;" : auth()->user()->date_admission_dang_reserve}}
                     Chính
-                    thức: {{ is_null(auth()->user()->date_admission_dang_official) ? "Không có" : auth()->user()->date_admission_dang_official }}
+                    thức: {{ is_null(auth()->user()->date_admission_dang_official) ? "không có" : auth()->user()->date_admission_dang_official }}
                 </div>
-                <div>11. Chức vụ hiện tại: {{ is_null(auth()->user()->current_position) ? "Không có" : auth()->user()->current_position }}</div>
-                <div>12. Chức vụ cao nhất: {{ is_null(auth()->user()->hightest_position) ? "Không có": uth()->user()->hightest_position }}</div>
+                <div>11. Chức vụ hiện tại: {{ is_null(auth()->user()->current_position) ? "không có" : auth()->user()->current_position }}</div>
+                <div>12. Chức vụ cao nhất: {{ is_null(auth()->user()->hightest_position) ? "không có": uth()->user()->hightest_position }}</div>
                 <div class="row">
                     <div class="col-7">13. Đơn vị trực thuộc: {{ DB::table('unit')->find(auth()->user()->id_unit)->name }}</div>
                     <div class="col-5 pl-4">{{__('14. Sinh viên năm:')}}</div>
@@ -155,7 +208,24 @@
                     @endfor
                 @endisset
             </div>
-            <div id="footer"></div>
+            <div id="footer">
+                <div class="row">
+                    <div class="col-6"></div>
+                    <div class="col-6 text-center">
+                        <b>Người khai</b><br><br><br><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <b>Ý KIẾN CỦA ĐƠN VỊ</b><br><br><br><br><br><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <b>Ý KIẾN CỦA BAN CHỦ NHIỆM CẤP ỦY</b><br><br><br><br><br><br><br>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endauth
