@@ -9,8 +9,6 @@
     <div class="container-fluid mt--7">
         <div class="row">
             <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
-                <div class="col order-xl-2" id="alerts">
-                </div>
                 <div class="card card-profile shadow">
                     <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
@@ -377,6 +375,8 @@
         }
 
         $(document).ready(function () {
+
+
             $image_crop = $('#image_demo').croppie({
                 enableExif: true,
                 viewport: {
@@ -422,11 +422,24 @@
                             if (data.success) {
                                 $('#uploaded_image').html(data.image);
                             } else {
-                                const alert = "<div class='alert alert-danger alert-dismissible fade show mb-6' role='alert'>" +
-                                    // "<span class='alert-inner--icon'><i class='ni ni-like-2'></i></span>" +
-                                    "<span class='alert-inner--text'><strong>Lỗi! </strong>" + data.msg + "</span>" +
-                                    "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
-                                $('#alerts').html(alert);
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                toastr['error'](data.msg, "Lỗi");
                             }
                         }
                     });

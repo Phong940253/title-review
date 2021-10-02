@@ -44,7 +44,7 @@
                                                for="objectSelected">{{ __('Đối tượng') }}</label>
                                     </div>
                                     <select class="custom-select form-control form-control-alternative" id="objectSelected" name="id_object" required>
-                                        <option selected>{{ __('Chọn đối tượng') }}</option>
+                                        <option selected disabled value="">{{ __('Chọn đối tượng') }}</option>
                                     </select>
                                 </div>
                                 @if ($errors->has('id_object'))

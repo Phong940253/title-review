@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Log;
 
 class FillInfomationProfile
 {
+
+    public static function isFillInfomation()
+    {
+        return isset(auth()->user()->telephone) && isset(auth()->user()->gender) &&
+            isset(auth()->user()->nation) && isset(auth()->user()->id_religion) &&
+            isset(auth()->user()->id_province) && isset(auth()->user()->id_district) &&
+            isset(auth()->user()->id_ward) && isset(auth()->user()->street) &&
+            isset(auth()->user()->id_current_province) && isset(auth()->user()->id_current_district) &&
+            isset(auth()->user()->id_current_ward) && isset(auth()->user()->current_street);
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -19,15 +30,8 @@ class FillInfomationProfile
     {
         if ($request->user()->hasRole('admin') || $request->user()->hasRole('super admin'))
             return $next($request);
-        else if (
-//                isset(auth()->user()->url_image) &&
-
-            isset(auth()->user()->telephone) && isset(auth()->user()->gender) &&
-            isset(auth()->user()->nation) && isset(auth()->user()->id_religion) &&
-            isset(auth()->user()->id_province) && isset(auth()->user()->id_district) &&
-            isset(auth()->user()->id_ward) && isset(auth()->user()->street) &&
-            isset(auth()->user()->id_current_province) && isset(auth()->user()->id_current_district) &&
-            isset(auth()->user()->id_current_ward) && isset(auth()->user()->current_street))
+        else if (//                isset(auth()->user()->url_image) &&
+        $this->isFillInfomation())
             return $next($request);
         else {
             return redirect('input-info');

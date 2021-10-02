@@ -19,11 +19,11 @@
         <link href="{{ asset('argon') }}/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
+        <!-- Toastr CSS -->
+        <link type="text/css"  href="{{ asset('argon') }}/css/toastr.min.css" rel="stylesheet">
+
         <!-- Recapcha -->
         <script src='https://www.google.com/recaptcha/api.js'></script>
-        <!-- Dropzone -->
-{{--        <link href="{{ asset('assets') }}/vendor/dropzone/dist/min/basic.min.css" rel="stylesheet">--}}
-{{--        <link href="{{ asset('assets') }}/vendor/dropzone/dist/min/dropzone.min.css" rel="stylesheet">--}}
     </head>
     <body class="{{ $class ?? '' }}">
 
@@ -47,6 +47,7 @@
 
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{{ asset('argon') }}/js/toastr.min.js"></script>
 
         @stack('js')
 

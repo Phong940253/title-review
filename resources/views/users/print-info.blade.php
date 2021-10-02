@@ -72,6 +72,7 @@
                 width: 210mm;
                 height: 297mm;
                 margin: 0;
+                background-color: #fff;
             }
 
             .main-page {
@@ -91,14 +92,14 @@
         }
     </style>
 </head>
-<body class="{{ $class ?? '' }} bg-white text-dark m-0">
+<body class="{{ $class ?? '' }} text-dark m-0">
 @auth()
     <div class="row">
         <div class="col text-center">
             <button type="button" class="btn btn-primary" onclick="window.print()" id="print">In báo cáo</button>
         </div>
     </div>
-    <div class="main-page ">
+    <div class="main-page">
         <div class="sub-page ">
             <div id="header">
                 <div class="row">
