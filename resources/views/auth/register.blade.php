@@ -120,9 +120,9 @@
                                     </div>
                                 </div>
                             </div>
-                            @if($errors->any())
-                                {!! implode('', $errors->all('<div>:message</div>')) !!}
-                            @endif
+{{--                            @if($errors->any())--}}
+{{--                                {!! implode('', $errors->all('<div>:message</div>')) !!}--}}
+{{--                            @endif--}}
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary mt-4">{{ __('Đăng ký') }}</button>
                             </div>
