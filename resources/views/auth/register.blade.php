@@ -20,11 +20,11 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                                     </div>
-                                    <input class="form-control{{ $errors->has('ms') ? ' is-invalid' : '' }}" placeholder="{{ __('Mã Cán bộ / Sinh viên / Học sinh') }}" type="text" name="name" value="{{ old('name') }}" required autofocus>
+                                    <input class="form-control{{ $errors->has('ms') ? ' is-invalid' : '' }}" placeholder="{{ __('Mã Cán bộ / Sinh viên / Học sinh') }}" type="text" name="ms" value="{{ old('ms') }}" required autofocus>
                                 </div>
-                                @if ($errors->has('name'))
-                                    <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                @if ($errors->has('ms'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('ms') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -82,7 +82,7 @@
                                         <label class="input-group-text" for="unitSelected">{{ __('Đơn vị') }}</label>
                                     </div>
                                     <select class="custom-select form-control form-control-alternative" id="unitSelected" name="id_unit" required>
-                                        <option selected>{{ __('Chọn đơn vị') }}</option>
+                                        <option selected disabled value="">{{ __('Chọn đơn vị') }}</option>
                                         {{$units = DB::table('unit')->select('name', 'id')->get()}}
                                         @foreach ($units as $unit)
                                             <option value="{{$unit->id}}">{{$unit->name}}</option>
@@ -113,13 +113,16 @@
                             <div class="row my-4">
                                 <div class="col-12">
                                     <div class="custom-control custom-control-alternative custom-checkbox">
-                                        <input class="custom-control-input" id="customCheckRegister" type="checkbox">
+                                        <input class="custom-control-input" id="customCheckRegister" name="accept" type="checkbox" required>
                                         <label class="custom-control-label" for="customCheckRegister">
                                             <span class="text-muted">{{ __('Đồng ý với các ') }} <a href="#!">{{ __('quy định') }}</a>{{__(' của chương trình')}}</span>
                                         </label>
                                     </div>
                                 </div>
                             </div>
+                            @if($errors->any())
+                                {!! implode('', $errors->all('<div>:message</div>')) !!}
+                            @endif
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary mt-4">{{ __('Đăng ký') }}</button>
                             </div>

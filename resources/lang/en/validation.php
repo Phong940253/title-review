@@ -163,7 +163,8 @@ return [
         'current_province' => 'tỉnh, thành',
         'current_district' => 'huyện, quận, thị xã',
         'current_ward' => 'xã, phường, trấn',
-        'current_street' => 'đường'
+        'current_street' => 'đường',
+        'g-recaptcha-response' => 'recaptcha'
     ],
 
 ];
