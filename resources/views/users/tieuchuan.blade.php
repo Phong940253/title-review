@@ -128,7 +128,7 @@
                     previewsContainer: container.get(0),
                     previewTemplate: template.html(),
                     parallelUploads: 4,
-                    maxFiles: 50,
+                    maxFiles: 10,
                     maxFilesize: 2,
                     acceptedFiles: ".pdf,.png,.jpg,.doc,.docx,.xls,.xlsx",
                     uploadMultiple: true,
@@ -139,20 +139,81 @@
                         'noi_dung': $(value).attr('value')
                     },
                     init: function () {
+                        // let myDropzone = this;
+                        @isset ($minhchungs)
+                            @foreach ($minhchungs as $minhchung)
+                                if ($(value).attr('value') == {{ $minhchung->id_noidung }}) {
+                                    var mockFile = {
+                                        name: "{{$minhchung->original_name}}",
+                                        size: {{$minhchung->size}},
+                                        dataURL: "{{ asset($minhchung->url) }}"
+                                    };
+                                    this.options.addedfile.call(this, mockFile);
+                                    var extension = mockFile.name.split('.')[1];
+                                    if (extension == "png" || extension == "jpg") {
+                                        this.options.thumbnail.call(this, mockFile, "{{ asset($minhchung->url) }}");
+                                    } else if (extension == "doc" || extension == "docx") {
+                                        this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/word.png") }}");
+                                    } else if (extension == "xls" || extension == "xlsx") {
+                                        this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/excel.png") }}");
+                                    } else {
+                                        this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/pdf.png") }}");
+                                    }
+                                }
+                            @endforeach
+                        @endisset
+
+                        this.options.maxFiles = this.options.maxFiles - {{count($minhchungs)}};
+                        console.log(this.options.maxFiles);
                         this.on("addedfile", function (e) {
-                            console.log("A file has been added");
-                            console.log(this);
                         });
                         this.on("maxfilesexceeded", function (e) {
                             this.removeFile(e);
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": true,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            };
+                            toastr['info']("Đã đến giới hạn file tải lên!");
+
                         });
                     },
                     accept: function (file, done) {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr['success']("Tải lên file thành công!");
                         done();
-                    }
+                    },
                 };
                 $(value).dropzone(option);
-            })
+            });
 
 
             @for ($i = 1; $i <= count($noidungs); $i++)
@@ -165,6 +226,7 @@
                     })
                 });
             @endfor
-        })
+        });
     </script>
 @endsection
+

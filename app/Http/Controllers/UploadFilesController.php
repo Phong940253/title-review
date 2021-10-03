@@ -18,7 +18,7 @@ class UploadFilesController extends Controller
             Log::debug('receive file');
             $files = $request->file('file');
             foreach ($files as $file) {
-                $size = number_format($file->getSize() / 1048576, 2);
+                $size = round($file->getSize(), 0);
 
                 Log::debug('saving file');
                 $id_users = auth()->user()->id;

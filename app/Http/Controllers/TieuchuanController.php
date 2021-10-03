@@ -29,6 +29,7 @@ class TieuchuanController extends Controller
     {
         $noidungs = $this->getNoiDung($request->id_tieuchi, $request->id_tieuchuan);
         $replies = $this->getReplies($noidungs->pluck('id'));
+        $minhchungs = $this->getMinhChung($noidungs->pluck('id'));
         Log::debug($replies);
         $param = [
             'tieuchis' => ProfileController::getTieuChuanTieuChi($request),
@@ -36,7 +37,8 @@ class TieuchuanController extends Controller
             'page' => $this->getBreadcrumb($request),
             'id_tieuchi' => $request->id_tieuchi,
             'id_tieuchuan' => $request->id_tieuchuan,
-            'replies' => $replies
+            'replies' => $replies,
+            'minhchungs' => $minhchungs,
         ];
         return view('users.tieuchuan', $param);
     }
@@ -126,7 +128,12 @@ class TieuchuanController extends Controller
         return Storage::size($file_path);
     }
 
-    public function getMinhChung(Request $request) {
-
+    public function getMinhChung($noidungs) {
+        $minhchungs = DB::table('uploads')
+            ->where('id_users', '=', auth()->user()->id)
+            ->whereIn('id_noidung', $noidungs)
+            ->select('id_noidung', 'original_name', 'url', 'size')
+            ->get();
+        return $minhchungs;
     }
 }

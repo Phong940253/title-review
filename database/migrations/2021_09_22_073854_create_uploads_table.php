@@ -20,7 +20,7 @@ class CreateUploadsTable extends Migration
             $table->string('filename');
             $table->string('original_name');
             $table->string('url');
-            $table->float('size', 5, 1);
+            $table->unsignedInteger('size');
             $table->timestamps();
 
             $table->foreign('id_users')->references('id')->on('users')

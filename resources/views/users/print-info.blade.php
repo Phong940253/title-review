@@ -125,7 +125,7 @@
                 <div><b>PHẦN A. LÝ LỊCH CÁ NHÂN</b></div>
                 <div class="row">
                     <div class="col-3">
-                        <img src="" style="margin-top: 10px;" alt="" width="113px" height="155px" class="img-thumbnail">
+                        <img src="{{asset(auth()->user()->url_image)}}" style="margin-top: 10px;" alt="" width="113px" height="155px" class="img-thumbnail">
                     </div>
                     <div class="col-9">
                         <div class="row">
