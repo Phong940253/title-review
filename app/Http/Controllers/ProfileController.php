@@ -4,13 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use anlutro\LaravelSettings\Facade as Setting;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Intervention\Image\Facades\Image;
 
 /**
  *
@@ -94,38 +100,41 @@ class ProfileController extends Controller
 
     /**
      * @param Request $request
-     * @return array
+     * @return \Illuminate\Http\JsonResponse
      */
     public
-    function uploadImage(Request $request): array
+    function uploadImage(Request $request): \Illuminate\Http\JsonResponse
     {
         if ($request->hasFile('image')) {
-            //  Let's do everything here
             $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
+            // Delete old avatar
+            $deleteFile = Storage::delete("public/" . Str::after(auth()->user()->url_image, "storage/"));
 
-            $imageName = time() . '.' . auth()->user()->id;
-            $request->file('image')->move(public_path('user-image'), $imageName);
+            // Save file
+            $file = $request->file('image');
+            $storedPath = "storage/" . Str::after($file->store("public/images/users-image"), "public/");
+            Log::debug($storedPath);
 
-            $update = DB::table('user')
-                ->where('id', auth()->user()->id)
-                ->limit(1)
-                ->update(['image' => $imageName]);
-
-            $image = '<img src="{asset("user-image")}/{$imageName}" alt="icon" class="rounded-circle">';
+            // Save database
+            $user = User::find(auth()->user()->id);
+            $user->url_image = $storedPath;
+            $user->save();
+            $image = asset($storedPath);
             $response = [
                 'success' => true,
                 'image' => $image,
                 'msg' => "Cập nhật hình đại diện thành công"
             ];
-            return $response;
+            return Response::json($response, 200);
+        } else {
         }
         $response = [
             'success' => false,
-            'msg' => "Cập nhật thất bại. Ảnh chưa được tải lên thành công!"
+            'msg' => "Cập nhật thất bại. Có lỗi xảy ra!"
         ];
-        return $response;
+        return Response::json($response, 200);
     }
 
     public static function getNation($attribute = NULL): string

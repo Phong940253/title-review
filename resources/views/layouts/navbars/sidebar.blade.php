@@ -9,7 +9,7 @@
             <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="..."  width="100%" style="max-height: none; ">
         </a>
         <!-- User -->
-        <ul class="nav align-items-center d-md-none">
+        <ul class="nav align-items-center d-md-none align-self-end">
             <li class="nav-item d-xl-none">
                 <!-- Sidenav toggler -->
                 <div class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin" data-target="#sidenav-main">
@@ -20,16 +20,11 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item d-sm-none">
-                <a class="nav-link" href="#" data-action="search-show" data-target="#navbar-search-main">
-                    <i class="ni ni-zoom-split-in"></i>
-                </a>
-            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="media align-items-center">
                         <span class="avatar avatar-sm rounded-circle">
-                        <img alt="Image placeholder" src="{{ asset('argon') }}/img/theme/default.jpg">
+                            <img id="fullAvatar" alt="Avatar" class="rounded-circle" height="36" width="36" src="{{ asset(isset(auth()->user()->url_image) ? auth()->user()->url_image : 'argon/img/theme/default.jpg') }}">
                         </span>
                     </div>
                 </a>

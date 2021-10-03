@@ -18,16 +18,15 @@ class UploadFilesController extends Controller
             Log::debug('receive file');
             $files = $request->file('file');
             foreach ($files as $file) {
-                $name = sha1(date('YmdHis') . Str::random(30));
-                $save_name = $name . '.' . $file->getClientOriginalExtension();
                 $size = number_format($file->getSize() / 1048576, 2);
-//                $resize_name = $name . Str::random(2) . '.' . $file->getClientOriginalExtension();
+
                 Log::debug('saving file');
-                $storedPath = $file->move('images/minhchung/' . auth()->user()->id . '/', $save_name);
+                $id_users = auth()->user()->id;
+                $storedPath = "storage/" . Str::after($file->store("public/images/minhchung/{$id_users}"), "public/");
                 Log::debug('saved file');
 
                 $upload = new Upload();
-                $upload->filename = $save_name;
+                $upload->filename = Str::after($storedPath, $id_users . "/");
                 $upload->original_name = basename($file->getClientOriginalName());
                 $upload->id_noidung = $request->noi_dung;
                 $upload->id_users = auth()->user()->id;

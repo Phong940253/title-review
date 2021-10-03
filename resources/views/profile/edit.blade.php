@@ -14,13 +14,7 @@
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image">
                                 <a href="#" onclick="ChangeAvarta();" id="uploaded_image">
-                                    @if (isset(auth()->user()->url_image))
-                                        <img src="{{ asset('argon') }}/img/theme/default.jpg" alt="icon"
-                                             class="rounded-circle">
-                                    @else
-                                        <img src="{{ asset('argon') }}/img/theme/default.jpg" alt="icon"
-                                             class="rounded-circle">
-                                    @endif
+                                    <img alt="Avatar" id="Avatar" class="rounded-circle" width="180" height="180" src="{{ asset(isset(auth()->user()->url_image) ? auth()->user()->url_image : 'argon/img/theme/default.jpg') }}">
                                 </a>
                             </div>
                         </div>
@@ -349,15 +343,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-8 text-center">
-                                <div id="image_demo" style="width:350px; margin-top:30px"></div>
+                            <div class="col-md-12 text-center">
+                                <div id="image_demo" style="width:100%;"></div>
                             </div>
 
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button class="btn btn-success crop_image">Crop & Upload Image</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                        <button class="btn btn-success crop_image">Cắt và tải ảnh lên</button>
                     </div>
                 </div>
             </div>
@@ -380,13 +374,13 @@
             $image_crop = $('#image_demo').croppie({
                 enableExif: true,
                 viewport: {
-                    width: 200,
-                    height: 200,
-                    type: 'circle' //circle
+                    width: 135,
+                    height: 180,
+                    type: 'square' //circle
                 },
                 boundary: {
-                    width: 300,
-                    height: 300
+                    width: 400,
+                    height: 400
                 }
             });
 
@@ -405,10 +399,10 @@
 
             $('.crop_image').click(function (event) {
                 $image_crop.croppie('result', {
-                    type: 'canvas',
+                    type: 'blob',
                     size: 'viewport'
                 }).then(function (response) {
-                    var fd = new FormData();
+                    let fd = new FormData();
                     fd.append("image", response);
                     fd.append('_token', '{{ csrf_token() }}');
                     $.ajax({
@@ -420,7 +414,27 @@
                         success: function (data) {
                             $('#uploadimageModal').modal('hide');
                             if (data.success) {
-                                $('#uploaded_image').html(data.image);
+                                toastr.options = {
+                                    "closeButton": false,
+                                    "debug": false,
+                                    "newestOnTop": false,
+                                    "progressBar": true,
+                                    "positionClass": "toast-top-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "300",
+                                    "hideDuration": "1000",
+                                    "timeOut": "5000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                $("#Avatar").attr("src", data.image);
+                                $("#smallAvatar").attr("src", data.image);
+                                $("#fullAvatar").attr("src", data.image);
+                                toastr['success'](data.msg, "Thành công");
                             } else {
                                 toastr.options = {
                                     "closeButton": false,
