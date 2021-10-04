@@ -1,5 +1,10 @@
 @extends('layouts.app', ['class' => 'bg-default'])
 
+@section('extend-lib')
+    <!-- Recapcha -->
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+@endsection
+
 @section('content')
     @include('layouts.headers.guest')
 

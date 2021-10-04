@@ -22,8 +22,7 @@
         <!-- Toastr CSS -->
         <link type="text/css"  href="{{ asset('argon') }}/css/toastr.min.css" rel="stylesheet">
 
-        <!-- Recapcha -->
-        <script src='https://www.google.com/recaptcha/api.js'></script>
+        @yield('extend-lib')
     </head>
     <body class="{{ $class ?? '' }}">
 

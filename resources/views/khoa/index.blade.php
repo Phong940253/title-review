@@ -1,8 +1,8 @@
 @extends('layouts.app', ['title' => __('User Profile')])
 
 @section('content')
-    @include('users.partials.header', [
-        'title' => __('Xin chào') . ' '. isset(auth()->user()->name) ? auth()->user()->name : "",
+    @include('users.partials.header-common', [
+        'title' => __('Xin chào') . ' '. auth()->user()->name,
         'description' => __('Đây là trang thông tin cơ bản, bạn có thể xem và chỉnh sửa thông tin của mình ở đây.'),
         'class' => 'col-lg-7'
     ])
@@ -511,143 +511,143 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script src="{{ asset('js/croppie.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/croppie.css') }}"/>
-    <script>
-        const ChangeAvarta = () => {
-            $("#upload_image").trigger('click');
-        }
+{{--@section('scripts')--}}
+{{--    <script src="{{ asset('js/croppie.js') }}"></script>--}}
+{{--    <link rel="stylesheet" href="{{ asset('css/croppie.css') }}"/>--}}
+{{--    <script>--}}
+{{--        const ChangeAvarta = () => {--}}
+{{--            $("#upload_image").trigger('click');--}}
+{{--        }--}}
 
-        $("#input_province").change(function () {
-            $.ajax({
-                url: "{{ route('get-district') }}?idProvince=" + $(this).val(),
-                method: 'GET',
-                success: function (data) {
-                    $('#input_district').html(data.html);
-                }
-            });
-        });
+{{--        $("#input_province").change(function () {--}}
+{{--            $.ajax({--}}
+{{--                url: "{{ route('get-district') }}?idProvince=" + $(this).val(),--}}
+{{--                method: 'GET',--}}
+{{--                success: function (data) {--}}
+{{--                    $('#input_district').html(data.html);--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
 
-        $("#input_district").change(function () {
-            $.ajax({
-                url: "{{ route('get-ward') }}?idDistrict=" + $(this).val(),
-                method: 'GET',
-                success: function (data) {
-                    $('#input_ward').html(data.html);
-                }
-            });
-        });
+{{--        $("#input_district").change(function () {--}}
+{{--            $.ajax({--}}
+{{--                url: "{{ route('get-ward') }}?idDistrict=" + $(this).val(),--}}
+{{--                method: 'GET',--}}
+{{--                success: function (data) {--}}
+{{--                    $('#input_ward').html(data.html);--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
 
-        $("#input_current_province").change(function () {
-            $.ajax({
-                url: "{{ route('get-district') }}?idProvince=" + $(this).val(),
-                method: 'GET',
-                success: function (data) {
-                    $('#input_current_district').html(data.html);
-                }
-            });
-        });
+{{--        $("#input_current_province").change(function () {--}}
+{{--            $.ajax({--}}
+{{--                url: "{{ route('get-district') }}?idProvince=" + $(this).val(),--}}
+{{--                method: 'GET',--}}
+{{--                success: function (data) {--}}
+{{--                    $('#input_current_district').html(data.html);--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
 
-        $("#input_current_district").change(function () {
-            $.ajax({
-                url: "{{ route('get-ward') }}?idDistrict=" + $(this).val(),
-                method: 'GET',
-                success: function (data) {
-                    $('#input_current_ward').html(data.html);
-                }
-            });
-        });
+{{--        $("#input_current_district").change(function () {--}}
+{{--            $.ajax({--}}
+{{--                url: "{{ route('get-ward') }}?idDistrict=" + $(this).val(),--}}
+{{--                method: 'GET',--}}
+{{--                success: function (data) {--}}
+{{--                    $('#input_current_ward').html(data.html);--}}
+{{--                }--}}
+{{--            });--}}
+{{--        });--}}
 
-        $(document).ready(function () {
-            $image_crop = $('#image_demo').croppie({
-                enableExif: true,
-                viewport: {
-                    width: 135,
-                    height: 180,
-                    type: 'square' //circle
-                },
-                boundary: {
-                    width: 400,
-                    height: 400
-                }
-            });
+{{--        $(document).ready(function () {--}}
+{{--            $image_crop = $('#image_demo').croppie({--}}
+{{--                enableExif: true,--}}
+{{--                viewport: {--}}
+{{--                    width: 135,--}}
+{{--                    height: 180,--}}
+{{--                    type: 'square' //circle--}}
+{{--                },--}}
+{{--                boundary: {--}}
+{{--                    width: 400,--}}
+{{--                    height: 400--}}
+{{--                }--}}
+{{--            });--}}
 
-            $('#upload_image').on('change', function () {
-                var reader = new FileReader();
-                reader.onload = function (event) {
-                    $image_crop.croppie('bind', {
-                        url: event.target.result
-                    }).then(function () {
-                        console.log('jQuery bind complete');
-                    });
-                }
-                reader.readAsDataURL(this.files[0]);
-                $('#uploadimageModal').modal('show');
-            });
+{{--            $('#upload_image').on('change', function () {--}}
+{{--                var reader = new FileReader();--}}
+{{--                reader.onload = function (event) {--}}
+{{--                    $image_crop.croppie('bind', {--}}
+{{--                        url: event.target.result--}}
+{{--                    }).then(function () {--}}
+{{--                        console.log('jQuery bind complete');--}}
+{{--                    });--}}
+{{--                }--}}
+{{--                reader.readAsDataURL(this.files[0]);--}}
+{{--                $('#uploadimageModal').modal('show');--}}
+{{--            });--}}
 
-            $('.crop_image').click(function (event) {
-                $image_crop.croppie('result', {
-                    type: 'blob',
-                    size: 'viewport'
-                }).then(function (response) {
-                    let fd = new FormData();
-                    fd.append("image", response);
-                    fd.append('_token', '{{ csrf_token() }}');
-                    $.ajax({
-                        url: "upload-image",
-                        type: "POST",
-                        data: fd,
-                        processData: false,
-                        contentType: false,
-                        success: function (data) {
-                            $('#uploadimageModal').modal('hide');
-                            if (data.success) {
-                                toastr.options = {
-                                    "closeButton": false,
-                                    "debug": false,
-                                    "newestOnTop": false,
-                                    "progressBar": true,
-                                    "positionClass": "toast-top-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                }
-                                $("#Avatar").attr("src", data.image);
-                                $("#smallAvatar").attr("src", data.image);
-                                $("#fullAvatar").attr("src", data.image);
-                                toastr['success'](data.msg, "Thành công");
-                            } else {
-                                toastr.options = {
-                                    "closeButton": false,
-                                    "debug": false,
-                                    "newestOnTop": false,
-                                    "progressBar": true,
-                                    "positionClass": "toast-top-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                }
-                                toastr['error'](data.msg, "Lỗi");
-                            }
-                        }
-                    });
-                })
-            });
-        });
-    </script>
-@endsection
+{{--            $('.crop_image').click(function (event) {--}}
+{{--                $image_crop.croppie('result', {--}}
+{{--                    type: 'blob',--}}
+{{--                    size: 'viewport'--}}
+{{--                }).then(function (response) {--}}
+{{--                    let fd = new FormData();--}}
+{{--                    fd.append("image", response);--}}
+{{--                    fd.append('_token', '{{ csrf_token() }}');--}}
+{{--                    $.ajax({--}}
+{{--                        url: "upload-image",--}}
+{{--                        type: "POST",--}}
+{{--                        data: fd,--}}
+{{--                        processData: false,--}}
+{{--                        contentType: false,--}}
+{{--                        success: function (data) {--}}
+{{--                            $('#uploadimageModal').modal('hide');--}}
+{{--                            if (data.success) {--}}
+{{--                                toastr.options = {--}}
+{{--                                    "closeButton": false,--}}
+{{--                                    "debug": false,--}}
+{{--                                    "newestOnTop": false,--}}
+{{--                                    "progressBar": true,--}}
+{{--                                    "positionClass": "toast-top-right",--}}
+{{--                                    "preventDuplicates": false,--}}
+{{--                                    "onclick": null,--}}
+{{--                                    "showDuration": "300",--}}
+{{--                                    "hideDuration": "1000",--}}
+{{--                                    "timeOut": "5000",--}}
+{{--                                    "extendedTimeOut": "1000",--}}
+{{--                                    "showEasing": "swing",--}}
+{{--                                    "hideEasing": "linear",--}}
+{{--                                    "showMethod": "fadeIn",--}}
+{{--                                    "hideMethod": "fadeOut"--}}
+{{--                                }--}}
+{{--                                $("#Avatar").attr("src", data.image);--}}
+{{--                                $("#smallAvatar").attr("src", data.image);--}}
+{{--                                $("#fullAvatar").attr("src", data.image);--}}
+{{--                                toastr['success'](data.msg, "Thành công");--}}
+{{--                            } else {--}}
+{{--                                toastr.options = {--}}
+{{--                                    "closeButton": false,--}}
+{{--                                    "debug": false,--}}
+{{--                                    "newestOnTop": false,--}}
+{{--                                    "progressBar": true,--}}
+{{--                                    "positionClass": "toast-top-right",--}}
+{{--                                    "preventDuplicates": false,--}}
+{{--                                    "onclick": null,--}}
+{{--                                    "showDuration": "300",--}}
+{{--                                    "hideDuration": "1000",--}}
+{{--                                    "timeOut": "5000",--}}
+{{--                                    "extendedTimeOut": "1000",--}}
+{{--                                    "showEasing": "swing",--}}
+{{--                                    "hideEasing": "linear",--}}
+{{--                                    "showMethod": "fadeIn",--}}
+{{--                                    "hideMethod": "fadeOut"--}}
+{{--                                }--}}
+{{--                                toastr['error'](data.msg, "Lỗi");--}}
+{{--                            }--}}
+{{--                        }--}}
+{{--                    });--}}
+{{--                })--}}
+{{--            });--}}
+{{--        });--}}
+{{--    </script>--}}
+{{--@endsection--}}

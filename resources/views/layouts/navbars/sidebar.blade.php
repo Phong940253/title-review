@@ -86,12 +86,13 @@
             </form>
             <!-- Navigation -->
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link {{(isset($id_tieuchi) || isset($id_tieuchuan)) ? "" : "active"}}" href="{{ route('profile.edit') }}">
-                        <i class="ni ni-circle-08 text-primary"></i> {{ __('Thông tin cá nhân') }}
-                    </a>
-                </li>
-                @isset($tieuchis)
+                @role('user')
+                    <li class="nav-item">
+                        <a class="nav-link {{(isset($id_tieuchi) || isset($id_tieuchuan)) ? "" : "active"}}" href="{{ route('profile.edit') }}">
+                            <i class="ni ni-circle-08 text-primary"></i> {{ __('Thông tin cá nhân') }}
+                        </a>
+                    </li>
+                    @isset($tieuchis)
                     @foreach($tieuchis as $tieuchi)
                         <li class="nav-item">
                             @if (count($tieuchi->tieuchuans) != 0)
@@ -118,9 +119,14 @@
                         </li>
                     @endforeach
                 @endisset
-                <script>
-
-                </script>
+                @endrole
+                @role('khoa')
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ route('home') }}">
+                            <i class="ni ni-circle-08 text-primary"></i> {{ __('Tổng hợp đơn vị') }}
+                        </a>
+                    </li>
+                @endrole
 {{--                <li class="nav-item">--}}
 {{--                    <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">--}}
 {{--                        <i class="fab fa-laravel" style="color: #f4645f;"></i>--}}

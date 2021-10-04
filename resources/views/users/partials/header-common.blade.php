@@ -4,18 +4,18 @@
         <div class="header-body">
             <div class="row align-items-center py-4">
                 <div class="col-lg-12 col-7">
-                    <h6 class="h2 text-white d-inline-block mb-0">{{$page['currentPage']}}</h6>
+                    <h6 class="h2 text-white d-inline-block mb-0">{{ isset($page['currentPage']) ? $page['currentPage'] : "" }}</h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                         <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                             <li class="breadcrumb-item"><a
                                     href="{{route('home')}}"><i
                                         class="fas fa-home"></i></a></li>
-                            @isset ($page['parrentPage'])
+                            @isset ($page['parentPage'])
                                 <li class="breadcrumb-item">
-                                    <a>{{$page['parrentPage']}}</a>
+                                    <a>{{$page['parentPage']}}</a>
                                 </li>
                             @endisset
-                            <li class="breadcrumb-item active" aria-current="page">{{$page['currentPage']}}</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ isset($page['currentPage']) ? $page['currentPage'] : "" }}</li>
                         </ol>
                     </nav>
                 </div>
