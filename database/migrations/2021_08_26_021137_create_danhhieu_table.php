@@ -16,6 +16,9 @@ class CreateDanhhieuTable extends Migration
         Schema::create('danhhieu', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->timestamp(
+                'start')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('finish')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }

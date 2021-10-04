@@ -17,6 +17,7 @@ class CreateUsersDanhhieuTable extends Migration
             $table->unsignedBigInteger('id_users');
             $table->unsignedInteger('id_danhhieu');
             $table->boolean('confirmed');
+            $table->text('comment');
             $table->timestamps();
             $table->foreign('id_users')->references('id')->on('users')
                 ->onDelete('cascade');

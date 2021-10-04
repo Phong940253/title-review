@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReplyTable extends Migration
+class CreateRepliesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,8 @@ class CreateReplyTable extends Migration
         Schema::create('replies', function (Blueprint $table) {
             $table->unsignedBigInteger('id_users');
             $table->unsignedInteger('id_noidung');
-            $table->string('reply');
+            $table->text('reply');
+            $table->text('comment');
             $table->timestamps();
             $table->foreign('id_users')->references('id')->on('users')
                 ->onDelete('cascade');
