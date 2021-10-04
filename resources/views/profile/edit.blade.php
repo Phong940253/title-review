@@ -2,12 +2,13 @@
 
 @section('content')
     @include('users.partials.header', [
-        'title' => __('Xin chào') . ' '. auth()->user()->name,
+        'title' => __('Xin chào') . ' '. isset(auth()->user()->name) ? auth()->user()->name : "",
         'description' => __('Đây là trang thông tin cơ bản, bạn có thể xem và chỉnh sửa thông tin của mình ở đây.'),
         'class' => 'col-lg-7'
     ])
     <div class="container-fluid mt--7">
         <div class="row">
+            @can('sửa thông tin')
             <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
                 <div class="card card-profile shadow">
                     <div class="row justify-content-center">
@@ -96,19 +97,25 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-email">{{ __('Email') }}</label>
-                                    <input type="email" name="email" id="input-email" class="form-control"
+                                    <input type="email" name="email" id="input-email" class="form-control form-control-alternative{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                            value="{{ old('email', auth()->user()->email) }}" readonly>
+
+                                    @if ($errors->has('email'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
-                                <div class="form-group{{ $errors->has('sdt') ? ' has-danger' : '' }}">
+                                <div class="form-group{{ $errors->has('telephone') ? ' has-danger' : '' }}">
                                     <label class="form-control-label"
                                            for="input-sdt">{{ __('Điện thoại liên hệ') }}</label>
-                                    <input type="number" name="sdt" id="input-sdt"
+                                    <input type="number" name="telephone" id="input-sdt"
                                            class="form-control form-control-alternative{{ $errors->has('sdt') ? ' is-invalid' : '' }}"
-                                           placeholder="{{ __('Số điện thoại') }}" value="{{ old('sdt', auth()->user()->telephone) }}" autofocus>
+                                           placeholder="{{ __('Số điện thoại') }}" value="{{ old('telephone', auth()->user()->telephone) }}" autofocus>
 
-                                    @if ($errors->has('sdt'))
+                                    @if ($errors->has('telephone'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('sdt') }}</strong>
+                                            <strong>{{ $errors->first('telephone') }}</strong>
                                         </span>
                                     @endif
                                 </div>
@@ -118,8 +125,8 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                         </div>
-                                        <input type="text" name="birthDay" id="input-birthDay"
-                                               class="form-control datepicker{{ $errors->has('birthDay') ? ' is-invalid' : '' }}"
+                                        <input type="text" name="birthDay" id="input-birthDay" data-date-format="yyyy-mm-dd"
+                                               class="form-control form-control-alternative datepicker{{ $errors->has('birthDay') ? ' is-invalid' : '' }}"
                                                placeholder="{{ __('Chọn ngày') }}" value="{{ old('birthDay', auth()->user()->birthDay) }}" autofocus>
                                     </div>
                                     @if ($errors->has('birthDay'))
@@ -141,113 +148,250 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group{{ $errors->has('dan_toc') ? ' has-danger' : '' }}">
+                                <div class="form-group{{ $errors->has('nation') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input_dan_toc">{{ __('Dân tộc') }}</label>
-                                    <select class="form-control m-b" name="dan_toc" id="input_dan_toc"
+                                    <select class="form-control form-control-alternative m-b" name="nation" id="input_dan_toc"
                                             placeholder="{{ __('Chọn')}}">
                                         @isset($nation)
-                                            {!! $nations !!}
+                                            {!! $nation !!}
                                         @endisset
                                     </select>
+
+                                    @if ($errors->has('nation'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('nation') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
 
-                                <div class="form-group{{ $errors->has('dia_chi_thuong_tru') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label"
-                                           for="input_dia_chi_thuong_tru">{{ __('Địa chỉ thường trú') }}</label>
-                                    <input type="text" name="dia_chi_thuong_tru" id="input_dia_chi_thuong_tru"
-                                           class="form-control" value="">
+                                <div class="form-group{{ $errors->has('id_religion') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input_religion">{{ __('Tôn giáo') }}</label>
+                                    <select class="form-control form-control-alternative m-b" name="id_religion"
+                                            id="input_religion">
+                                        @isset($religion)
+                                            {!! $religion !!}
+                                        @endisset
+                                    </select>
+
+                                    @if ($errors->has('id_religion'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('id_religion') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
-                                <div class="form-group{{ $errors->has('dia_chi_lien_lac') ? ' has-danger' : '' }}">
-                                    <label class="form-control-label"
-                                           for="input_dia_chi_lien_lac">{{ __('Địa chỉ liên lạc') }}</label>
-                                    <input type="text" name="dia_chi_lien_lac" id="input_dia_chi_lien_lac"
-                                           class="form-control" value="">
+
+                                <div class="form-group{{ $errors->has('id_province') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input_province">{{ __('Địa chỉ thường trú') }}</label>
+                                    <select class="form-control form-control-alternative m-b" name="id_province"
+                                            id="input_province">
+                                        @isset($city)
+                                            {!! $city !!}
+                                        @endisset
+                                    </select>
+
+                                    @if ($errors->has('id_province'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('id_province') }}</strong>
+                                        </span>
+                                    @endif
                                 </div>
-                                <div class="form-group{{ $errors->has('ngay_vao_doan') ? ' has-danger' : '' }}">
+
+                                <div class="form-group{{ $errors->has('id_district') ? ' has-danger' : '' }}">
+                                    <select class="form-control form-control-alternative m-b" name="id_district"
+                                            id="input_district">
+                                        <option value="" disabled>{{ __('Chọn huyện, quận, thị xã') }}</option>
+                                        @isset (auth()->user()->id_district)
+                                            <option value="{{ auth()->user()->id_district }}" selected>{{ DB::table('districts')->find(auth()->user()->id_district)->name }}</option>
+                                        @endisset
+                                    </select>
+
+                                    @if ($errors->has('id_district'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('id_district') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('id_ward') ? ' has-danger' : '' }}">
+                                    <select class="form-control form-control-alternative m-b" name="id_ward" id="input_ward">
+                                        <option value="" disabled>{{ __('Chọn xã, phường, thị trấn') }}</option>
+                                        @isset (auth()->user()->id_ward)
+                                            <option value="{{ auth()->user()->id_ward }}" selected>{{ DB::table('wards')->find(auth()->user()->id_ward)->name }}</option>
+                                        @endisset
+                                    </select>
+
+                                    @if ($errors->has('id_ward'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('id_ward') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('street') ? ' has-danger' : '' }}">
+                                    <input type="text" name="street" id="input-street"
+                                           class="form-control form-control-alternative{{ $errors->has('street') ? ' is-invalid' : '' }}"
+                                           placeholder="{{ __('Nhập số nhà, tên đường') }}" value="{{ old('street', auth()->user()->street) }}"
+                                           autofocus>
+
+                                    @if ($errors->has('street'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('street') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('id_current_province') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label"
+                                           for="input_current_province">{{ __('Địa chỉ hiện tại') }}</label>
+                                    <select class="form-control form-control-alternative m-b" name="id_current_province"
+                                            id="input_current_province">
+                                        @isset($current_city)
+                                            {!! $current_city !!}
+                                        @endisset
+                                    </select>
+
+                                    @if ($errors->has('id_current_province'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('id_current_province') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('id_current_district') ? ' has-danger' : '' }}">
+                                    <select class="form-control form-control-alternative m-b" name="id_current_district"
+                                            id="input_current_district">
+                                        <option disabled>{{ __('Chọn huyện, quận, thị xã') }}</option>
+                                        @isset (auth()->user()->id_current_district)
+                                            <option value="{{ auth()->user()->id_current_district }}" selected>{{ DB::table('districts')->find(auth()->user()->id_current_district)->name }}</option>
+                                        @endisset
+                                    </select>
+
+                                    @if ($errors->has('id_current_district'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('id_current_district') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('id_current_ward') ? ' has-danger' : '' }}">
+                                    <select class="form-control form-control-alternative m-b" name="id_current_ward"
+                                            id="input_current_ward">
+                                        <option disabled>{{ __('Chọn xã, phường, thị trấn') }}</option>
+                                        @isset (auth()->user()->id_current_ward)
+                                            <option value="{{ auth()->user()->id_current_ward }}" selected>{{ DB::table('wards')->find(auth()->user()->id_current_ward)->name }}</option>
+                                        @endisset
+                                    </select>
+
+                                    @if ($errors->has('id_current_ward'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('id_current_ward') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('current_street') ? ' has-danger' : '' }}">
+                                    <input type="text" name="current_street" id="input-current-street"
+                                           class="form-control form-control-alternative{{ $errors->has('current_street') ? ' is-invalid' : '' }}"
+                                           placeholder="{{ __('Nhập số nhà, tên đường') }}"
+                                           value="{{ old('current_street', auth()->user()->current_street) }}" autofocus>
+
+                                    @if ($errors->has('current_street'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('current_street') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <div class="form-group{{ $errors->has('date_admission_doan') ? ' has-danger' : '' }}">
                                     <label class="form-control-label"
                                            for="input_ngay_vao_doan">{{ __('Ngày kết nạp Đoàn') }}</label>
                                     <div class="input-group input-group-alternative">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                         </div>
-                                        <input type="text" name="ngay_vao_doan" id="input_ngay_vao_doan"
-                                               class="form-control datepicker{{ $errors->has('ngay_vao_doan') ? ' is-invalid' : '' }}"
-                                               placeholder="{{ __('Chọn ngày') }}" value="" autofocus>
+                                        <input type="text" name="date_admission_doan" id="input_ngay_vao_doan" data-date-format="yyyy-mm-dd"
+                                               class="form-control datepicker{{ $errors->has('date_admission_doan') ? ' is-invalid' : '' }}"
+                                               placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_doan', auth()->user()->date_admission_doan) }}" autofocus>
                                     </div>
-                                    @if ($errors->has('ngay_vao_doan'))
+                                    @if ($errors->has('date_admission_doan'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('ngay_vao_doan') }}</strong>
+                                            <strong>{{ $errors->first('date_admission_doan') }}</strong>
                                         </span>
                                     @endif
                                 </div>
-                                <div class="form-group{{ $errors->has('ngay_vao_dang_du_bi') ? ' has-danger' : '' }}">
+
+                                <div class="form-group{{ $errors->has('date_admission_dang_reserve') ? ' has-danger' : '' }}">
                                     <label class="form-control-label"
                                            for="input_ngay_vao_dang_du_bi">{{ __('Ngày kết nạp Đảng (dự bị)') }}</label>
                                     <div class="input-group input-group-alternative">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                         </div>
-                                        <input type="text" name="ngay_vao_dang_du_bi" id="input_ngay_vao_dang_du_bi"
-                                               class="form-control datepicker{{ $errors->has('ngay_vao_dang_du_bi') ? ' is-invalid' : '' }}"
-                                               placeholder="{{ __('Chọn ngày') }}" value="" autofocus>
+                                        <input type="text" name="date_admission_dang_reserve" id="input_ngay_vao_dang_du_bi" data-date-format="yyyy-mm-dd"
+                                               class="form-control datepicker{{ $errors->has('date_admission_dang_reserve') ? ' is-invalid' : '' }}"
+                                               placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_dang_reserve', auth()->user()->date_admission_dang_reserve) }}" autofocus>
                                     </div>
-                                    @if ($errors->has('ngay_vao_dang_du_bi'))
+                                    @if ($errors->has('date_admission_dang_reserve'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('ngay_vao_dang_du_bi') }}</strong>
+                                            <strong>{{ $errors->first('date_admission_dang_reserve') }}</strong>
                                         </span>
                                     @endif
                                 </div>
+
                                 <div
-                                    class="form-group{{ $errors->has('ngay_vao_dang_chinh_thuc') ? ' has-danger' : '' }}">
+                                    class="form-group{{ $errors->has('date_admission_dang_official') ? ' has-danger' : '' }}">
                                     <label class="form-control-label"
                                            for="input_ngay_vao_dang_chinh_thuc">{{ __('Ngày kết nạp Đảng (chính thức)') }}</label>
                                     <div class="input-group input-group-alternative">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                         </div>
-                                        <input type="text" name="ngay_vao_dang_chinh_thuc"
-                                               id="input_ngay_vao_dang_chinh_thuc"
-                                               class="form-control datepicker{{ $errors->has('ngay_vao_dang_chinh_thuc') ? ' is-invalid' : '' }}"
-                                               placeholder="{{ __('Chọn ngày') }}" value="" autofocus>
+                                        <input type="text" name="date_admission_dang_official"
+                                               id="input_ngay_vao_dang_chinh_thuc" data-date-format="yyyy-mm-dd"
+                                               class="form-control datepicker{{ $errors->has('date_admission_dang_official') ? ' is-invalid' : '' }}"
+                                               placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_dang_official', auth()->user()->date_admission_dang_official) }}" autofocus>
                                     </div>
-                                    @if ($errors->has('ngay_vao_dang_chinh_thuc'))
+                                    @if ($errors->has('date_admission_dang_official'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('ngay_vao_dang_chinh_thuc') }}</strong>
+                                            <strong>{{ $errors->first('date_admission_dang_official') }}</strong>
                                         </span>
                                     @endif
                                 </div>
 
-                                <div class="form-group{{ $errors->has('chuc_vu_hien_tai') ? ' has-danger' : '' }}">
+                                <div class="form-group{{ $errors->has('current_position') ? ' has-danger' : '' }}">
                                     <label class="form-control-label"
                                            for="input-chuc_vu_hien_tai">{{ __('Chức vụ Đoàn – Hội hiện tại') }}</label>
-                                    <input type="text" name="chuc_vu_hien_tai" id="input-chuc_vu_hien_tai"
-                                           class="form-control form-control-alternative{{ $errors->has('chuc_vu_hien_tai') ? ' is-invalid' : '' }}"
-                                           placeholder="{{ __('Ghi rõ chức vụ hiện tại') }}" value="" autofocus>
+                                    <input type="text" name="current_position" id="input-chuc_vu_hien_tai"
+                                           class="form-control form-control-alternative{{ $errors->has('current_position') ? ' is-invalid' : '' }}"
+                                           placeholder="{{ __('Ghi rõ chức vụ hiện tại') }}" value="{{ old('current_position', auth()->user()->current_position) }}" autofocus>
 
-                                    @if ($errors->has('chuc_vu_hien_tai'))
+                                    @if ($errors->has('current_position'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('chuc_vu_hien_tai') }}</strong>
+                                            <strong>{{ $errors->first('current_position') }}</strong>
                                         </span>
                                     @endif
                                 </div>
 
-                                <div class="form-group{{ $errors->has('chuc_vu_cao_nhat') ? ' has-danger' : '' }}">
+                                <div class="form-group{{ $errors->has('highest_position') ? ' has-danger' : '' }}">
                                     <label class="form-control-label"
                                            for="input-chuc_vu_cao_nhat">{{ __('Chúc vụ Đoàn – Hội cao nhất đã từng đảm nhiệm') }}</label>
-                                    <input type="text" name="chuc_vu_cao_nhat" id="input-chuc_vu_cao_nhat"
-                                           class="form-control form-control-alternative{{ $errors->has('chuc_vu_cao_nhat') ? ' is-invalid' : '' }}"
-                                           placeholder="{{ __('Ghi rõ chức vụ') }}" value="" autofocus>
+                                    <input type="text" name="highest_position" id="input-chuc_vu_cao_nhat"
+                                           class="form-control form-control-alternative{{ $errors->has('highest_position') ? ' is-invalid' : '' }}"
+                                           placeholder="{{ __('Ghi rõ chức vụ') }}" value="{{ old('highest_position', auth()->user()->highest_position) }}" autofocus>
 
-                                    @if ($errors->has('chuc_vu_cao_nhat'))
+                                    @if ($errors->has('highest_position'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('chuc_vu_cao_nhat') }}</strong>
+                                            <strong>{{ $errors->first('highest_position') }}</strong>
                                         </span>
                                     @endif
                                 </div>
+
                                 <div class="form-group{{ $errors->has('id_unit') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="unitSelected">{{ __('Khoa') }}</label>
-                                    <select class="custom-select" id="unitSelected" name="id_unit" required>
-                                        <option value="">{{ __('Chọn khoa') }}</option>
+                                    <select class="form-control form-control-alternative m-b" id="unitSelected" name="id_unit">
+                                        @isset($unit)
+                                            {!! $unit !!}
+                                        @endisset
                                     </select>
                                     @if ($errors->has('id_unit'))
                                         <span class="invalid-feedback" style="display: block;" role="alert">
@@ -255,10 +399,13 @@
                                     </span>
                                     @endif
                                 </div>
+
                                 <div class="form-group{{ $errors->has('year') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="yearSelected">{{ __('Năm') }}</label>
-                                    <select class="custom-select" id="yearSelected" name="year" required>
-                                        <option value="">{{ __('Chọn năm') }}</option>
+                                    <select class="form-control form-control-alternative m-b" id="yearSelected" name="year">
+                                        @isset($year)
+                                            {!! $year !!}
+                                        @endisset
                                     </select>
                                     @if ($errors->has('year'))
                                         <span class="invalid-feedback" style="display: block;" role="alert">
@@ -266,6 +413,7 @@
                                     </span>
                                     @endif
                                 </div>
+
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Lưu') }}</button>
                                 </div>
@@ -330,7 +478,9 @@
                     </div>
                 </div>
             </div>
+            @endcan
         </div>
+        @can('sửa thông tin')
         <div id="uploadimageModal" class="modal" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -356,6 +506,7 @@
                 </div>
             </div>
         </div>
+        @endcan
         @include('layouts.footers.auth')
     </div>
 @endsection
@@ -368,9 +519,47 @@
             $("#upload_image").trigger('click');
         }
 
+        $("#input_province").change(function () {
+            $.ajax({
+                url: "{{ route('get-district') }}?idProvince=" + $(this).val(),
+                method: 'GET',
+                success: function (data) {
+                    $('#input_district').html(data.html);
+                }
+            });
+        });
+
+        $("#input_district").change(function () {
+            $.ajax({
+                url: "{{ route('get-ward') }}?idDistrict=" + $(this).val(),
+                method: 'GET',
+                success: function (data) {
+                    $('#input_ward').html(data.html);
+                }
+            });
+        });
+
+        $("#input_current_province").change(function () {
+            $.ajax({
+                url: "{{ route('get-district') }}?idProvince=" + $(this).val(),
+                method: 'GET',
+                success: function (data) {
+                    $('#input_current_district').html(data.html);
+                }
+            });
+        });
+
+        $("#input_current_district").change(function () {
+            $.ajax({
+                url: "{{ route('get-ward') }}?idDistrict=" + $(this).val(),
+                method: 'GET',
+                success: function (data) {
+                    $('#input_current_ward').html(data.html);
+                }
+            });
+        });
+
         $(document).ready(function () {
-
-
             $image_crop = $('#image_demo').croppie({
                 enableExif: true,
                 viewport: {

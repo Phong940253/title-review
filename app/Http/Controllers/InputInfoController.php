@@ -29,10 +29,11 @@ class InputInfoController extends Controller
      */
     public function index()
     {
+        $ProfileController = new ProfileController;
         $params = [
             'city' => $this->getProvince('province'),
             'current_city' => $this->getProvince('current_province'),
-            'nation' => ProfileController::getNation('dan_toc'),
+            'nation' => $ProfileController->getNation('dan_toc'),
             'religion' => $this->getReligion('religion')
         ];
         return view('users.info', $params);
@@ -47,7 +48,7 @@ class InputInfoController extends Controller
         $html = '<option selected disabled value="">Chọn tỉnh, thành phố</option>';
         $cities = Province::get()->sortBy('name');
         foreach ($cities as $city)
-            $html .= '<option ' . (old($attribute) == $city->id ? "selected" : "") . ' value="' . $city->id . '">' . $city->name . '</option>';
+            $html .= '<option ' . (old($attribute) == $city->id ? "selected" : ((auth()->user()->$attribute == $city->id) ? "selected" : "")) . ' value="' . $city->id . '">' . $city->name . '</option>';
         return $html;
     }
 
@@ -64,7 +65,7 @@ class InputInfoController extends Controller
             $citie = Province::where('id', $idProvince)->first();
             $districts = $citie->districts()->orderBy('name', 'asc')->get();
             foreach ($districts as $district) {
-                $html .= '<option ' . (old($attribute) == $district->id ? "selected" : "") . ' value="' . $district->id . '">' . $district->name . '</option>';
+                $html .= '<option ' . (old($attribute) == $district->id ? "selected" : ((auth()->user()->$attribute == $district->id) ? "selected" : "")) . ' value="' . $district->id . '">' . $district->name . '</option>';
             }
         }
         return response()->json(['html' => $html]);
@@ -83,7 +84,7 @@ class InputInfoController extends Controller
             $district = District::where('id', $idDistrict)->first();
             $wards = $district->wards()->orderBy('name', 'asc')->get();
             foreach ($wards as $ward) {
-                $html .= '<option ' . (old($attribute) == $ward->id ? "selected" : "") . ' value="' . $ward->id . '">' . $ward->name . '</option>';
+                $html .= '<option ' . (old($attribute) == $ward->id ? "selected" : ((auth()->user()->$attribute == $ward->id) ? "selected" : "")) . ' value="' . $ward->id . '">' . $ward->name . '</option>';
             }
         }
         return response()->json(['html' => $html]);
@@ -98,7 +99,7 @@ class InputInfoController extends Controller
         $html = '<option selected disabled value="">Chọn tôn giáo</option>';
         $religions = DB::table('religion')->orderBy('name', 'asc')->get();
         foreach ($religions as $religion)
-            $html .= '<option ' . (old($attribute) == $religion->id ? "selected" : "") . ' value="' . $religion->id . '">' . $religion->name . '</option>';
+            $html .= '<option ' . (old($attribute) == $religion->id ? "selected" : ((auth()->user()->$attribute == $religion->id) ? "selected" : "")) . ' value="' . $religion->id . '">' . $religion->name . '</option>';
         return $html;
     }
 

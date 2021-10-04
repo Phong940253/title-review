@@ -31,8 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('fill-info', 'App\Http\Controllers\InputInfoController@submitInfo')->name('fill-info');
 
         Route::group(['middleware' => 'fill.info'], function () {
-            Route::get('/', 'App\Http\Controllers\ProfileController@edit')->name('home');
-            Route::get('/home', 'App\Http\Controllers\ProfileController@edit')->name('home');
+            Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
+            Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
             Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 
             Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
@@ -47,15 +47,15 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('print-info', 'App\Http\Controllers\PrintInfoController@index')->name('print-info');
 
 
-            Route::get('map', function () {
-                return view('pages.maps');
-            })->name('map');
-            Route::get('icons', function () {
-                return view('pages.icons');
-            })->name('icons');
-            Route::get('table-list', function () {
-                return view('pages.tables');
-            })->name('table');
+//            Route::get('map', function () {
+//                return view('pages.maps');
+//            })->name('map');
+//            Route::get('icons', function () {
+//                return view('pages.icons');
+//            })->name('icons');
+//            Route::get('table-list', function () {
+//                return view('pages.tables');
+//            })->name('table');
             Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
         });
     });

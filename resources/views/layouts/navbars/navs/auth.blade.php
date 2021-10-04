@@ -34,15 +34,17 @@
                 </a>
             </li>
             <li class="nav-item d-none d-lg-block ml-lg-3 mr-lg-3">
-                @if (auth()->user()->hasRole('user') && session()->has('id_title') && session()->has('id_object') && \App\Http\Middleware\FillInfomationProfile::isFillInfomation())
-                    <a href="{{route('print-info')}}"
-                       target="_blank" class="btn btn-neutral btn-documentation btn-icon">
-                        <span class="btn-inner--icon">
-                            <i class="fas fa-download  mr-2"></i>
-                        </span>
-                        <span class="nav-link-inner--text">Xem báo cáo</span>
-                    </a>
-                @endif
+                @can('xuất đề cử')
+                    @if (session()->has('id_title') && session()->has('id_object') && \App\Http\Middleware\FillInfomationProfile::isFillInfomation())
+                        <a href="{{route('print-info')}}"
+                           target="_blank" class="btn btn-neutral btn-documentation btn-icon">
+                            <span class="btn-inner--icon">
+                                <i class="fas fa-download  mr-2"></i>
+                            </span>
+                            <span class="nav-link-inner--text">Xem báo cáo</span>
+                        </a>
+                    @endif
+                @endcan
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"

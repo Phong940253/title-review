@@ -41,7 +41,7 @@ class User extends Authenticatable
         'id_current_province',
         'input_current_district',
         'input_current_ward',
-        'current_street'
+        'current_street',
     ];
 
     /**

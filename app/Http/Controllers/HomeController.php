@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use anlutro\LaravelSettings\Facade as Setting;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Http\Controllers\KhoaManagerController;
 
+/**
+ *
+ */
 class HomeController extends Controller
 {
     /**
@@ -22,12 +28,19 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return View
+     * @return \Illuminate\Contracts\View\View
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Contracts\View\View
     {
-        $tieuchis = ProfileController::getTieuChuanTieuChi($request);
-        $nations = ProfileController::getNation();
-        return view('profile.edit', ['tieuchis' => $tieuchis, 'nations' => $nations]);
+        $ProfileController = new ProfileController;
+        $InputInfoController = new InputInfoController;
+        if (auth()->user()->hasRole('user')) {
+            return $ProfileController->edit($request);
+        }
+        if (auth()->user()->hasRole('khoa')) {
+            $KhoaManagerController = new KhoaManagerController;
+            return $ProfileController->edit($request);
+        }
+        return $ProfileController->edit($request);
     }
 }

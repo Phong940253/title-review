@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the users
      *
-     * @param  \App\Models\User  $model
-     * @return \Illuminate\View\View
+     * @param User $model
+     * @return View
      */
     public function index(User $model)
     {

@@ -28,7 +28,7 @@ class FillInfomationProfile
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user()->hasRole('admin') || $request->user()->hasRole('super admin'))
+        if ($request->user()->can("để trống thông tin"))
             return $next($request);
         else if (//                isset(auth()->user()->url_image) &&
         $this->isFillInfomation())

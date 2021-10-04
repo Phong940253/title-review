@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
+use App\Http\Requests\ProfileRequest;
 use App\Models\User;
+use App\Rules\ValidDistrict;
+use App\Rules\ValidProvince;
+use App\Rules\ValidReligion;
+use App\Rules\ValidWard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use anlutro\LaravelSettings\Facade as Setting;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
-use Intervention\Image\Facades\Image;
 
 /**
  *
@@ -24,22 +28,35 @@ use Intervention\Image\Facades\Image;
 class ProfileController extends Controller
 {
     /**
+     * @var string[]
+     */
+    public $year = ['nhất', 'hai', 'ba', 'tư', 'năm', 'sáu', 'bảy', 'tám', 'mới tốt nghiệp'];
+
+    /**
      * Show the form for editing the profile.
      *
      * @return View
      */
     public function edit(Request $request): View
     {
-        $tieuchis = $this->getTieuChuanTieuChi($request);
-        $nations = $this->getNation();
-        return view('profile.edit', ['tieuchis' => $tieuchis, 'nations' => $nations]);
+        $InputInfoController = new InputInfoController;
+        $params = [
+            'tieuchis' => $this->getTieuChuanTieuChi($request),
+            'nation' => $this->getNation('nation'),
+            'religion' => $InputInfoController->getReligion('id_religion'),
+            'city' => $InputInfoController->getProvince('id_province'),
+            'current_city' => $InputInfoController->getProvince('id_current_province'),
+            'unit' => $this->getUnit('id_unit'),
+            'year' => $this->getYear('year'),
+        ];
+        return view('profile.edit', $params);
     }
 
     /**
      * @param Request $request
      * @return array|Collection
      */
-    public static function getTieuChuanTieuChi(Request $request)
+    public function getTieuChuanTieuChi(Request $request)
     {
         $id_title = $request->session()->get('id_title');
         $id_object = $request->session()->get('id_object');
@@ -75,9 +92,10 @@ class ProfileController extends Controller
             return back()->withErrors(['not_allow_profile' => __('You are not allowed to change data for a default user.')]);
         }
 
+        $this->validator($request->all())->validate();
         auth()->user()->update($request->all());
 
-        return back()->withStatus(__('Profile successfully updated.'));
+        return back()->withStatus(__('Cập nhật thông tin thành công.'));
     }
 
     /**
@@ -90,12 +108,12 @@ class ProfileController extends Controller
     function password(PasswordRequest $request): RedirectResponse
     {
         if (auth()->user()->id == 1) {
-            return back()->withErrors(['not_allow_password' => __('You are not allowed to change the password for a default user.')]);
+            return back()->withErrors(['not_allow_password' => __('Bạn không có quyền thay đổi tài khoản mặc định.')]);
         }
 
         auth()->user()->update(['password' => Hash::make($request->get('password'))]);
 
-        return back()->withPasswordStatus(__('Password successfully updated.'));
+        return back()->withPasswordStatus(__('Cập nhật mật khẩu thành công.'));
     }
 
     /**
@@ -129,6 +147,7 @@ class ProfileController extends Controller
             ];
             return Response::json($response, 200);
         } else {
+            # not
         }
         $response = [
             'success' => false,
@@ -137,12 +156,72 @@ class ProfileController extends Controller
         return Response::json($response, 200);
     }
 
-    public static function getNation($attribute = NULL): string
+    /**
+     * @param null $attribute
+     * @return string
+     */
+    public function getNation($attribute = NULL): string
     {
         $nations = '<option value="" selected disabled>Chọn dân tộc</option>';
         for ($i = 1; $i <= 55; $i++) {
-            $nations .= '<option ' . (old($attribute) == $i ? "selected" : "") . ' value="' . $i . '">' . Setting('nation' . $i) . '</option>';
+            $nations .= '<option ' . (old($attribute) == $i ? "selected" : ((auth()->user()->$attribute == $i) ? "selected" : "")) . ' value="' . $i . '">' . Setting('nation' . $i) . '</option>';
         }
         return $nations;
+    }
+
+    /**
+     * @param null $attribute
+     * @return string
+     */
+    public function getUnit($attribute = NULL) : string
+    {
+        $html = '<option value="" selected disabled>Chọn đơn vị</option>';
+        $units = DB::table('unit')->orderBy('name', 'asc')->get();
+        foreach ($units as $unit) {
+            $html .= '<option ' . (old($attribute) == $unit->id ? "selected" : ((auth()->user()->$attribute == $unit->id) ? "selected" : "")) . ' value="' . $unit->id . '">' . $unit->name . '</option>';
+        }
+        return $html;
+    }
+
+    /**
+     * @param null $attribute
+     * @return string
+     */
+    public function getYear($attribute = NULL) : string {
+        $html = '<option value="" selected disabled>Chọn năm</option>';
+        foreach ($this->year as $y) {
+            $html .= '<option ' . (old($attribute) == $y ? "selected" : ((auth()->user()->$attribute == $y) ? "selected" : "")) . ' value="' . $y . '">' . $y . '</option>';
+        }
+        return $html;
+    }
+
+    /**
+     * @param array $data
+     * @return \Illuminate\Contracts\Validation\Validator|\Illuminate\Validation\Validator
+     */
+    public function validator(array $data)
+    {
+        return Validator::make($data, [
+            'email' => ['nullable', 'email'],
+            'telephone' => ['nullable', 'string', 'between:10,11', 'regex:/^[0-9]{10,11}+$/'],
+            'gender' => ['nullable', 'between:0,1'],
+            'nation' => ['nullable', 'between:1,55'],
+            'id_religion' => ['nullable', new ValidReligion],
+            'id_province' => ['nullable', new ValidProvince],
+            'id_district' => ['nullable', 'max:255', new ValidDistrict],
+            'id_ward' => ['nullable', new ValidWard],
+            'street' => ['nullable', 'string'],
+            'id_current_province' => ['nullable', new ValidProvince],
+            'id_current_district' => ['nullable', new ValidDistrict],
+            'id_current_ward' => ['nullable', new ValidWard],
+            'current_street' => ['nullable', 'max:255', 'string'],
+            'birthDay' => ['nullable', 'date_format:Y-m-d', 'before:now'],
+            'date_admission_doan' => ['nullable', 'date_format:Y-m-d', 'before:now'],
+            'date_admission_dang_reserve' => ['nullable', 'date_format:Y-m-d', 'before:now'],
+            'date_admission_dang_official' => ['nullable', 'date_format:Y-m-d', 'before:now'],
+            'current_position' => ['nullable', 'string'],
+            'highest_position' => ['nullable', 'string'],
+            'year' => ['nullable', 'string', Rule::in($this->year)],
+        ]);
     }
 }

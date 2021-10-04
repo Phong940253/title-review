@@ -167,7 +167,8 @@
                         <div><b>{{$i + 1}}.</b> {{$tieuchis[$i]->name}}</div>
                         @if (count($tieuchis[$i]->tieuchuans) <= 0)
                             @php
-                                $noidungs = \App\Http\Controllers\TieuchuanController::getNoiDung($tieuchis[$i]->id, NULL);
+                                $TieuchuanController = new \App\Http\Controllers\TieuchuanController;
+                                $noidungs = $TieuchuanController->getNoiDung($tieuchis[$i]->id, NULL);
                             @endphp
                             @if (count($noidungs) > 0)
                                 @for ($l = 0; $l < count($noidungs); $l++)
@@ -188,7 +189,8 @@
                         @for ($j = 0; $j < count($tieuchis[$i]->tieuchuans); $j++)
                             <div class="tab" style="text-indent: 40px;"><b>{{$i + 1}}.{{$j + 1}}.</b> {{$tieuchis[$i]->tieuchuans[$j]->name}}</div>
                             @php
-                                $noidungs = \App\Http\Controllers\TieuchuanController::getNoidung($tieuchis[$i]->id, $tieuchis[$i]->tieuchuans[$j]->id);
+                                $TieuchuanController = new \App\Http\Controllers\TieuchuanController;
+                                $noidungs = $TieuchuanController->getNoidung($tieuchis[$i]->id, $tieuchis[$i]->tieuchuans[$j]->id);
                             @endphp
                             @if (count($noidungs) > 0)
                                 @for ($k = 0; $k < count($noidungs); $k++)

@@ -108,7 +108,7 @@
                             </div>
                             <!-- End Google reCaptcha -->
                             <div class="text-muted font-italic">
-                                <small>{{ __('độ mạnh mật khẩu') }}: <span class="text-success font-weight-700">{{ __('strong') }}strong</span></small>
+                                <small>{{ __('độ mạnh mật khẩu') }}: <span class="text-success font-weight-700">{{ __('strong') }}</span></small>
                             </div>
                             <div class="row my-4">
                                 <div class="col-12">

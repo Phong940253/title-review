@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\ProfileController;
 use App\Models\Reply;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -27,12 +26,13 @@ class TieuchuanController extends Controller
      */
     public function index(Request $request)
     {
+        $ProfileController = new ProfileController;
         $noidungs = $this->getNoiDung($request->id_tieuchi, $request->id_tieuchuan);
         $replies = $this->getReplies($noidungs->pluck('id'));
         $minhchungs = $this->getMinhChung($noidungs->pluck('id'));
         Log::debug($replies);
         $param = [
-            'tieuchis' => ProfileController::getTieuChuanTieuChi($request),
+            'tieuchis' => $ProfileController->getTieuChuanTieuChi($request),
             'noidungs' => $noidungs,
             'page' => $this->getBreadcrumb($request),
             'id_tieuchi' => $request->id_tieuchi,
@@ -44,10 +44,11 @@ class TieuchuanController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param $id_tieuchi
+     * @param $id_tieuchuan
      * @return Collection|array
      */
-    public static function getNoiDung($id_tieuchi, $id_tieuchuan)
+    public function getNoiDung($id_tieuchi, $id_tieuchuan)
     {
         if ($id_tieuchi || $id_tieuchuan) {
             if (!$id_tieuchuan) {
