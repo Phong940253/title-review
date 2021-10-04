@@ -47,15 +47,15 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('print-info', 'App\Http\Controllers\PrintInfoController@index')->name('print-info');
 
 
-//            Route::get('map', function () {
-//                return view('pages.maps');
-//            })->name('map');
-//            Route::get('icons', function () {
-//                return view('pages.icons');
-//            })->name('icons');
-//            Route::get('table-list', function () {
-//                return view('pages.tables');
-//            })->name('table');
+            Route::get('map', function () {
+                return view('pages.maps');
+            })->name('map');
+            Route::get('icons', function () {
+                return view('pages.icons');
+            })->name('icons');
+            Route::get('table-list', function () {
+                return view('pages.tables');
+            })->name('table');
             Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
         });
     });
