@@ -8,6 +8,11 @@ use Illuminate\View\View;
 class KhoaManagerController extends Controller
 {
     public function index() {
-        return view('khoa.index');
+        $params = [
+            'page' => [
+                'currentPage' => 'Tổng hợp đơn vị',
+            ],
+        ];
+        return view('khoa.index', $params);
     }
 }

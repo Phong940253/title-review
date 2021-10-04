@@ -39,7 +39,7 @@ class HomeController extends Controller
         }
         if (auth()->user()->hasRole('khoa')) {
             $KhoaManagerController = new KhoaManagerController;
-            return $ProfileController->edit($request);
+            return $KhoaManagerController->index();
         }
         return $ProfileController->edit($request);
     }

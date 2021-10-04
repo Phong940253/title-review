@@ -94,7 +94,7 @@ class TieuchuanController extends Controller
                 ->find($request->id_tieuchuan);
             $res = [
                 'currentPage' => $name_tieuchuan ? $name_tieuchuan->name : "",
-                'parrentPage' => $name_tieuchi ? $name_tieuchi->name : "",
+                'parentPage' => $name_tieuchi ? $name_tieuchi->name : "",
             ];
         } else {
             $res = [
