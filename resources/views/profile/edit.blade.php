@@ -82,6 +82,20 @@
 
 
                             <div class="pl-lg-4">
+                                <div class="form-group{{ $errors->has('ms') ? ' has-danger' : '' }}">
+                                    <label class="form-control-label" for="input-name">{{ __('Mã cán bộ / Sinh viên / Học sinh') }}</label>
+                                    <input type="text" name="ms" id="input-ms"
+                                           class="form-control form-control-alternative{{ $errors->has('ms') ? ' is-invalid' : '' }}"
+                                           placeholder="{{ __('Mã cán bộ / Sinh viên / Học sinh') }}"
+                                           value="{{ old('ms', auth()->user()->ms) }}" autofocus>
+
+                                    @if ($errors->has('ms'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('ms') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
                                 <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-name">{{ __('Họ và tên') }}</label>
                                     <input type="text" name="name" id="input-name"

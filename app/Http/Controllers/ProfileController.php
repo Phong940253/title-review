@@ -202,6 +202,8 @@ class ProfileController extends Controller
     public function validator(array $data)
     {
         return Validator::make($data, [
+            'ms' => ['nullable', 'string'],
+            'name' => ['nullable', 'string'],
             'email' => ['nullable', 'email'],
             'telephone' => ['nullable', 'string', 'between:10,11', 'regex:/^[0-9]{10,11}+$/'],
             'gender' => ['nullable', 'between:0,1'],
