@@ -86,7 +86,7 @@
                                                                             class="dropdown-menu dropdown-menu-right">
                                                                             <a href="#" class="dropdown-item"
                                                                                data-dz-remove="">
-                                                                                Remove
+                                                                                Xóa
                                                                             </a>
                                                                         </div>
                                                                     </div>
@@ -124,12 +124,12 @@
                 const template = $(value).find('#preview');
                 const option = {
                     paramName: "file",
-                    url: "/upload-minh-chung",
+                    url: "/file-upload",
                     previewsContainer: container.get(0),
                     previewTemplate: template.html(),
                     parallelUploads: 4,
-                    maxFiles: 10,
                     maxFilesize: 2,
+                    maxFiles: 10,
                     acceptedFiles: ".pdf,.png,.jpg,.doc,.docx,.xls,.xlsx",
                     uploadMultiple: true,
                     headers: {
@@ -140,9 +140,11 @@
                     },
                     init: function () {
                         // let myDropzone = this;
+                        var numMinhChung = 0;
                         @isset ($minhchungs)
                             @foreach ($minhchungs as $minhchung)
                                 if ($(value).attr('value') == {{ $minhchung->id_noidung }}) {
+                                    numMinhChung += 1;
                                     var mockFile = {
                                         name: "{{$minhchung->original_name}}",
                                         size: {{$minhchung->size}},
@@ -150,11 +152,11 @@
                                     };
                                     this.options.addedfile.call(this, mockFile);
                                     var extension = mockFile.name.split('.')[1];
-                                    if (extension == "png" || extension == "jpg") {
+                                    if (extension === "png" || extension === "jpg") {
                                         this.options.thumbnail.call(this, mockFile, "{{ asset($minhchung->url) }}");
-                                    } else if (extension == "doc" || extension == "docx") {
+                                    } else if (extension === "doc" || extension === "docx") {
                                         this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/word.png") }}");
-                                    } else if (extension == "xls" || extension == "xlsx") {
+                                    } else if (extension === "xls" || extension === "xlsx") {
                                         this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/excel.png") }}");
                                     } else {
                                         this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/pdf.png") }}");
@@ -163,10 +165,23 @@
                             @endforeach
                         @endisset
 
-                        this.options.maxFiles = this.options.maxFiles - {{count($minhchungs)}};
+                        this.options.maxFiles = this.options.maxFiles - numMinhChung;
                         console.log(this.options.maxFiles);
-                        this.on("addedfile", function (e) {
+
+
+                        this.on("addedfile", function (file) {
+                            // CUSTOM THUMBNAIL FOR FILES OTHER THAN IMAGE TYPE
+                            if (file.type === "application/pdf" || file.type === "pdf") {
+                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/pdf.png") }}";
+                            // } else if (file.type === "text/plain" || file.type === "txt") {
+                            //     file.previewElement.querySelector("[data-dz-thumbnail]").src = "images/txt-icon.png";
+                            } else if (file.type === "application/msword" || file.type === "docx" || file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/word.png") }}";
+                            } else if (file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "xlsx" || file.type === 'xls') {
+                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/pdf.png") }}";
+                            }
                         });
+
                         this.on("maxfilesexceeded", function (e) {
                             this.removeFile(e);
                             toastr.options = {
@@ -175,7 +190,7 @@
                                 "newestOnTop": false,
                                 "progressBar": true,
                                 "positionClass": "toast-top-right",
-                                "preventDuplicates": true,
+                                "preventDuplicates": false,
                                 "onclick": null,
                                 "showDuration": "300",
                                 "hideDuration": "1000",
@@ -187,29 +202,106 @@
                                 "hideMethod": "fadeOut"
                             };
                             toastr['info']("Đã đến giới hạn file tải lên!");
+                        });
 
+                        this.on("removedfile", function (file) {
+                            console.log(file);
+                            $.post({
+                                url: '/file-delete',
+                                data: {id: $(value).attr('value'), name: file.name, _token: '{{ csrf_token() }}'},
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data.success) {
+                                        toastr.options = {
+                                            "closeButton": false,
+                                            "debug": false,
+                                            "newestOnTop": false,
+                                            "progressBar": true,
+                                            "positionClass": "toast-top-right",
+                                            "preventDuplicates": false,
+                                            "onclick": null,
+                                            "showDuration": "300",
+                                            "hideDuration": "1000",
+                                            "timeOut": "5000",
+                                            "extendedTimeOut": "1000",
+                                            "showEasing": "swing",
+                                            "hideEasing": "linear",
+                                            "showMethod": "fadeIn",
+                                            "hideMethod": "fadeOut"
+                                        };
+                                        toastr['success'](data.message);
+                                    }
+                                    // total_photos_counter--;
+                                    // $("#counter").text("# " + total_photos_counter);
+                                },
+                                error: function (data) {
+                                    toastr.options = {
+                                        "closeButton": false,
+                                        "debug": false,
+                                        "newestOnTop": false,
+                                        "progressBar": true,
+                                        "positionClass": "toast-top-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "300",
+                                        "hideDuration": "1000",
+                                        "timeOut": "5000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    };
+                                    toastr['error']('Có lỗi xảy ra!');
+                                }
+                            });
                         });
                     },
-                    accept: function (file, done) {
-                        toastr.options = {
-                            "closeButton": false,
-                            "debug": false,
-                            "newestOnTop": false,
-                            "progressBar": true,
-                            "positionClass": "toast-top-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "5000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
+
+                    success: function (file, data) {
+                        if (data.success) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            toastr['success'](data.message);
+                        } else {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            toastr['error'](data.message);
                         }
-                        toastr['success']("Tải lên file thành công!");
-                        done();
+                    },
+
+                    accept: function (file, done) {
+                        done()
                     },
                 };
                 $(value).dropzone(option);
@@ -222,7 +314,45 @@
                     const form = $("#form{{$noidungs[$i - 1]->id}}");
                     const posting = $.post(form.attr('action'), form.serialize());
                     posting.done((data) => {
-
+                        if (data.success) {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            toastr['success'](data.message);
+                        } else {
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            toastr['error'](data.message);
+                        }
                     })
                 });
             @endfor

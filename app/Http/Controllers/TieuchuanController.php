@@ -156,13 +156,13 @@ class TieuchuanController extends Controller
 
             return Response::json([
                 'success' => true,
-                'message' => 'Lưu thành công'
+                'message' => 'Lưu thành công!'
             ], 200);
         }
         return Response::json([
             'success' => false,
-            'message' => 'Có lỗi xảy ra'
-        ], 400);
+            'message' => 'Có lỗi xảy ra!'
+        ], 200);
     }
 
     /**

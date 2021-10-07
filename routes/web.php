@@ -41,7 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('upload-image', 'App\Http\Controllers\ProfileController@uploadImage')->name('upload-image');
 
             Route::get('tieucuan', 'App\Http\Controllers\TieuchuanController@index')->name('tieuchuan');
-            Route::post('upload-minh-chung', 'App\Http\Controllers\UploadFilesController@store')->name('upload-minh-chung');
+            Route::post('file-upload', 'App\Http\Controllers\UploadFilesController@store')->name('file-upload');
+            Route::post('file-delete', 'App\Http\Controllers\UploadFilesController@drop')->name('file-delete');
             Route::post('submit-reply', 'App\Http\Controllers\TieuchuanController@submitReply')->name('submit-reply');
 
             Route::get('print-info', 'App\Http\Controllers\PrintInfoController@index')->name('print-info');
