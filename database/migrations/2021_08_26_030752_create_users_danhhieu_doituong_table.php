@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersDanhhieuTable extends Migration
+class CreateUsersDanhhieuDoiTuongTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,18 +15,16 @@ class CreateUsersDanhhieuTable extends Migration
     {
         Schema::create('users_danhhieu_doituong', function (Blueprint $table) {
             $table->unsignedBigInteger('id_users');
-            $table->unsignedInteger('id_danhhieu');
+            $table->unsignedInteger('id_danhhieu_doituong');
             $table->boolean('confirmed')->default(false);
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->boolean('edit')->default(false);
             $table->timestamps();
             $table->foreign('id_users')->references('id')->on('users')
                 ->onDelete('cascade');
-            $table->foreign('id_danhhieu')->references('id')->on('danhhieu')
+            $table->foreign('id_danhhieu_doituong')->references('id')->on('danhhieu_doituong')
                 ->onDelete('cascade');
-            $table->foreign('id_danhhieu')->references('id')->on('danhhieu')
-                ->onDelete('cascade');
-            $table->primary(['id_users', 'id_danhhieu'], 'users_has_danhhieu');
+            $table->primary(['id_users', 'id_danhhieu_doituong'], 'users_has_danhhieu_doituong');
 
         });
     }

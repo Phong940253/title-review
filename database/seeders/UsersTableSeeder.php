@@ -27,6 +27,8 @@ class UsersTableSeeder extends Seeder
         $admin->assignRole('admin');
 
         $user = User::create([
+            'ms' => '4501104175',
+            'id_unit' => 2,
             'name' => 'Nguyễn Văn Phong',
             'email' => 'phong940253@gmail.com',
             'email_verified_at' => now(),
@@ -45,6 +47,6 @@ class UsersTableSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
-        $user->assignRole('khoa');
+        $khoa->assignRole('khoa');
     }
 }

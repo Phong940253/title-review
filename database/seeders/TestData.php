@@ -40,13 +40,25 @@ class TestData extends Seeder
 
 
         $units = [[
-            'name' => 'Toán',
-            'created_at' => new \DateTime(),
-            'updated_at' => new \DateTime()
+            'name' => 'Khoa Toán - Tin',
+            'created_at' => now(),
+            'updated_at' => now()
         ], [
-            'name' => 'CNTT',
-            'created_at' => new \DateTime(),
-            'updated_at' => new \DateTime()
+            'name' => 'Khoa Công nghệ thông tin',
+            'created_at' => now(),
+            'updated_at' => now()
+        ], [
+            'name' => 'Khoa Vật lí',
+            'created_at' => now(),
+            'updated_at' => now()
+        ], [
+            'name' => 'Khoa Tiếng Anh',
+            'created_at' => now(),
+            'updated_at' => now()
+        ], [
+            'name' => 'Khoa Thể chất',
+            'created_at' => now(),
+            'updated_at' => now()
         ]];
 
         DB::table('unit')->insert($units); // Query Builder approach
