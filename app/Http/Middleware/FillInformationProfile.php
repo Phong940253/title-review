@@ -6,10 +6,16 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class FillInfomationProfile
+/**
+ *
+ */
+class FillInformationProfile
 {
 
-    public static function isFillInfomation()
+    /**
+     * @return bool
+     */
+    public static function isFillInformation(): bool
     {
         return isset(auth()->user()->telephone) && isset(auth()->user()->gender) &&
             isset(auth()->user()->nation) && isset(auth()->user()->id_religion) &&
@@ -28,10 +34,12 @@ class FillInfomationProfile
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user()->can("để trống thông tin"))
+        if ($request->user()->can('để trống thông tin')) {
+            Log::debug('Fill Information');
             return $next($request);
+        }
         else if (//                isset(auth()->user()->url_image) &&
-        $this->isFillInfomation())
+            $this->isFillInformation())
             return $next($request);
         else {
             return redirect('input-info');

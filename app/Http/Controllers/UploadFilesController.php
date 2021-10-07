@@ -22,7 +22,7 @@ class UploadFilesController extends Controller
 
                 Log::debug('saving file');
                 $id_users = auth()->user()->id;
-                $storedPath = "storage/" . Str::after($file->store("public/images/minhchung/{$id_users}"), "public/");
+                $storedPath = "storage/" . $file->store("public/images/minhchung/{$id_users}", 'public');
                 Log::debug('saved file');
 
                 $upload = new Upload();

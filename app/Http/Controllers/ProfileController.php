@@ -62,12 +62,7 @@ class ProfileController extends Controller
         $id_object = $request->session()->get('id_object');
         $tieuchis = [];
         if (!is_null($id_title) && !(is_null($id_object))) {
-            $tieuchis = DB::table('tieuchi')
-                ->select('name', 'tieuchi.id')
-                ->join('danhhieu_doituong', 'tieuchi.id_danhhieu_doituong', '=', 'danhhieu_doituong.id')
-                ->where('id_danhhieu', '=', $id_title)
-                ->where('id_doituong', '=', $id_object)
-                ->get();
+            $tieuchis = $this->getIdTieuChi($id_title, $id_object);
             foreach ($tieuchis as $tieuchi) {
                 $tieuchuan = DB::table('tieuchuan')
                     ->select('name', 'id')
@@ -77,6 +72,21 @@ class ProfileController extends Controller
             }
         }
         return $tieuchis;
+    }
+
+    /**
+     * @param $id_title
+     * @param $id_object
+     * @return Collection
+     */
+    public function getIdTieuChi($id_title, $id_object): Collection
+    {
+        return DB::table('tieuchi')
+            ->select('name', 'tieuchi.id')
+            ->join('danhhieu_doituong', 'tieuchi.id_danhhieu_doituong', '=', 'danhhieu_doituong.id')
+            ->where('id_danhhieu', '=', $id_title)
+            ->where('id_doituong', '=', $id_object)
+            ->get();
     }
 
     /**
@@ -128,12 +138,15 @@ class ProfileController extends Controller
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
             // Delete old avatar
-            $deleteFile = Storage::delete("public/" . Str::after(auth()->user()->url_image, "storage/"));
+            $deleteFile = Storage::disk('public')->delete(Str::after(auth()->user()->url_image, "storage/"));
 
             // Save file
             $file = $request->file('image');
-            $storedPath = "storage/" . Str::after($file->store("public/images/users-image"), "public/");
-            Log::debug($storedPath);
+            $tempPath = $file->store("public/images/users-image", 'public');
+            $storedPath = 'storage/' . $tempPath;
+//            Log::debug($storedPath);
+//            Log::debug($tempPath);
+//            Log::debug(asset($tempPath));
 
             // Save database
             $user = User::find(auth()->user()->id);

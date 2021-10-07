@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserDanhHieuDoiTuong;
 use App\Models\Reply;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -54,33 +56,41 @@ class TieuchuanController extends Controller
             if (!$id_tieuchuan) {
                 $res = DB::table('noidung')
                     ->join('tieuchi', 'noidung.id_tieuchi', '=', 'tieuchi.id')
+                    ->where('tieuchi.id', '=', $id_tieuchi)
                     ->select('noidung.id as id', 'tieuchi.id as id_tieuchi', 'content')
                     ->get();
+            } else {
+                $res = DB::table('noidung')
+                    ->join('tieuchuan', 'noidung.id_tieuchuan', '=', 'tieuchuan.id')
+                    ->join('tieuchi', 'tieuchuan.id_tieuchi', '=', 'tieuchi.id')
+                    ->where('tieuchuan.id', '=', $id_tieuchuan)
+                    ->where('tieuchi.id', '=', $id_tieuchi)
+                    ->select('noidung.id as id', 'tieuchi.id as id_tieuchi', 'tieuchuan.id as id_tieuchuan', 'content')
+                    ->get();
             }
-            //            Log::debug($res);
-
-            $res = DB::table('noidung')
-                ->join('tieuchuan', 'noidung.id_tieuchuan', '=', 'tieuchuan.id')
-                ->join('tieuchi', 'tieuchuan.id_tieuchi', '=', 'tieuchi.id')
-                ->where('tieuchuan.id', '=', $id_tieuchuan)
-                ->where('tieuchi.id', '=', $id_tieuchi)
-                ->select('noidung.id as id', 'tieuchi.id as id_tieuchi', 'tieuchuan.id as id_tieuchuan', 'content')
-                ->get();
             return $res;
         }
         return [];
     }
 
-    public function getReplies($noidungs) {
-        $replies = DB::table('replies')
+    /**
+     * @param $noidungs
+     * @return Collection
+     */
+    public function getReplies($noidungs): Collection
+    {
+        return DB::table('replies')
             ->join('noidung', 'noidung.id', '=','replies.id_noidung')
             ->where('replies.id_users', '=', auth()->user()->id)
             ->whereIn('noidung.id', $noidungs)
             ->select('replies.id_users', 'replies.id_noidung', 'reply')
             ->get();
-        return $replies;
     }
 
+    /**
+     * @param Request $request
+     * @return array|string[]
+     */
     public function getBreadcrumb(Request $request): array
     {
         $id_tieuchi = $request->id_tieuchi;
@@ -104,8 +114,25 @@ class TieuchuanController extends Controller
         return $res;
     }
 
-    public function submitReply(Request $request)
+    /**
+     * @param $id_title
+     * @param $id_object
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
+     */
+    public function getIdDanhHieuDoiTuong($id_title, $id_object) {
+         return DB::table('danhhieu_doituong')
+            ->join('danhhieu', 'danhhieu.id', '=', 'id_danhhieu')
+            ->join('doituong', 'doituong.id', '=', 'id_doituong')
+            ->first();
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function submitReply(Request $request): JsonResponse
     {
+
         $content = $request->input('content');
         $id_noidung = $request->input('id_noidung');
         if ($content && $id_noidung && DB::table('noidung')->where('id', $id_noidung)->exists()) {
@@ -113,6 +140,20 @@ class TieuchuanController extends Controller
                 ['id_users' => auth()->user()->id, 'id_noidung' => $id_noidung],
                 ['reply' => $content]
             );
+
+            // Mark user has been edit
+            $id_title = $request->session()->get('id_title');
+            $id_object = $request->session()->get('id_object');
+            if (isset($id_title) && isset($id_object)) {
+                $id_danhhieu_doituong = $this->getIdDanhHieuDoiTuong($id_title, $id_object);
+                if (isset($id_danhhieu_doituong)) {
+                    $editReply = UserDanhHieuDoiTuong::updateOrCreate(
+                        ['id_users' => $request->user()->id, 'id_danhhieu_doituong' => $id_danhhieu_doituong->id],
+                        ['edit' => true],
+                    );
+                }
+            }
+
             return Response::json([
                 'success' => true,
                 'message' => 'Lưu thành công'
@@ -124,17 +165,25 @@ class TieuchuanController extends Controller
         ], 400);
     }
 
+    /**
+     * @param $file_path
+     * @return int
+     */
     public function get_size($file_path): int
     {
         return Storage::size($file_path);
     }
 
-    public function getMinhChung($noidungs) {
-        $minhchungs = DB::table('uploads')
+    /**
+     * @param $noidungs
+     * @return Collection
+     */
+    public function getMinhChung($noidungs): Collection
+    {
+        return DB::table('uploads')
             ->where('id_users', '=', auth()->user()->id)
             ->whereIn('id_noidung', $noidungs)
             ->select('id_noidung', 'original_name', 'url', 'size')
             ->get();
-        return $minhchungs;
     }
 }

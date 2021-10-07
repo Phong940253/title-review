@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Validator;
 /**
  *
  */
-
 class SelectTitleController extends Controller
 {
     /**
@@ -23,7 +22,8 @@ class SelectTitleController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index() {
+    public function index()
+    {
         $titles = DB::table('danhhieu')->select('name', 'id')->get();
         return view('users.select-title', ['titles' => $titles]);
     }
@@ -36,15 +36,15 @@ class SelectTitleController extends Controller
      */
     public function get_by_title(Request $request): JsonResponse
     {
-        $html = '<option value="">Chọn đối tượng</option>';
+        $html = '<option selected disabled value="">Chọn đối tượng</option>';
         if ($request->id_title) {
-            $html = '<option value="" disabled>Chọn đối tượng</option>';
+            $html = '<option value="" disabled selected>Chọn đối tượng</option>';
             $objects = DB::table('doituong')
                 ->join('danhhieu_doituong', 'doituong.id', '=', 'danhhieu_doituong.id_doituong')
                 ->where('id_danhhieu', '=', $request->id_title)
                 ->get();
             foreach ($objects as $object) {
-                $html .= '<option value="'.$object->id.'">'.$object->name.'</option>';
+                $html .= '<option value="' . $object->id . '">' . $object->name . '</option>';
             }
         }
         return response()->json(['html' => $html]);
@@ -53,8 +53,12 @@ class SelectTitleController extends Controller
     /**
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function submitSelect(Request $request) {
-        Validator::make($request->all(), ['id_title' => new ValidIdTitle, 'id_object' => new ValidIdObject])->validate();
+    public function submitSelect(Request $request)
+    {
+        Validator::make($request->all(), [
+            'id_title' => ['string', 'required', new ValidIdTitle],
+            'id_object' => ['string', 'required', new ValidIdObject]
+            ])->validate();
         $request->session()->put('id_title', $request->input('id_title'));
         $request->session()->put('id_object', $request->input('id_object'));
         return redirect('/');

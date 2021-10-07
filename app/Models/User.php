@@ -62,4 +62,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function unit(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Unit::class, 'id_unit');
+    }
+
+    public function selectTitle(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserDanhHieuDoiTuong::class, 'id_users');
+    }
 }

@@ -13,13 +13,16 @@ class CreateUsersDanhhieuTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_danhhieu', function (Blueprint $table) {
+        Schema::create('users_danhhieu_doituong', function (Blueprint $table) {
             $table->unsignedBigInteger('id_users');
             $table->unsignedInteger('id_danhhieu');
-            $table->boolean('confirmed');
+            $table->boolean('confirmed')->default(false);
             $table->text('comment');
+            $table->boolean('edit')->default(false);
             $table->timestamps();
             $table->foreign('id_users')->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->foreign('id_danhhieu')->references('id')->on('danhhieu')
                 ->onDelete('cascade');
             $table->foreign('id_danhhieu')->references('id')->on('danhhieu')
                 ->onDelete('cascade');
@@ -35,6 +38,6 @@ class CreateUsersDanhhieuTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_danhhieu');
+        Schema::dropIfExists('users_danhhieu_doituong');
     }
 }
