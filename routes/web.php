@@ -46,6 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
 
             Route::get('print-info', 'App\Http\Controllers\PrintInfoController@index')->name('print-info');
 
+            // For khoa managerment
+            Route::get('tong-hop-don-vi', 'App\Http\Controllers\KhoaManagerController@getListUserByTitle')->name('tong-hop-don-vi');
 
             Route::get('map', function () {
                 return view('pages.maps');

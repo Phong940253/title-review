@@ -23,7 +23,7 @@
                                                for="titleSelected">{{ __('Danh hiệu') }}</label>
                                     </div>
                                     <select class="custom-select form-control form-control-alternative" id="titleSelected" name="id_title" required>
-                                        <option value="">{{ __('Chọn danh hiệu') }}</option>
+                                        <option value="" selected disabled>{{ __('Chọn danh hiệu') }}</option>
                                         @isset($titles)
                                             @foreach ($titles as $title)
                                                 <option value="{{$title->id}}">{{$title->name}}</option>

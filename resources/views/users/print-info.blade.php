@@ -172,9 +172,9 @@
                             @endphp
                             @if (count($noidungs) > 0)
                                 @for ($l = 0; $l < count($noidungs); $l++)
-                                    <div class="tab"><b>{{$i + 1}}.{{$l + 1}}.</b> {{$noidungs[$l]->content}}</div>
+                                    <div class="tab" style="text-indent: 40px;"><b>{{$i + 1}}.{{$l + 1}}.</b> {{$noidungs[$l]->content}}</div>
                                     @php
-                                        $reply = DB::table('replies')->where('id_noidung', '=', $noidungs[$i]->id)->where('id_users', '=', auth()->user()->id)->first();
+                                        $reply = DB::table('replies')->where('id_noidung', '=', $noidungs[$l]->id)->where('id_users', '=', auth()->user()->id)->first();
                                     @endphp
                                     @if (isset($reply))
                                         <div style="text-indent: 40px;">{{ $reply->reply }}</div>

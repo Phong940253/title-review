@@ -35,7 +35,7 @@
             </li>
             <li class="nav-item d-none d-lg-block ml-lg-3 mr-lg-3">
                 @can('xuất đề cử')
-                    @if (session()->has('id_title') && session()->has('id_object') && \App\Http\Middleware\FillInfomationProfile::isFillInfomation())
+                    @if (session()->has('id_title') && session()->has('id_object') && \App\Http\Middleware\FillInformationProfile::isFillInformation())
                         <a href="{{route('print-info')}}"
                            target="_blank" class="btn btn-neutral btn-documentation btn-icon">
                             <span class="btn-inner--icon">

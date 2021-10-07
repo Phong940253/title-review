@@ -180,6 +180,9 @@ return [
 
         //For Image Processing
         Intervention\Image\ImageServiceProvider::class,
+
+        //Datatable
+        Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
     /*
@@ -233,6 +236,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ],
 
 ];
