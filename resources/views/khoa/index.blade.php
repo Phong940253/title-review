@@ -16,75 +16,76 @@
     @include('users.partials.header-common', [
         'class' => 'col-lg-7'
     ])
-    <div class="container-fluid mt--7">
-        <div class="row">
-            <div class="col-12 mb-5">
-                <div class="accordion" id="accordionExample">
-                    <div class="card shadow rounded">
-                        <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            <h4 class="mb-0">Danh sách tổng hợp cá nhân của đơn vị</h4>
-                        </div>
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                            <div class="card-body  pt-0 pt-md-4">
-                                <div class="form-group{{ $errors->has('id_title') ? ' has-danger' : '' }}">
-                                    <div class="input-group input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <label class="input-group-text"
-                                                   for="titleSelected">{{ __('Danh hiệu') }}</label>
+    @can('duyệt - xem đề cử')
+        <div class="container-fluid mt--7">
+            <div class="row">
+                <div class="col-12 mb-5">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card shadow rounded">
+                            <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <h4 class="mb-0">Danh sách tổng hợp cá nhân của đơn vị</h4>
+                            </div>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body  pt-0 pt-md-4">
+                                    <div class="form-group{{ $errors->has('id_title') ? ' has-danger' : '' }}">
+                                        <div class="input-group input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text"
+                                                       for="titleSelected">{{ __('Danh hiệu') }}</label>
+                                            </div>
+                                            <select class="custom-select form-control form-control-alternative" id="titleSelected" name="id_title" required>
+                                                <option value="" selected disabled>{{ __('Chọn danh hiệu') }}</option>
+                                                @isset($titles)
+                                                    @foreach ($titles as $title)
+                                                        <option value="{{$title->id}}">{{$title->name}}</option>
+                                                    @endforeach
+                                                @endisset
+                                            </select>
                                         </div>
-                                        <select class="custom-select form-control form-control-alternative" id="titleSelected" name="id_title" required>
-                                            <option value="" selected disabled>{{ __('Chọn danh hiệu') }}</option>
-                                            @isset($titles)
-                                                @foreach ($titles as $title)
-                                                    <option value="{{$title->id}}">{{$title->name}}</option>
-                                                @endforeach
-                                            @endisset
-                                        </select>
+                                        @if ($errors->has('id_title'))
+                                            <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('id_title') }}</strong>
+                                        </span>
+                                        @endif
                                     </div>
-                                    @if ($errors->has('id_title'))
-                                        <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('id_title') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                                <div class="form-group{{ $errors->has('id_object') ? ' has-danger' : '' }}">
-                                    <div class="input-group input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <label class="input-group-text"
-                                                   for="objectSelected">{{ __('Đối tượng') }}</label>
+                                    <div class="form-group{{ $errors->has('id_object') ? ' has-danger' : '' }}">
+                                        <div class="input-group input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text"
+                                                       for="objectSelected">{{ __('Đối tượng') }}</label>
+                                            </div>
+                                            <select class="custom-select form-control form-control-alternative" id="objectSelected" name="id_object" required>
+                                                <option selected disabled value="">{{ __('Chọn đối tượng') }}</option>
+                                            </select>
                                         </div>
-                                        <select class="custom-select form-control form-control-alternative" id="objectSelected" name="id_object" required>
-                                            <option selected disabled value="">{{ __('Chọn đối tượng') }}</option>
-                                        </select>
+                                        @if ($errors->has('id_object'))
+                                            <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('id_object') }}</strong>
+                                        </span>
+                                        @endif
                                     </div>
-                                    @if ($errors->has('id_object'))
-                                        <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('id_object') }}</strong>
-                                    </span>
-                                    @endif
-                                </div>
-                                <div class="table-responsive py-4">
-                                    <table class="table table-flush dataTable stripe display compact" id="datatable-basic">
-                                        <thead class="thead-light">
-                                        <tr>
-                                            <th>MSSV/MCB</th>
-                                            <th>Họ và tên</th>
-                                            <th>Email</th>
-                                            <th>Điện thoại</th>
-                                            <th>Giới tính</th>
-                                            <th>Đơn vị</th>
-                                            <th>Xét duyệt</th>
-                                        </tr>
-                                        </thead>
-                                        <tfoot>
-                                        </tfoot>
-                                    </table>
+                                    <div class="table-responsive py-4">
+                                        <table class="table table-flush dataTable stripe display compact" id="datatable-basic">
+                                            <thead class="thead-light">
+                                            <tr>
+                                                <th>MSSV/MCB</th>
+                                                <th>Họ và tên</th>
+                                                <th>Email</th>
+                                                <th>Điện thoại</th>
+                                                <th>Giới tính</th>
+                                                <th>Đơn vị</th>
+                                                <th>Xét duyệt</th>
+                                            </tr>
+                                            </thead>
+                                            <tfoot>
+                                            </tfoot>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <div class="col-12 mb-5">
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -112,6 +113,7 @@
         </div>
         @include('layouts.footers.auth')
     </div>
+    @endcan
 @endsection
 
 @section('scripts')
@@ -185,7 +187,7 @@
             });
         });
         let data;
-        $('#datatable-basic').on('click', 'tr', function () {
+        $('#datatable-basic').on('click', 'tbody > tr', function () {
             data = table.row(this).data();
             var modal = $("#exampleModalLong");
             modal.modal({backdrop: 'static', keyboard: false});

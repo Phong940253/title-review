@@ -48,5 +48,27 @@ class UsersTableSeeder extends Seeder
             'updated_at' => now()
         ]);
         $khoa->assignRole('khoa');
+
+        $khoa1 = User::create([
+            'name' => 'Khoa Công nghệ thông tin',
+            'email' => 'cntt@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('123456'),
+            'id_unit' => 2,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $khoa1->assignRole('khoa');
+
+        $khoa2 = User::create([
+            'name' => 'Khoa Toán',
+            'email' => 'toan@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('123456'),
+            'id_unit' => 1,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $khoa2->assignRole('khoa');
     }
 }

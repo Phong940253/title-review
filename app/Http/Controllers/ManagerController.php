@@ -90,6 +90,8 @@ class ManagerController extends Controller
         $id_danhhieu_doituong = $request->input('id_danhhieu_doituong');
         $id_users = $request->input('id_users');
 
+        Log::debug('get user');
+
         $xet_duyet = DB::table('users_danhhieu_doituong')
             ->where('id_danhhieu_doituong', '=', $id_danhhieu_doituong)
             ->where('id_users', '=', $id_users)
@@ -117,6 +119,7 @@ class ManagerController extends Controller
         $year = '<option value="'. $user->year . '" selected disabled>' . ($user->year ? $user->year : "Không có") . '</option>';
 
         $ProfileController = new ProfileController;
+        $tieuchis = $ProfileController->getTieuChuanTieuChi(NULL, NULL, $id_danhhieu_doituong);
 
         $params = [
             'user' => $user,
@@ -130,11 +133,12 @@ class ManagerController extends Controller
             'current_ward' => $current_ward,
             'unit' => $unit,
             'year' => $year,
-            'tieuchis' => $ProfileController->getTieuChuanTieuChi(NULL, NULL, $id_danhhieu_doituong),
+            'tieuchis' => $tieuchis,
             'xet_duyet' => $xet_duyet,
             'id_danhhieu_doituong' => $id_danhhieu_doituong
         ];
-        return view('duyet', $params);
+//        Log::debug($user);
+        return view('khoa.duyet', $params);
     }
 
     public function acceptDeCu(Request $request) {

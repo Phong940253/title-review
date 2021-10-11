@@ -2,10 +2,6 @@
 
     <div class="accordion" id="accordionScroll">
         <div class="row">
-            @can('duyệt - xem đề cử')
-                @php
-                    $TieuchuanController = new \App\Http\Controllers\TieuchuanController;
-                @endphp
                 <div class="col-xl-12 mb-3">
                     <div class="card card-profile shadow">
                         <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
@@ -69,45 +65,45 @@
 
 
                                 <div class="pl-lg-4">
-                                    <div class="form-group{{ $errors->has('ms') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label" for="input-name">{{ __('Mã cán bộ / Sinh viên / Học sinh') }}</label>
                                         <input type="text" id="input-ms"
-                                               class="form-control form-control-alternative{{ $errors->has('ms') ? ' is-invalid' : '' }}"
+                                               class="form-control form-control-alternative"
                                                placeholder="{{ __('Mã cán bộ / Sinh viên / Học sinh') }}"
                                                value="{{ old('ms', $user->ms) }}" autofocus readonly>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label" for="input-name">{{ __('Họ và tên') }}</label>
                                         <input type="text" id="input-name"
-                                               class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}"
+                                               class="form-control form-control-alternative"
                                                placeholder="{{ __('Name') }}"
                                                value="{{ old('name', $user->name) }}" autofocus readonly>
                                     </div>
-                                    <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label" for="input-email">{{ __('Email') }}</label>
-                                        <input type="email" id="input-email" class="form-control form-control-alternative{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                        <input type="email" id="input-email" class="form-control form-control-alternative"
                                                value="{{ old('email', $user->email) }}" readonly>
                                     </div>
-                                    <div class="form-group{{ $errors->has('telephone') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label"
                                                for="input-sdt">{{ __('Điện thoại liên hệ') }}</label>
                                         <input type="number" id="input-sdt"
-                                               class="form-control form-control-alternative{{ $errors->has('sdt') ? ' is-invalid' : '' }}"
+                                               class="form-control form-control-alternative"
                                                placeholder="{{ __('Số điện thoại') }}" value="{{ old('telephone', $user->telephone) }}" autofocus readonly>
                                     </div>
-                                    <div class="form-group{{ $errors->has('birthDay') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label" for="input-birthDay">{{ __('Ngày sinh') }}</label>
                                         <div class="input-group input-group-alternative">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                             </div>
                                             <input type="text" id="input-birthDay" data-date-format="yyyy-mm-dd"
-                                                   class="form-control form-control-alternative datepicker{{ $errors->has('birthDay') ? ' is-invalid' : '' }}"
+                                                   class="form-control form-control-alternative datepicker"
                                                    placeholder="{{ __('Chọn ngày') }}" value="{{ old('birthDay', $user->birthDay) }}" autofocus readonly>
                                         </div>
                                     </div>
-                                    <div class="form-group{{ $errors->has('gender') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label mr-3"
                                                for="ratio-gender">{{ __('Giới tính') }}</label>
                                         <div class="custom-control custom-radio custom-control-inline">
@@ -120,7 +116,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('nation') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label" for="input_dan_toc">{{ __('Dân tộc') }}</label>
                                         <select class="form-control form-control-alternative m-b" id="input_dan_toc"
                                                 placeholder="{{ __('Chọn')}}" readonly>
@@ -130,7 +126,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('id_religion') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label" for="input_religion">{{ __('Tôn giáo') }}</label>
                                         <select class="form-control form-control-alternative m-b"
                                                 id="input_religion" readonly>
@@ -140,7 +136,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('id_province') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label" for="input_province">{{ __('Địa chỉ thường trú') }}</label>
                                         <select class="form-control form-control-alternative m-b"
                                                 id="input_province" readonly>
@@ -150,7 +146,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('id_district') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <select class="form-control form-control-alternative m-b"
                                                 id="input_district" readonly>
                                             @isset($district)
@@ -159,7 +155,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('id_ward') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <select class="form-control form-control-alternative m-b" id="input_ward" readonly>
                                             @isset($ward)
                                                 {!! $ward !!}
@@ -167,14 +163,14 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('street') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <input type="text" id="input-street"
-                                               class="form-control form-control-alternative{{ $errors->has('street') ? ' is-invalid' : '' }}"
+                                               class="form-control form-control-alternative"
                                                placeholder="{{ __('Nhập số nhà, tên đường') }}" value="{{ old('street', $user->street) }}"
                                                autofocus readonly>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('id_current_province') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label"
                                                for="input_current_province">{{ __('Địa chỉ hiện tại') }}</label>
                                         <select class="form-control form-control-alternative m-b"
@@ -185,7 +181,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('id_current_district') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <select class="form-control form-control-alternative m-b"
                                                 id="input_current_district" readonly>
                                             @isset($current_district)
@@ -194,7 +190,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('id_current_ward') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <select class="form-control form-control-alternative m-b"
                                                 id="input_current_ward" readonly>
                                             @isset($current_ward)
@@ -203,14 +199,14 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('current_street') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <input type="text" id="input-current-street"
-                                               class="form-control form-control-alternative{{ $errors->has('current_street') ? ' is-invalid' : '' }}"
+                                               class="form-control form-control-alternative"
                                                placeholder="{{ __('Nhập số nhà, tên đường') }}"
                                                value="{{ old('current_street', $user->current_street) }}" autofocus readonly>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('date_admission_doan') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label"
                                                for="input_ngay_vao_doan">{{ __('Ngày kết nạp Đoàn') }}</label>
                                         <div class="input-group input-group-alternative">
@@ -218,12 +214,12 @@
                                                 <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                             </div>
                                             <input type="text" id="input_ngay_vao_doan" data-date-format="yyyy-mm-dd"
-                                                   class="form-control datepicker{{ $errors->has('date_admission_doan') ? ' is-invalid' : '' }}"
+                                                   class="form-control datepicker"
                                                    placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_doan', $user->date_admission_doan) }}" autofocus readonly>
                                         </div>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('date_admission_dang_reserve') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label"
                                                for="input_ngay_vao_dang_du_bi">{{ __('Ngày kết nạp Đảng (dự bị)') }}</label>
                                         <div class="input-group input-group-alternative">
@@ -231,13 +227,13 @@
                                                 <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                             </div>
                                             <input type="text" id="input_ngay_vao_dang_du_bi" data-date-format="yyyy-mm-dd"
-                                                   class="form-control datepicker{{ $errors->has('date_admission_dang_reserve') ? ' is-invalid' : '' }}"
+                                                   class="form-control datepicker"
                                                    placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_dang_reserve', $user->date_admission_dang_reserve) }}" autofocus readonly>
                                         </div>
                                     </div>
 
                                     <div
-                                        class="form-group{{ $errors->has('date_admission_dang_official') ? ' has-danger' : '' }}">
+                                        class="form-group">
                                         <label class="form-control-label"
                                                for="input_ngay_vao_dang_chinh_thuc">{{ __('Ngày kết nạp Đảng (chính thức)') }}</label>
                                         <div class="input-group input-group-alternative">
@@ -246,28 +242,28 @@
                                             </div>
                                             <input type="text"
                                                    id="input_ngay_vao_dang_chinh_thuc" data-date-format="yyyy-mm-dd"
-                                                   class="form-control datepicker{{ $errors->has('date_admission_dang_official') ? ' is-invalid' : '' }}"
+                                                   class="form-control datepicker"
                                                    placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_dang_official', $user->date_admission_dang_official) }}" autofocus readonly>
                                         </div>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('current_position') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label"
                                                for="input-chuc_vu_hien_tai">{{ __('Chức vụ Đoàn – Hội hiện tại') }}</label>
                                         <input type="text" id="input-chuc_vu_hien_tai"
-                                               class="form-control form-control-alternative{{ $errors->has('current_position') ? ' is-invalid' : '' }}"
+                                               class="form-control form-control-alternative"
                                                placeholder="{{ __('Ghi rõ chức vụ hiện tại') }}" value="{{ old('current_position', $user->current_position) }}" autofocus readonly>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('highest_position') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label"
                                                for="input-chuc_vu_cao_nhat">{{ __('Chúc vụ Đoàn – Hội cao nhất đã từng đảm nhiệm') }}</label>
                                         <input type="text" id="input-chuc_vu_cao_nhat"
-                                               class="form-control form-control-alternative{{ $errors->has('highest_position') ? ' is-invalid' : '' }}"
+                                               class="form-control form-control-alternative"
                                                placeholder="{{ __('Ghi rõ chức vụ') }}" value="{{ old('highest_position', $user->highest_position) }}" autofocus readonly>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('id_unit') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label" for="unitSelected">{{ __('Khoa') }}</label>
                                         <select class="form-control form-control-alternative m-b" id="unitSelected" readonly>
                                             @isset($unit)
@@ -276,7 +272,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group{{ $errors->has('year') ? ' has-danger' : '' }}">
+                                    <div class="form-group">
                                         <label class="form-control-label" for="yearSelected">{{ __('Năm') }}</label>
                                         <select class="form-control form-control-alternative m-b" id="yearSelected" readonly>
                                             @isset($year)
@@ -290,6 +286,7 @@
                     </div>
                 </div>
                 @php
+                    $TieuchuanController = new \App\Http\Controllers\TieuchuanController;
                     $allNoiDung = collect([]);
                 @endphp
                 @isset($tieuchis)
@@ -375,11 +372,9 @@
                         @endforeach
                     @endforeach
                 @endisset
-            @endcan
         </div>
     </div>
 </div>
-@can('duyệt - xem đề cử')
 <script type="text/javascript">
     var activeDropzone = () => {
         Dropzone.autoDiscover = false;
@@ -439,4 +434,3 @@
         });
     };
 </script>
-@endcan
