@@ -14,7 +14,7 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image">
-                                <a href="#" onclick="ChangeAvarta();" id="uploaded_image">
+                                <a onclick="ChangeAvarta();" id="uploaded_image">
                                     <img alt="Avatar" id="Avatar" class="rounded-circle" width="180" height="180" src="{{ asset(isset(auth()->user()->url_image) ? auth()->user()->url_image : 'argon/img/theme/default.jpg') }}">
                                 </a>
                             </div>

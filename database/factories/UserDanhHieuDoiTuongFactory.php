@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\DanhHieuDoiTuong;
+use App\Models\User;
 use App\Models\UserDanhHieuDoiTuong;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,7 +25,16 @@ class UserDanhHieuDoiTuongFactory extends Factory
     {
         $edit = $this->faker->numberBetween(0, 1);
         return [
-            'id_danhhieu_doituong' => DanhHieuDoiTuong::inRandomOrder()->first()->id,
+            'id_danhhieu_doituong' => function(array $attributes) {
+//                $origin = DanhHieuDoiTuong::all()->pluck('id');
+//                $subtract = User::find($attributes['id_users'])->selectTitle()->pluck('id_danhhieu_doituong');
+//                $res = $origin->diff($subtract)->random();
+//                echo $origin;
+//                echo $attributes['id_users'];
+//                echo $subtract;
+//                echo $res;
+                return DanhHieuDoiTuong::all()->random()->id;
+            },
             'edit' => $edit,
             'confirmed' => $edit ? $this->faker->numberBetween(0, 1) : 0,
         ];

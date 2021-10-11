@@ -27,6 +27,7 @@ class TestData extends Seeder
         $xuat_de_cu = Permission::create(['name'=>'xuất đề cử']);
         $chon_de_cu = Permission::create(['name' => 'chọn đề cử']);
         $de_trong_thong_tin = Permission::create(['name' => 'để trống thông tin']);
+        $duyet_xem_de_cu = Permission::create(['name' => 'duyệt - xem đề cử']);
 
 
         $xem_tieu_chi->assignRole($role1);
@@ -37,6 +38,9 @@ class TestData extends Seeder
         $de_trong_thong_tin->assignRole($role2);
         $de_trong_thong_tin->assignRole($role3);
         $de_trong_thong_tin->assignRole($role4);
+        $duyet_xem_de_cu->assignRole($role2);
+        $duyet_xem_de_cu->assignRole($role3);
+
 
 
         $units = [[

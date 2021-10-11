@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'select.title'=> \App\Http\Middleware\EnsureSelectTitle::class,
         'fill.info' => \App\Http\Middleware\FillInformationProfile::class,
+        'danhhieu.doituong' => \App\Http\Middleware\ValidRequestDanhHieuDoiTuong::class,
     ];
 }

@@ -309,9 +309,9 @@
 
 
             @for ($i = 1; $i <= count($noidungs); $i++)
-                $("#form{{$noidungs[$i - 1]->id}}").submit((e) => {
+                $("#form{{$noidungs[$i - 1]->id}}").submit(function (e) {
                     e.preventDefault();
-                    const form = $("#form{{$noidungs[$i - 1]->id}}");
+                    const form = $(this);
                     const posting = $.post(form.attr('action'), form.serialize());
                     posting.done((data) => {
                         if (data.success) {

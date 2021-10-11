@@ -15,4 +15,12 @@ class DanhHieuDoiTuong extends Model
         'id_danhhieu',
         'id_doituong',
     ];
+
+    protected $appends = ['id_danhhieu_doituong'];
+
+    public function getIdDanhhieuDoituongAttribute(){
+
+        return $this->attributes['id'];
+
+    }
 }

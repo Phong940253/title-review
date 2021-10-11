@@ -14,19 +14,32 @@ class TitleData extends Seeder
      */
     public function run()
     {
-        $danhhieu = [
+        $danhhieu = [[
             'name' => 'Sinh viên 5T',
             'created_at' => now(),
-            'updated_at' => now()
-        ];
+            'updated_at' => now(),
+            'start' => '2019-10-21',
+            'finish' => '2021-12-29',
+        ], [
+            'name' => 'Học sinh 3T',
+            'created_at' => now(),
+            'updated_at' => now(),
+            'start' => '2019-10-21',
+            'finish' => '2021-12-29',
+        ]];
+
         DB::table('danhhieu')->insert($danhhieu);
 
         $doituong = [[
-            'name' => 'Sinh viên năm 1',
+            'name' => 'Sinh viên',
             'created_at' => now(),
             'updated_at' => now(),
         ], [
-            'name' => 'Sinh viên năm 2',
+            'name' => 'Học sinh',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ], [
+            'name' => 'Giảng viên',
             'created_at' => now(),
             'updated_at' => now(),
         ]];
@@ -40,6 +53,21 @@ class TitleData extends Seeder
         ], [
             'id_danhhieu'=> 1,
             'id_doituong' => 2,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ], [
+            'id_danhhieu'=> 1,
+            'id_doituong' => 3,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ], [
+            'id_danhhieu'=> 2,
+            'id_doituong' => 2,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ], [
+            'id_danhhieu'=> 2,
+            'id_doituong' => 3,
             'created_at' => now(),
             'updated_at' => now(),
         ]];

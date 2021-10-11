@@ -8,7 +8,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use App\Http\Controllers\KhoaManagerController;
+use App\Http\Controllers\ManagerController;
 
 /**
  *
@@ -38,7 +38,7 @@ class HomeController extends Controller
             return $ProfileController->edit($request);
         }
         if (auth()->user()->hasRole('khoa')) {
-            $KhoaManagerController = new KhoaManagerController;
+            $KhoaManagerController = new ManagerController;
             return $KhoaManagerController->index();
         }
         return $ProfileController->edit($request);

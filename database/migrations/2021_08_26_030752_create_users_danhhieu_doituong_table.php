@@ -18,9 +18,13 @@ class CreateUsersDanhhieuDoiTuongTable extends Migration
             $table->unsignedInteger('id_danhhieu_doituong');
             $table->boolean('confirmed')->default(false);
             $table->text('comment')->nullable();
+            $table->string('rank', 1)->nullable();
+            $table->unsignedBigInteger('id_approved')->nullable();
             $table->boolean('edit')->default(false);
             $table->timestamps();
             $table->foreign('id_users')->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->foreign('id_approved')->references('id')->on('users')
                 ->onDelete('cascade');
             $table->foreign('id_danhhieu_doituong')->references('id')->on('danhhieu_doituong')
                 ->onDelete('cascade');

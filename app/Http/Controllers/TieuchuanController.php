@@ -33,8 +33,10 @@ class TieuchuanController extends Controller
         $replies = $this->getReplies($noidungs->pluck('id'));
         $minhchungs = $this->getMinhChung($noidungs->pluck('id'));
         Log::debug($replies);
+        $id_title = $request->session()->get('id_title');
+        $id_object = $request->session()->get('id_object');
         $param = [
-            'tieuchis' => $ProfileController->getTieuChuanTieuChi($request),
+            'tieuchis' => $ProfileController->getTieuChuanTieuChi($id_title, $id_object),
             'noidungs' => $noidungs,
             'page' => $this->getBreadcrumb($request),
             'id_tieuchi' => $request->id_tieuchi,
@@ -77,11 +79,12 @@ class TieuchuanController extends Controller
      * @param $noidungs
      * @return Collection
      */
-    public function getReplies($noidungs): Collection
+    public function getReplies($noidungs, $id_users = false): Collection
     {
+
         return DB::table('replies')
             ->join('noidung', 'noidung.id', '=','replies.id_noidung')
-            ->where('replies.id_users', '=', auth()->user()->id)
+            ->where('replies.id_users', '=', ($id_users) ? $id_users : auth()->user()->id)
             ->whereIn('noidung.id', $noidungs)
             ->select('replies.id_users', 'replies.id_noidung', 'reply')
             ->get();
@@ -178,10 +181,11 @@ class TieuchuanController extends Controller
      * @param $noidungs
      * @return Collection
      */
-    public function getMinhChung($noidungs): Collection
+    public function getMinhChung($noidungs, $id_users = false): Collection
     {
+        Log::debug($noidungs);
         return DB::table('uploads')
-            ->where('id_users', '=', auth()->user()->id)
+            ->where('id_users', '=', ($id_users) ? $id_users : auth()->user()->id)
             ->whereIn('id_noidung', $noidungs)
             ->select('id_noidung', 'original_name', 'url', 'size')
             ->get();

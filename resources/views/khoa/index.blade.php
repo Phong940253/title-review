@@ -85,6 +85,30 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12 mb-5">
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <form action="{{route('acceptDeCu')}}" method="post" enctype="multipart/form-data" id="submitForm">
+                                @csrf
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Thông tin hồ sơ</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="modal-duyet">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button id="submit" type="submit" form="submitForm" class="btn btn-primary">Lưu thay đổi</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         @include('layouts.footers.auth')
     </div>
@@ -151,7 +175,75 @@
                     { data: 'unit_name', name: 'unit_name' },
                     { data: 'confirmed', name: 'confirmed'}
                 ],
+                "columnDefs": [
+                    {
+                        "targets": [ 2 ],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ]
             });
         });
+        let data;
+        $('#datatable-basic').on('click', 'tr', function () {
+            data = table.row(this).data();
+            var modal = $("#exampleModalLong");
+            modal.modal({backdrop: 'static', keyboard: false});
+            modal.modal('show');
+            $.get(`{{route('duyet')}}?id_danhhieu_doituong=${data.id_danhhieu_doituong}&id_users=${data.id}`, (response) => {
+                $('#modal-duyet').empty().append(response);
+                activeDropzone();
+            })
+        });
+
+        $("#submitForm").on('submit', function (e) {
+            e.preventDefault();
+            const form = $(this);
+            console.log(form.attr('action'));
+            const posting = $.post(form.attr('action'), form.serialize());
+            posting.done(function (data) {
+                if (data.success) {
+                    table.ajax.reload( null, false );
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr['success'](data.message);
+                } else {
+                    toastr.options = {
+                        "closeButton": false,
+                        "debug": false,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "300",
+                        "hideDuration": "1000",
+                        "timeOut": "5000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr['error'](data.message);
+                }
+            })
+        })
     </script>
+    <script src="{{asset('assets')}}/vendor/dropzone/dist/min/dropzone.min.js"></script>
 @endsection

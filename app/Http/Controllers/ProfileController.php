@@ -40,8 +40,10 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $InputInfoController = new InputInfoController;
+        $id_title = $request->session()->get('id_title');
+        $id_object = $request->session()->get('id_object');
         $params = [
-            'tieuchis' => $this->getTieuChuanTieuChi($request),
+            'tieuchis' => $this->getTieuChuanTieuChi($id_title, $id_object),
             'nation' => $this->getNation('nation'),
             'religion' => $InputInfoController->getReligion('id_religion'),
             'city' => $InputInfoController->getProvince('id_province'),
@@ -56,13 +58,11 @@ class ProfileController extends Controller
      * @param Request $request
      * @return array|Collection
      */
-    public function getTieuChuanTieuChi(Request $request)
+    public function getTieuChuanTieuChi($id_title, $id_object, $id_danhhieu_doituong = false)
     {
-        $id_title = $request->session()->get('id_title');
-        $id_object = $request->session()->get('id_object');
         $tieuchis = [];
-        if (!is_null($id_title) && !(is_null($id_object))) {
-            $tieuchis = $this->getIdTieuChi($id_title, $id_object);
+        if ((!is_null($id_title) && !(is_null($id_object))) || $id_danhhieu_doituong) {
+            $tieuchis = $this->getIdTieuChi($id_title, $id_object, $id_danhhieu_doituong);
             foreach ($tieuchis as $tieuchi) {
                 $tieuchuan = DB::table('tieuchuan')
                     ->select('name', 'id')
@@ -79,14 +79,21 @@ class ProfileController extends Controller
      * @param $id_object
      * @return Collection
      */
-    public function getIdTieuChi($id_title, $id_object): Collection
+    public function getIdTieuChi($id_title, $id_object, $id_danhhieu_doituong = false): Collection
     {
-        return DB::table('tieuchi')
-            ->select('name', 'tieuchi.id')
-            ->join('danhhieu_doituong', 'tieuchi.id_danhhieu_doituong', '=', 'danhhieu_doituong.id')
-            ->where('id_danhhieu', '=', $id_title)
-            ->where('id_doituong', '=', $id_object)
-            ->get();
+        if ($id_danhhieu_doituong) {
+            return DB::table('tieuchi')
+                ->select('name', 'tieuchi.id')
+                ->where('tieuchi.id_danhhieu_doituong', '=', $id_danhhieu_doituong)
+                ->get();
+        } else {
+            return DB::table('tieuchi')
+                ->select('name', 'tieuchi.id')
+                ->join('danhhieu_doituong', 'tieuchi.id_danhhieu_doituong', '=', 'danhhieu_doituong.id')
+                ->where('id_danhhieu', '=', $id_title)
+                ->where('id_doituong', '=', $id_object)
+                ->get();
+        }
     }
 
     /**

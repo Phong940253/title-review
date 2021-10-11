@@ -44,7 +44,7 @@ class SelectTitleController extends Controller
                 ->where('id_danhhieu', '=', $request->id_title)
                 ->get();
             foreach ($objects as $object) {
-                $html .= '<option value="' . $object->id . '">' . $object->name . '</option>';
+                $html .= '<option value="' . $object->id_doituong . '">' . $object->name . '</option>';
             }
         }
         return response()->json(['html' => $html]);

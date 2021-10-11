@@ -48,7 +48,12 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('print-info', 'App\Http\Controllers\PrintInfoController@index')->name('print-info');
 
             // For khoa managerment
-            Route::get('tong-hop-don-vi', 'App\Http\Controllers\KhoaManagerController@getListUserByTitle')->name('tong-hop-don-vi');
+            Route::get('tong-hop-don-vi', 'App\Http\Controllers\ManagerController@getListUserByTitle')->name('tong-hop-don-vi');
+
+            Route::group(['middleware' => 'danhhieu.doituong'], function() {
+                Route::get('duyet', 'App\Http\Controllers\ManagerController@getUser')->name('duyet');
+                Route::post('acceptDeCu', 'App\Http\Controllers\ManagerController@acceptDeCu')->name('acceptDeCu');
+            });
 
             Route::get('map', function () {
                 return view('pages.maps');
