@@ -124,9 +124,11 @@ class TieuchuanController extends Controller
      */
     public function getIdDanhHieuDoiTuong($id_title, $id_object) {
          return DB::table('danhhieu_doituong')
-            ->join('danhhieu', 'danhhieu.id', '=', 'id_danhhieu')
-            ->join('doituong', 'doituong.id', '=', 'id_doituong')
-            ->first();
+             ->join('danhhieu', 'danhhieu.id', '=', 'id_danhhieu')
+             ->join('doituong', 'doituong.id', '=', 'id_doituong')
+             ->where('id_danhhieu', '=', $id_title)
+             ->where('id_doituong', '=', $id_object)
+             ->first();
     }
 
     /**
@@ -138,7 +140,9 @@ class TieuchuanController extends Controller
 
         $content = $request->input('content');
         $id_noidung = $request->input('id_noidung');
-        if ($content && $id_noidung && DB::table('noidung')->where('id', $id_noidung)->exists()) {
+        if ($id_noidung && DB::table('noidung')->where('id', $id_noidung)->exists()) {
+            if (!$content) $content = "";
+
             $reply = Reply::updateOrCreate(
                 ['id_users' => auth()->user()->id, 'id_noidung' => $id_noidung],
                 ['reply' => $content]
@@ -148,10 +152,10 @@ class TieuchuanController extends Controller
             $id_title = $request->session()->get('id_title');
             $id_object = $request->session()->get('id_object');
             if (isset($id_title) && isset($id_object)) {
-                $id_danhhieu_doituong = $this->getIdDanhHieuDoiTuong($id_title, $id_object);
+                $danhhieu_doituong = $this->getIdDanhHieuDoiTuong($id_title, $id_object);
                 if (isset($id_danhhieu_doituong)) {
                     $editReply = UserDanhHieuDoiTuong::updateOrCreate(
-                        ['id_users' => $request->user()->id, 'id_danhhieu_doituong' => $id_danhhieu_doituong->id],
+                        ['id_users' => $request->user()->id, 'id_danhhieu_doituong' => $danhhieu_doituong->id],
                         ['edit' => true],
                     );
                 }

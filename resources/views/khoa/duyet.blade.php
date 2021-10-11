@@ -1,5 +1,5 @@
+@can('duyệt - xem đề cử')
 <div class="container-fluid">
-
     <div class="accordion" id="accordionScroll">
         <div class="row">
                 <div class="col-xl-12 mb-3">
@@ -434,3 +434,4 @@
         });
     };
 </script>
+@endcan

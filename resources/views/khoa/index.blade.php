@@ -42,11 +42,6 @@
                                                 @endisset
                                             </select>
                                         </div>
-                                        @if ($errors->has('id_title'))
-                                            <span class="invalid-feedback" style="display: block;" role="alert">
-                                            <strong>{{ $errors->first('id_title') }}</strong>
-                                        </span>
-                                        @endif
                                     </div>
                                     <div class="form-group{{ $errors->has('id_object') ? ' has-danger' : '' }}">
                                         <div class="input-group input-group-alternative">
@@ -58,11 +53,9 @@
                                                 <option selected disabled value="">{{ __('Chọn đối tượng') }}</option>
                                             </select>
                                         </div>
-                                        @if ($errors->has('id_object'))
-                                            <span class="invalid-feedback" style="display: block;" role="alert">
-                                            <strong>{{ $errors->first('id_object') }}</strong>
-                                        </span>
-                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary">In danh sách</button>
                                     </div>
                                     <div class="table-responsive py-4">
                                         <table class="table table-flush dataTable stripe display compact" id="datatable-basic">
