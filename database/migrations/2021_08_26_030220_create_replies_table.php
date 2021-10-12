@@ -18,8 +18,15 @@ class CreateRepliesTable extends Migration
             $table->unsignedInteger('id_noidung');
             $table->text('reply');
             $table->text('comment')->nullable();
+            $table->unsignedBigInteger('id_comment')->nullable();
+            $table->string('evaluate')->nullable();
+            $table->unsignedBigInteger('id_evaluate')->nullable();
             $table->timestamps();
             $table->foreign('id_users')->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->foreign('id_comment')->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->foreign('id_evaluate')->references('id')->on('users')
                 ->onDelete('cascade');
             $table->foreign('id_noidung')->references('id')->on('noidung')
                 ->onDelete('cascade');

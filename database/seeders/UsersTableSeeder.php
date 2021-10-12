@@ -70,5 +70,15 @@ class UsersTableSeeder extends Seeder
             'updated_at' => now()
         ]);
         $khoa2->assignRole('khoa');
+
+        $truong = User::create([
+            'name' => 'Đại học Sư phạm',
+            'email' => 'hcmue@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('123456'),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $truong->assignRole('truong');
     }
 }

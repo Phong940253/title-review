@@ -18,6 +18,9 @@ class UserDanhHieuDoiTuong extends Model
      */
     protected $table = 'users_danhhieu_doituong';
 
+    /**
+     * @var string[]
+     */
     protected $primaryKey = array('id_danhhieu_doituong', 'id_users');
 
     /**
@@ -28,6 +31,8 @@ class UserDanhHieuDoiTuong extends Model
         'id_users',
         'confirmed',
         'comment',
+        'rank',
+        'id_approved',
         'edit',
     ];
 

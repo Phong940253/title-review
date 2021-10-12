@@ -153,10 +153,10 @@ class TieuchuanController extends Controller
             $id_object = $request->session()->get('id_object');
             if (isset($id_title) && isset($id_object)) {
                 $danhhieu_doituong = $this->getIdDanhHieuDoiTuong($id_title, $id_object);
-                if (isset($id_danhhieu_doituong)) {
+                if (isset($danhhieu_doituong)) {
                     $editReply = UserDanhHieuDoiTuong::updateOrCreate(
                         ['id_users' => $request->user()->id, 'id_danhhieu_doituong' => $danhhieu_doituong->id],
-                        ['edit' => true],
+                        ['edit' => 1],
                     );
                 }
             }
