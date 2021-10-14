@@ -20,8 +20,7 @@
         "laravel/ui": "^3.3",
         "spatie/laravel-permission": "^4.3",
         "vanthao03596/laravel-hanhchinhvn": "^1.1",
-        "yajra/laravel-datatables-oracle": "~9.0",
-        "composer/composer": "2.1.9"
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
