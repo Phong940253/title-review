@@ -68,6 +68,9 @@
                                                 <th>Giới tính</th>
                                                 <th>Đơn vị</th>
                                                 <th>Xét duyệt</th>
+                                                @role('truong')
+                                                <th>Người duyệt</th>
+                                                @endrole
                                             </tr>
                                             </thead>
                                             <tfoot>
@@ -130,9 +133,9 @@
         });
 
 
-        let table
+        let table;
         $("#objectSelected").change(function () {
-            if ( $.fn.dataTable.isDataTable( '#datatable-basic' ) ) {
+            if ($.fn.dataTable.isDataTable( '#datatable-basic')) {
                 table.destroy();
             }
             table = $('#datatable-basic').DataTable({
@@ -163,12 +166,15 @@
                 'ajax': `{!! route('tong-hop-don-vi') !!}?id_title=${$("#titleSelected").val()}&id_object=${$("#objectSelected").val()}`,
                 'columns': [
                     { data: 'ms', name: 'ms' },
-                    { data: 'users_name', name: 'users_name' },
+                    { data: 'name', name: 'name' },
                     { data: 'email', name: 'email' },
                     { data: 'telephone', name: 'telephone' },
                     { data: 'gender', name: 'gender' },
                     { data: 'unit_name', name: 'unit_name' },
-                    { data: 'confirmed', name: 'confirmed'}
+                    { data: 'confirmed', name: 'confirmed'},
+                    @role('truong')
+                    {data: 'approved_name', name: 'approved_name'},
+                    @endrole
                 ],
                 "columnDefs": [
                     {

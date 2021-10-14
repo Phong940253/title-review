@@ -1,198 +1,88 @@
-<nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
-    <div class="container-fluid">
-        <!-- Toggler -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- Brand -->
-        <a class="navbar-brand pt-0" href="{{ route('home') }}">
-            <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="..."  width="100%" style="max-height: none; ">
-        </a>
-        <!-- User -->
-        <ul class="nav align-items-center d-md-none align-self-end">
-            <li class="nav-item d-xl-none">
-                <!-- Sidenav toggler -->
-                <div class="pr-3 sidenav-toggler sidenav-toggler-dark" data-action="sidenav-pin" data-target="#sidenav-main">
-                    <div class="sidenav-toggler-inner">
-                        <i class="sidenav-toggler-line"></i>
-                        <i class="sidenav-toggler-line"></i>
-                        <i class="sidenav-toggler-line"></i>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <div class="media align-items-center">
-                        <span class="avatar avatar-sm rounded-circle">
-                            <img id="fullAvatar" alt="Avatar" class="rounded-circle" height="36" width="36" src="{{ asset(isset(auth()->user()->url_image) ? auth()->user()->url_image : 'argon/img/theme/default.jpg') }}">
-                        </span>
-                    </div>
+<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+    <div class="scroll-wrapper scrollbar-inner scroll-scrollx_visible" style="position: relative;">
+        <div class="scrollbar-inner scroll-content scroll-scrolly_visible" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 624px;">
+            <div class="sidenav-header d-flex align-items-center">
+                <a class="navbar-brand" href="{{ route('home') }}">
+                    <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="..."  width="180px" style="max-height: none">
                 </a>
-                <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
-                    <div class=" dropdown-header noti-title">
-                        <h6 class="text-overflow m-0">{{ __('Welcome!') }}</h6>
-                    </div>
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
-                        <i class="ni ni-single-02"></i>
-                        <span>{{ __('Hồ sơ của tôi') }}</span>
-                    </a>
-                    <a href="#" class="dropdown-item">
-                        <i class="ni ni-settings-gear-65"></i>
-                        <span>{{ __('Cài đặt') }}</span>
-                    </a>
-                    <a href="#" class="dropdown-item">
-                        <i class="ni ni-calendar-grid-58"></i>
-                        <span>{{ __('Hoạt động') }}</span>
-                    </a>
-                    <a href="#" class="dropdown-item">
-                        <i class="ni ni-support-16"></i>
-                        <span>{{ __('Hỗ trợ') }}</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
-                        <i class="ni ni-user-run"></i>
-                        <span>{{ __('Đăng xuất') }}</span>
-                    </a>
-                </div>
-            </li>
-        </ul>
-        <!-- Collapse -->
-        <div class="collapse navbar-collapse" id="sidenav-collapse-main">
-            <!-- Collapse header -->
-            <div class="navbar-collapse-header d-md-none">
-                <div class="row">
-                    <div class="col-6 collapse-brand">
-                        <a href="{{ route('home') }}">
-                            <img src="{{ asset('argon') }}/img/brand/blue.png">
-                        </a>
-                    </div>
-                    <div class="col-6 collapse-close">
-                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle sidenav">
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- Form -->
-            <form class="mt-4 mb-3 d-md-none">
-                <div class="input-group input-group-rounded input-group-merge">
-                    <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="{{ __('Search') }}" aria-label="Search">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <span class="fa fa-search"></span>
+                <div class="ml-auto">
+                    <!-- Sidenav toggler -->
+                    <div class="sidenav-toggler d-none d-xl-block" data-action="sidenav-unpin" data-target="#sidenav-main">
+                        <div class="sidenav-toggler-inner">
+                            <i class="sidenav-toggler-line"></i>
+                            <i class="sidenav-toggler-line"></i>
+                            <i class="sidenav-toggler-line"></i>
                         </div>
                     </div>
                 </div>
-            </form>
-            <!-- Navigation -->
-            <ul class="navbar-nav">
-                @role('user')
-                    <li class="nav-item">
-                        <a class="nav-link {{(isset($id_tieuchi) || isset($id_tieuchuan)) ? "" : "active"}}" href="{{ route('profile.edit') }}">
-                            <i class="ni ni-circle-08 text-primary"></i> {{ __('Thông tin cá nhân') }}
-                        </a>
-                    </li>
-                    @isset($tieuchis)
-                    @foreach($tieuchis as $tieuchi)
-                        <li class="nav-item">
-                            @if (count($tieuchi->tieuchuans) != 0)
-                                <a class="nav-link {{isset($id_tieuchi) ? ($id_tieuchi == $tieuchi->id ? "active" : "" ): ""}}" href="#navbar-{{$tieuchi->id}}" data-toggle="collapse" role="button" aria-expanded="{{isset($id_tieuchi) ? ($id_tieuchi == $tieuchi->id ? "true" : "false") : "false"}}" aria-controls="navbar-{{$tieuchi->id}}">
-                                    <span class="nav-link-text ml-4">{{$tieuchi->name}}</span>
-                                </a>
-                            @else
-                                <a class="nav-link {{isset($id_tieuchi) ? ($id_tieuchi == $tieuchi->id ? "active" : "" ): ""}}" href="{{route('tieuchuan')}}?id_tieuchi={{$tieuchi->id}}">
-                                    <span class="nav-link-text ml-4">{{$tieuchi->name}}</span>
-                                </a>
-                            @endif
-                                <div class="collapse {{isset($id_tieuchi) ? ($id_tieuchi == $tieuchi->id ? "show" : "") : ""}}" id="navbar-{{$tieuchi->id}}">
-                                    <ul class="nav nav-sm flex-column">
-
-                                        @foreach ($tieuchi->tieuchuans as $tieuchuan)
-                                            <li class="nav-item">
-                                                <a class="nav-link  {{isset($id_tieuchuan) ? ($id_tieuchuan == $tieuchuan->id ? "active" : "" ): ""}}" href="{{ route('tieuchuan') }}?id_tieuchuan={{$tieuchuan->id}}&id_tieuchi={{$tieuchi->id}}">
-                                                    {{$tieuchuan->name}}
-                                                </a>
-                                            </li>
-                                     @endforeach
-                                 </ul>
-                                </div>
+            </div>
+            <div class="navbar-inner">
+                <!-- Collapse -->
+                <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                    <!-- Nav items -->
+                    <ul class="navbar-nav">
+                        @role('user')
+                        <li class="nav-item {{(isset($id_tieuchi) || isset($id_tieuchuan)) ? "" : "active"}}">
+                            <a class="nav-link {{(isset($id_tieuchi) || isset($id_tieuchuan)) ? "" : "active"}}"
+                               href="{{ route('profile.edit') }}">
+                                <i class="ni ni-circle-08 text-primary"></i>
+                                <span class="nav-link-text"> {{ __('Thông tin cá nhân') }}</span>
+                            </a>
                         </li>
-                    @endforeach
-                @endisset
-                @endrole
-                @role('khoa')
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('home') }}">
-                            <i class="ni ni-circle-08 text-primary"></i> {{ __('Tổng hợp đơn vị') }}
-                        </a>
-                    </li>
-                @endrole
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-examples">--}}
-{{--                        <i class="fab fa-laravel" style="color: #f4645f;"></i>--}}
-{{--                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Laravel Examples') }}</span>--}}
-{{--                    </a>--}}
+                        @isset($tieuchis)
+                            @for($i = 0; $i < count($tieuchis); $i++)
+                                <li class="nav-item">
+                                    @if (count($tieuchis[$i]->tieuchuans) != 0)
+                                        <a class="nav-link {{isset($id_tieuchi) ? ($id_tieuchi == $tieuchis[$i]->id ? "active collapsed" : "" ): ""}}"
+                                           href="#navbar-{{$tieuchis[$i]->id}}" data-toggle="collapse" role="button"
+                                           aria-expanded="{{isset($id_tieuchi) ? ($id_tieuchi == $tieuchis[$i]->id ? "true" : "false") : "false"}}"
+                                               aria-controls="navbar-{{$tieuchis[$i]->id}}">
+{{--                                            <i class="fa fa-align-left" style="color: #2D46B9;"></i>--}}
+                                            <h3 style="color: #2D46B9" class="pr-2 text-center m-0">{{ $i + 1 }}</h3>
+                                            <span class="nav-link-text">{{$tieuchis[$i]->name}}</span>
+                                        </a>
+                                    @else
+                                        <a class="nav-link {{isset($id_tieuchi) ? ($id_tieuchi == $tieuchis[$i]->id ? "active" : "" ): ""}}"
+                                           href="{{route('tieuchuan')}}?id_tieuchi={{$tieuchis[$i]->id}}">
+                                            <h3 style="color: #2D46B9" class="pr-2 text-center m-0">{{ $i + 1 }}</h3>
+                                            <span class="nav-link-text">{{$tieuchis[$i]->name}}</span>
+                                        </a>
+                                    @endif
+                                    <div
+                                        class="collapse {{isset($id_tieuchi) ? ($id_tieuchi == $tieuchis[$i]->id ? "show" : "") : ""}}"
+                                        id="navbar-{{$tieuchis[$i]->id}}">
+                                        <ul class="nav nav-sm flex-column">
 
-{{--                    <div class="collapse show" id="navbar-examples">--}}
-{{--                        <ul class="nav nav-sm flex-column">--}}
-{{--                            <li class="nav-item">--}}
-{{--                                <a class="nav-link" href="{{ route('profile.edit') }}">--}}
-{{--                                    {{ __('User profile') }}--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                            <li class="nav-item">--}}
-{{--                                <a class="nav-link" href="{{ route('user.index') }}">--}}
-{{--                                    {{ __('User Management') }}--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
-{{--                </li>--}}
-
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link" href="{{ route('icons') }}">--}}
-{{--                        <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--                <li class="nav-item ">--}}
-{{--                    <a class="nav-link" href="{{ route('map') }}">--}}
-{{--                        <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link" href="{{ route('table') }}">--}}
-{{--                      <i class="ni ni-bullet-list-67 text-default"></i>--}}
-{{--                      <span class="nav-link-text">Tables</span>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link" href="#">--}}
-{{--                        <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-            </ul>
-            <!-- Divider -->
-            <hr class="my-3">
-            <!-- Heading -->
-            <h6 class="navbar-heading text-muted">Quy chế</h6>
-            <!-- Navigation -->
-{{--            <ul class="navbar-nav mb-md-3">--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/getting-started/overview.html">--}}
-{{--                        <i class="ni ni-spaceship"></i> Getting started--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/foundation/colors.html">--}}
-{{--                        <i class="ni ni-palette"></i> Foundation--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a class="nav-link" href="https://argon-dashboard-laravel.creative-tim.com/docs/components/alerts.html">--}}
-{{--                        <i class="ni ni-ui-04"></i> Components--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--            </ul>--}}
-        </div>
-    </div>
+                                            @foreach ($tieuchis[$i]->tieuchuans as $tieuchuan)
+                                                <li class="nav-item  {{isset($id_tieuchuan) ? ($id_tieuchuan == $tieuchuan->id ? "active" : "" ): ""}}">
+                                                    <a class="nav-link  {{isset($id_tieuchuan) ? ($id_tieuchuan == $tieuchuan->id ? "active" : "" ): ""}}"
+                                                       href="{{ route('tieuchuan') }}?id_tieuchuan={{$tieuchuan->id}}&id_tieuchi={{$tieuchis[$i]->id}}">
+                                                        {{$tieuchuan->name}}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </li>
+                            @endfor
+                        @endisset
+                        @endrole
+                        @role('khoa')
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ route('home') }}">
+                                <i class="ni ni-circle-08 text-primary"></i> {{ __('Tổng hợp đơn vị') }}
+                            </a>
+                        </li>
+                        @endrole
+                    </ul>
+                    <!-- Divider -->
+                    <hr class="my-3">
+                    <!-- Heading -->
+                    <h6 class="navbar-heading p-0 text-muted">Quy chế</h6>
+                    <!-- Navigation -->
+                    <ul class="navbar-nav mb-md-3">
+                    </ul>
+                </div>
+            </div>
+        </div><div class="scroll-element scroll-x scroll-scrolly_visible"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="width: 0px; left: 0px;"></div></div></div><div class="scroll-element scroll-y scroll-scrolly_visible"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="height: 501px; top: 0px;"></div></div></div></div>
 </nav>

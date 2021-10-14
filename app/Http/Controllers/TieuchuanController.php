@@ -43,6 +43,7 @@ class TieuchuanController extends Controller
             'id_tieuchuan' => $request->id_tieuchuan,
             'replies' => $replies,
             'minhchungs' => $minhchungs,
+            'class' => 'g-sidenav-hidden',
         ];
         return view('users.tieuchuan', $param);
     }

@@ -41,6 +41,10 @@ class HomeController extends Controller
             $KhoaManagerController = new ManagerController;
             return $KhoaManagerController->index();
         }
+        if (auth()->user()->hasRole('truong')) {
+            $truongManagerController = new ManagerController;
+            return $truongManagerController->index();
+        }
         return $ProfileController->edit($request);
     }
 }

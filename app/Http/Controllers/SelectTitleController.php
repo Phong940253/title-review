@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -22,10 +23,15 @@ class SelectTitleController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request)
     {
         $titles = DB::table('danhhieu')->select('name', 'id')->get();
-        return view('users.select-title', ['titles' => $titles]);
+        $params = [
+            'titles' => $titles,
+            'class' => 'g-sidenav-hidden',
+            'bgStyle' => "bg-gradient-primary",
+        ];
+        return view('users.select-title', $params);
     }
 
     /**

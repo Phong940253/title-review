@@ -1,4 +1,4 @@
-<div class="header pb-8 pt-5 pt-lg-6 d-flex align-items-center bg-primary">
+<div class="header pb-8 d-flex align-items-center bg-primary">
     <!-- Header container -->
     <div class="container-fluid">
         <div class="header-body">

@@ -60,4 +60,9 @@ class UserDanhHieuDoiTuong extends Model
         return $this->belongsTo(User::class, 'id_users');
     }
 
+    public function approvedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_approved');
+    }
+
 }

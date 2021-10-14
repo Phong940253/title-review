@@ -35,7 +35,6 @@ class FillInformationProfile
     public function handle(Request $request, Closure $next)
     {
         if ($request->user()->can('để trống thông tin')) {
-            Log::debug('Fill Information');
             return $next($request);
         }
         else if (//                isset(auth()->user()->url_image) &&

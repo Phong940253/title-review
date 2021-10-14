@@ -24,6 +24,8 @@ class UserDanhHieuDoiTuongFactory extends Factory
     public function definition(): array
     {
         $edit = $this->faker->numberBetween(0, 1);
+        $confirmed = $edit ? $this->faker->numberBetween(0, 1) : 0;
+        $id_approved = $confirmed ? User::role('khoa')->first()->id : NULL;
         return [
             'id_danhhieu_doituong' => function(array $attributes) {
 //                $origin = DanhHieuDoiTuong::all()->pluck('id');
@@ -35,8 +37,9 @@ class UserDanhHieuDoiTuongFactory extends Factory
 //                echo $res;
                 return DanhHieuDoiTuong::all()->random()->id;
             },
+            'id_approved' => $id_approved,
             'edit' => $edit,
-            'confirmed' => $edit ? $this->faker->numberBetween(0, 1) : 0,
+            'confirmed' => $confirmed,
         ];
     }
 }

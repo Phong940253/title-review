@@ -27,14 +27,16 @@ class InputInfoController extends Controller
     /**
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request)
     {
         $ProfileController = new ProfileController;
         $params = [
             'city' => $this->getProvince('province'),
             'current_city' => $this->getProvince('current_province'),
             'nation' => $ProfileController->getNation('dan_toc'),
-            'religion' => $this->getReligion('religion')
+            'religion' => $this->getReligion('religion'),
+            'class' => 'g-sidenav-hidden',
+            'bgStyle' => "bg-gradient-primary",
         ];
         return view('users.info', $params);
     }

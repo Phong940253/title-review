@@ -72,4 +72,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserDanhHieuDoiTuong::class, 'id_users');
     }
+
+    public function approved(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserDanhHieuDoiTuong::class, 'id_approved');
+    }
 }

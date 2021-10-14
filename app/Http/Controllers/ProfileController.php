@@ -50,6 +50,7 @@ class ProfileController extends Controller
             'current_city' => $InputInfoController->getProvince('id_current_province'),
             'unit' => $this->getUnit('id_unit'),
             'year' => $this->getYear('year'),
+            'class' => 'g-sidenav-hidden',
         ];
         return view('profile.edit', $params);
     }

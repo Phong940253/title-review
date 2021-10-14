@@ -117,7 +117,7 @@
     <script src="{{asset('assets')}}/vendor/dropzone/dist/min/dropzone.min.js"></script>
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
-        $(document).ready(() => {
+        $(document).ready(function() {
             const target = $('[data-toggle="dropzone"]');
             target.map((index, value) => {
                 const container = $(value).find(".dz-preview");

@@ -15,19 +15,19 @@
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image">
                                 <a onclick="ChangeAvarta();" id="uploaded_image">
-                                    <img alt="Avatar" id="Avatar" class="rounded-circle" width="180" height="180" src="{{ asset(isset(auth()->user()->url_image) ? auth()->user()->url_image : 'argon/img/theme/default.jpg') }}">
+                                    <img alt="Avatar" id="Avatar" class="rounded-circle" src="{{ asset(isset(auth()->user()->url_image) ? auth()->user()->url_image : 'argon/img/theme/default.jpg') }}">
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                    <div class="card-header text-center border-0 pt-5 pt-md-4 pb-0 pb-md-4">
                         <div class="d-flex justify-content-between">
                         </div>
                     </div>
-                    <div class="card-body pt-0 pt-md-4">
+                    <div class="card-body pt-0">
                         <div class="row">
                             <div class="col">
-                                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                                <div class="card-profile-stats d-flex justify-content-center">
                                     <div class="text-center">
                                         {{--                                        <form method="POST" action="{{ route('upload-image')}}" id="form-upload-file">--}}
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">

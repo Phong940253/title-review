@@ -23,6 +23,7 @@ class ManagerController extends Controller
                 'currentPage' => 'Tổng hợp đơn vị',
             ],
             'titles' => $titles,
+            'class' => 'g-sidenav-hidden',
         ];
         return view('khoa.index', $params);
     }
@@ -42,32 +43,51 @@ class ManagerController extends Controller
         ])->validate();
 
         // Get query
+        $danhhieu_doituong = DB::table('danhhieu_doituong')
+            ->where('id_danhhieu', '=', $id_title)
+            ->where('id_doituong', '=', $id_object);
+
         $users = DB::table('users')
             ->join('unit', 'users.id_unit', '=', 'unit.id')
             ->join('users_danhhieu_doituong', 'users.id', '=', 'users_danhhieu_doituong.id_users')
-            ->join('danhhieu_doituong', 'users_danhhieu_doituong.id_danhhieu_doituong', '=', 'danhhieu_doituong.id')
-            ->where('id_danhhieu', '=', $id_title)
-            ->where('id_doituong', '=', $id_object)
-            ->where('id_unit', '=', auth()->user()->id_unit)
-            ->select(['users.id as id', 'ms', 'users.name as users_name', 'gender', 'email', 'telephone', 'unit.name as unit_name', 'confirmed', 'id_danhhieu_doituong']);
+            ->joinSub($danhhieu_doituong, 'danhhieu_doituong', function($join) {
+                $join->on('id_danhhieu_doituong', '=', 'danhhieu_doituong.id');
+            });
+
+        if ($request->user()->hasRole('khoa')) {
+            $users = $users->where('id_unit', '=', auth()->user()->id_unit);
+            $users = $users->select(['users.id', 'users.ms', 'users.name as name', 'users.gender', 'users.email', 'users.telephone', 'unit.name as unit_name', 'confirmed', 'id_danhhieu_doituong']);
+        }
+        if ($request->user()->hasRole('truong')) {
+            $users = $users->leftJoin('users AS admin', 'users_danhhieu_doituong.id_approved', '=', 'admin.id');
+            $users = $users->select(['users.id', 'users.ms', 'users.name as name', 'users.gender', 'users.email', 'users.telephone', 'unit.name as unit_name', 'confirmed', 'id_danhhieu_doituong', 'admin.name as approved_name']);
+        }
 
         // get response for datatable server-side
-        return DataTables::of($users)
+        $table = DataTables::of($users)
             ->editColumn('gender', function ($user) {
                 return ($user->gender ? "Nữ" : "Nam"); // Nam if value gender 0 else Nu
             })
             ->editColumn('confirmed', function ($user) {
                 return '<div class="custom-toggle">
                         <input type="checkbox"' . ($user->confirmed ? ' checked' : "") . '>' .
-                        '<span class="custom-toggle-slider rounded-circle"></span>
+                    '<span class="custom-toggle-slider rounded-circle"></span>
                         </div>';
             })
-            ->filterColumn('users_name', function ($query, $keyword) {
+            ->filterColumn('id', function ($query, $keyword) {
+                $sql = "users.id like ?";
+                $query->where($sql, ["${keyword}%"]);
+            })
+            ->filterColumn('name', function ($query, $keyword) {
                 $sql = "users.name like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
             })
             ->filterColumn('unit_name', function ($query, $keyword) {
                 $sql = "unit.name like ?";
+                $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->filterColumn('email', function ($query, $keyword) {
+                $sql = "users.email like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
             })
             ->filterColumn('gender', function ($query, $keyword) {
@@ -76,14 +96,26 @@ class ManagerController extends Controller
                     $keyword = 0;
                 if (mb_strpos("nữ", $newKey) !== false)
                     $keyword = 1;
-                $sql = "gender like ?";
+                $sql = "users.gender like ?";
+                $query->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->filterColumn('telephone', function ($query, $keyword) {
+                $sql = "users.telephone like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
             })
             ->filterColumn('confirmed', function($query, $keyword) {
                 $query->whereRaw('users_danhhieu_doituong.confirmed like ?', ["%{$keyword}%"]);
-            })
+            });
+        if ($request->user()->hasRole('truong'))
+            $table = $table
+                ->filterColumn('approved_name', function ($query, $keyword) {
+                $sql = "admin.name like ?";
+                $query->whereRaw($sql, ["%{$keyword}%"]);
+            });
+        $table = $table
             ->rawColumns(['confirmed'])
             ->make(true);
+        return $table;
     }
 
     public function getUser(Request $request) {
@@ -135,7 +167,7 @@ class ManagerController extends Controller
             'year' => $year,
             'tieuchis' => $tieuchis,
             'xet_duyet' => $xet_duyet,
-            'id_danhhieu_doituong' => $id_danhhieu_doituong
+            'id_danhhieu_doituong' => $id_danhhieu_doituong,
         ];
 //        Log::debug($user);
         return view('khoa.duyet', $params);
@@ -148,7 +180,7 @@ class ManagerController extends Controller
         $update =  DB::table('users_danhhieu_doituong')
             ->updateOrInsert(
                 ['id_users' => $id_users, 'id_danhhieu_doituong' => $id_danhhieu_doituong],
-                ['confirmed'=> $confirmed == "on"],
+                ['confirmed'=> $confirmed == "on", 'id_approved' => $request->user()->id],
             );
         return ($update) ? Response::json([
             'success' => true,
