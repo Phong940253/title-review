@@ -70,7 +70,16 @@
                         @role('khoa')
                         <li class="nav-item">
                             <a class="nav-link active" href="{{ route('home') }}">
-                                <i class="ni ni-circle-08 text-primary"></i> {{ __('Tổng hợp đơn vị') }}
+                                <i class="ni ni-circle-08 text-primary"></i>
+                                <span class="nav-link-text"> {{ __('Thông tin cá nhân') }}</span>
+                            </a>
+                        </li>
+                        @endrole
+                        @role('truong')
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ route('home') }}">
+                                <i class="ni ni-circle-08 text-primary"></i>
+                                <span class="nav-link-text"> {{ __('Thông tin cá nhân') }}</span>
                             </a>
                         </li>
                         @endrole

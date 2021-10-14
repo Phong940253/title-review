@@ -3,28 +3,28 @@
     <div class="accordion" id="accordionScroll">
         <div class="row">
                 <div class="col-xl-12 mb-3">
-                    <div class="card card-profile shadow">
-                        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                    <div class="card card-profile shadow mb-0">
+                        <div class="card-header text-center border-0 pt-5 pt-4 pb-0 pb-4">
                             <div class="row justify-content-center">
                                 <div class="col-lg-3 order-lg-2">
                                     <div class="card-profile-image">
                                         <a id="uploaded_image">
-                                            <img alt="Avatar" id="Avatar" class="rounded-circle" width="180" height="180" src="{{ asset(isset($user->url_image) ? $user->url_image : 'argon/img/theme/default.jpg') }}">
+                                            <img alt="Avatar" id="Avatar" class="rounded-circle" src="{{ $user->url_image ?? 'argon/img/theme/default.jpg' }}">
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body pt-0 pt-md-4">
+                        <div class="card-body pt-0">
                             <div class="row">
                                 <div class="col">
-                                    <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                                    <div class="card-profile-stats d-flex justify-content-center mt-3">
                                         <div class="text-center">
                                             <h3>
                                                 {{ $user->name }}<span class="font-weight-light"></span>
                                             </h3>
                                             <div>
-                                                <i class="ni education_hat mr-2"></i>{!! $unit !!}
+                                                {!! $unit !!}
                                             </div>
                                             <input type="hidden" name="id_users" value="{{$user->id}}">
                                             <input type="hidden" name="id_danhhieu_doituong" value="{{$id_danhhieu_doituong}}">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="col-xl-12 mb-3">
-                    <div class="card bg-secondary shadow">
+                    <div class="card bg-secondary shadow mb-0">
                         <div class="card-header bg-white border-0"  id="heading0" data-toggle="collapse" data-target="#collapse0" aria-expanded="false" aria-controls="collapse0">
                             <div class="row align-items-center">
                                 <h3 class="mb-0 ml-3">{{ __('Thông tin chung') }}</h3>
@@ -293,7 +293,7 @@
                     @foreach($tieuchis as $tieuchi)
                         @if (count($tieuchi->tieuchuans) <= 0)
                             <div class="col-xl-12 mb-3">
-                                <div class="card bg-white shadow">
+                                <div class="card bg-white shadow mb-0">
                                     <div class="card-header bg-white border-0"  id="heading{{$tieuchi->id}}" data-toggle="collapse" data-target="#collapse{{$tieuchi->id}}" aria-expanded="false" aria-controls="collapse{{$tieuchi->id}}">
                                         <div class="row align-items-center">
                                             <h3 class="mb-0 ml-3">{{ $tieuchi->name }}</h3>
@@ -304,7 +304,7 @@
                         @endif
                         @foreach($tieuchi->tieuchuans as $tieuchuan)
                             <div class="col-xl-12 mb-3">
-                                <div class="card bg-white shadow">
+                                <div class="card bg-white shadow mb-0">
                                     <div class="card-header bg-white border-0"  id="heading{{$tieuchi->id * 10000 . $tieuchuan->id}}" data-toggle="collapse" data-target="#collapse{{$tieuchi->id * 10000 . $tieuchuan->id}}" aria-expanded="false" aria-controls="collapse{{$tieuchi->id * 10000 . $tieuchuan->id}}">
                                         <div class="row align-items-center">
                                             <h3 class="mb-0 ml-3">{{ $tieuchi->name . " - " . $tieuchuan->name }}</h3>

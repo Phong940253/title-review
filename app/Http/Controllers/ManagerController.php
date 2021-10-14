@@ -25,7 +25,7 @@ class ManagerController extends Controller
             'titles' => $titles,
             'class' => 'g-sidenav-hidden',
         ];
-        return view('khoa.index', $params);
+        return view('manager.index', $params);
     }
 
     /**
@@ -170,7 +170,7 @@ class ManagerController extends Controller
             'id_danhhieu_doituong' => $id_danhhieu_doituong,
         ];
 //        Log::debug($user);
-        return view('khoa.duyet', $params);
+        return view('manager.duyet', $params);
     }
 
     public function acceptDeCu(Request $request) {
