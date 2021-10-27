@@ -98,7 +98,7 @@
                                 <div class="modal-body" id="modal-duyet">
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                    <button id="close-button" type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                                     <button id="submit" type="submit" form="submitForm" class="btn btn-primary">Lưu thay đổi</button>
                                 </div>
                             </form>
@@ -122,6 +122,24 @@
     <script src="{{ asset('argon') }}/vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/datatables.net-select/js/dataTables.select.min.js"></script>
     <script>
+        const optionTask = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
         $("#titleSelected").change(function () {
             $.ajax({
                 url: "{{ route('user.object.get_by_title') }}?id_title=" + $(this).val(),
@@ -202,48 +220,22 @@
             const form = $(this);
             console.log(form.attr('action'));
             const posting = $.post(form.attr('action'), form.serialize());
+            uploadForm();
             posting.done(function (data) {
                 if (data.success) {
                     table.ajax.reload( null, false );
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": false,
-                        "newestOnTop": false,
-                        "progressBar": true,
-                        "positionClass": "toast-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    }
+                    toastr.options = optionTask;
                     toastr['success'](data.message);
                 } else {
-                    toastr.options = {
-                        "closeButton": false,
-                        "debug": false,
-                        "newestOnTop": false,
-                        "progressBar": true,
-                        "positionClass": "toast-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "300",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",
-                        "extendedTimeOut": "1000",
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut"
-                    }
-                    toastr['error'](data.message);
+                    toastr.options = optionTask;
+                    toastr['warning'](data.message);
                 }
             })
+            posting.fail((data) => {
+                toastr.options = optionTask;
+                toastr['error'](data.message ? data.message : data.responseJSON.message);
+            })
+            $('#close-button').trigger('click');
         })
     </script>
     <script src="{{asset('assets')}}/vendor/dropzone/dist/min/dropzone.min.js"></script>

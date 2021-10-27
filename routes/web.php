@@ -33,7 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['middleware' => 'fill.info'], function () {
             Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
             Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
-            Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
+            Route::resource('user', 'App\Http\Controllers\ManagerUserController', ['except' => ['show']]);
 
             Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
             Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
@@ -54,16 +54,31 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('duyet', 'App\Http\Controllers\ManagerController@getUser')->name('duyet');
                 Route::post('acceptDeCu', 'App\Http\Controllers\ManagerController@acceptDeCu')->name('acceptDeCu');
             });
+            Route::post('send-comment', 'App\Http\Controllers\ManagerController@submitComment')->name('send-comment');
 
-            Route::get('map', function () {
-                return view('pages.maps');
-            })->name('map');
-            Route::get('icons', function () {
-                return view('pages.icons');
-            })->name('icons');
-            Route::get('table-list', function () {
-                return view('pages.tables');
-            })->name('table');
+            Route::group(['middleware' => 'admin'], function() {
+                Route::get('quan-ly-danh-hieu', 'App\Http\Controllers\ManagerTitlesController@Title')->name('quan-ly-danh-hieu');
+                Route::get('lay-danh-hieu', 'App\Http\Controllers\ManagerTitlesController@getTitle')->name('lay-danh-hieu');
+                Route::get('xem-danh-hieu', 'App\Http\Controllers\ManagerTitlesController@viewTitle')->name('xem-danh-hieu');
+                Route::post('sua-danh-hieu', 'App\Http\Controllers\ManagerTitlesController@editTitle')->name('sua-danh-hieu');
+                Route::post('xoa-danh-hieu', 'App\Http\Controllers\ManagerTitlesController@deleteTitle')->name('xoa-danh-hieu');
+                Route::get('form-them-danh-hieu', 'App\Http\Controllers\ManagerTitlesController@viewAddTitle')->name('form-them-danh-hieu');
+
+                Route::get('quan-ly-doi-tuong')->name('quan-ly-doi-tuong');
+            });
+
+
+
+
+//            Route::get('map', function () {
+//                return view('pages.maps');
+//            })->name('map');
+//            Route::get('icons', function () {
+//                return view('pages.icons');
+//            })->name('icons');
+//            Route::get('table-list', function () {
+//                return view('pages.tables');
+//            })->name('table');
             Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
         });
     });

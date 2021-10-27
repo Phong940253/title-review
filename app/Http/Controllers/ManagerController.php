@@ -6,6 +6,9 @@ use App\Models\User;
 use App\Rules\ValidIdObject;
 use App\Rules\ValidIdTitle;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -14,8 +17,14 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
+/**
+ *
+ */
 class ManagerController extends Controller
 {
+    /**
+     * @return Application|Factory|\Illuminate\Contracts\View\View
+     */
     public function index() {
         $titles = DB::table('danhhieu')->select('name', 'id')->get();
         $params = [
@@ -118,6 +127,10 @@ class ManagerController extends Controller
         return $table;
     }
 
+    /**
+     * @param Request $request
+     * @return Application|Factory|\Illuminate\Contracts\View\View
+     */
     public function getUser(Request $request) {
         $id_danhhieu_doituong = $request->input('id_danhhieu_doituong');
         $id_users = $request->input('id_users');
@@ -173,21 +186,51 @@ class ManagerController extends Controller
         return view('manager.duyet', $params);
     }
 
-    public function acceptDeCu(Request $request) {
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function acceptDeCu(Request $request): JsonResponse
+    {
         $id_danhhieu_doituong = $request->input('id_danhhieu_doituong');
         $id_users = $request->input('id_users');
         $confirmed = $request->input('confirmed');
         $update =  DB::table('users_danhhieu_doituong')
             ->updateOrInsert(
                 ['id_users' => $id_users, 'id_danhhieu_doituong' => $id_danhhieu_doituong],
-                ['confirmed'=> $confirmed == "on", 'id_approved' => $request->user()->id],
+                [
+                    'confirmed'=> $confirmed == "on",
+                    'id_approved' => $confirmed ? $request->user()->id : NULL,
+                    'updated_at' => now()
+                ],
+            );
+        return Response::json([
+            'success' => true,
+            'message' => 'Lưu thành công!'
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function submitComment(Request $request): JsonResponse
+    {
+        $id_noidung = $request->input('id_noidung');
+        $comment = $request->input('comment');
+        $id_users = $request->input('id_users');
+        $evaluate =$request->input('evaluate');
+        $update = DB::table('replies')
+            ->updateOrInsert(
+                ['id_noidung' => $id_noidung, 'id_users' => $id_users],
+                ['comment' => $comment ?? "", 'evaluate' => $evaluate ?? "", 'updated_at' => now()]
             );
         return ($update) ? Response::json([
             'success' => true,
             'message' => 'Lưu thành công!'
         ], 200) : Response::json([
             'success' => false,
-            'message' => 'Lưu thất bại!'
+            'message' => 'không thay đổi!'
         ], 200);
     }
 }

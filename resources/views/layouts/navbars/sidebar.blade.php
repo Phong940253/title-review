@@ -69,17 +69,82 @@
                         @endrole
                         @role('khoa')
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ route('home') }}">
-                                <i class="ni ni-circle-08 text-primary"></i>
-                                <span class="nav-link-text"> {{ __('Thông tin cá nhân') }}</span>
+                            <a class="nav-link {{ isset($nav) ? ($nav == 1 ? "active" : "") : "active"}}" href="{{ route('home') }}">
+                                <i class="fas fa-tasks text-primary"></i>
+                                <span class="nav-link-text"> {{ __('Tổng hợp đơn vị') }}</span>
                             </a>
                         </li>
                         @endrole
                         @role('truong')
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ route('home') }}">
-                                <i class="ni ni-circle-08 text-primary"></i>
-                                <span class="nav-link-text"> {{ __('Thông tin cá nhân') }}</span>
+                            <a class="nav-link {{ isset($nav) ? ($nav == 1 ? "active" : "") : "active"}}">
+                                <i class="fas fa-tasks text-primary"></i>
+                                <span class="nav-link-text"> {{ __('Tổng hợp đơn vị') }}</span>
+                            </a>
+                        </li>
+                        @endrole
+                        @role('admin')
+                        <li class="nav-item">
+                            <a class="nav-link {{ isset($nav) ? ($nav == 1 ? "active collapsed" : "") : "active collapsed"}}"
+                               href="#navbar-1" data-toggle="collapse" role="button"
+                               aria-expanded="{{isset($nav) ? ($nav == 1 ? "true" : "false") : "true"}}"
+                               aria-controls="navbar-1">
+                                <i class="fas fa-award text-primary"></i>
+                                <span class="nav-link-text">{{ __('Quản lý danh hiệu') }}</span>
+                            </a>
+                            <div
+                                class="collapse {{ isset($nav) ? ($nav == 1 ? "show" : "") : "show"}}"
+                                id="navbar-1">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item  {{isset($subnav) ? ($subnav == 1 ? "active" : "" ): ""}}">
+                                        <a class="nav-link  {{isset($subnav) ? ($subnav == 1 ? "active" : "" ): ""}}"
+                                           href="{{route('quan-ly-danh-hieu')}}">
+                                            {{ __('Danh hiệu') }}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item  {{isset($subnav) ? ($subnav == 2 ? "active" : "" ): ""}}">
+                                        <a class="nav-link  {{isset($subnav) ? ($subnav == 2 ? "active" : "" ): ""}}"
+                                           href="{{route('quan-ly-doi-tuong')}}">
+                                            {{ __('Đối tượng') }}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item  {{isset($subnav) ? ($subnav == 3 ? "active" : "" ): ""}}">
+                                        <a class="nav-link  {{isset($subnav) ? ($subnav == 3 ? "active" : "" ): ""}}"
+                                           href="">
+                                            {{ __('Tiêu chí') }}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item  {{isset($subnav) ? ($subnav == 4 ? "active" : "" ): ""}}">
+                                        <a class="nav-link  {{isset($subnav) ? ($subnav == 4 ? "active" : "" ): ""}}"
+                                           href="">
+                                            {{ __('Tiêu chuẩn') }}
+                                        </a>
+                                    </li>
+                                    <li class="nav-item  {{isset($subnav) ? ($subnav == 5 ? "active" : "" ): ""}}">
+                                        <a class="nav-link  {{isset($subnav) ? ($subnav == 5 ? "active" : "" ): ""}}"
+                                           href="">
+                                            {{ __('Nội dung') }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ isset($nav) ? ($nav == 2 ? "active" : "") : ""}}" href="{{ route('home') }}">
+                                <i class="fas fa-address-card text-primary"></i>
+                                <span class="nav-link-text"> {{ __('Quản lý đơn vị') }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ isset($nav) ? ($nav == 3 ? "active" : "") : ""}}" href="{{ route('home') }}">
+                                <i class="fas fa-tasks text-primary"></i>
+                                <span class="nav-link-text"> {{ __('Quản lý tài khoản đề cử') }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ isset($nav) ? ($nav == 4 ? "active" : "") : ""}}" href="{{ route('home') }}">
+                                <i class="fas fa-users text-primary"></i>
+                                <span class="nav-link-text"> {{ __('Quản lý tài khoản quản lý') }}</span>
                             </a>
                         </li>
                         @endrole

@@ -45,6 +45,10 @@ class HomeController extends Controller
             $truongManagerController = new ManagerController;
             return $truongManagerController->index();
         }
+        if (auth()->user()->hasRole('admin')) {
+            $adminManagerController = new ManagerTitlesController;
+            return $adminManagerController->Title($request);
+        }
         return $ProfileController->edit($request);
     }
 }

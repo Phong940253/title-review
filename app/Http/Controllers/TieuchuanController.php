@@ -87,7 +87,7 @@ class TieuchuanController extends Controller
             ->join('noidung', 'noidung.id', '=','replies.id_noidung')
             ->where('replies.id_users', '=', ($id_users) ? $id_users : auth()->user()->id)
             ->whereIn('noidung.id', $noidungs)
-            ->select('replies.id_users', 'replies.id_noidung', 'reply')
+            ->select('replies.id_users', 'replies.id_noidung', 'reply', 'comment', 'evaluate')
             ->get();
     }
 

@@ -16,7 +16,7 @@ class CreateRepliesTable extends Migration
         Schema::create('replies', function (Blueprint $table) {
             $table->unsignedBigInteger('id_users');
             $table->unsignedInteger('id_noidung');
-            $table->text('reply');
+            $table->text('reply')->nullable();
             $table->text('comment')->nullable();
             $table->unsignedBigInteger('id_comment')->nullable();
             $table->string('evaluate')->nullable();

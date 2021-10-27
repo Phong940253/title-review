@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'select.title'=> \App\Http\Middleware\EnsureSelectTitle::class,
         'fill.info' => \App\Http\Middleware\FillInformationProfile::class,
         'danhhieu.doituong' => \App\Http\Middleware\ValidRequestDanhHieuDoiTuong::class,
+        'admin' => \App\Http\Middleware\ValidRequestAdmin::class,
     ];
 }

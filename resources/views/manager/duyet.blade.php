@@ -51,9 +51,7 @@
                         </div>
                         <div id="collapse0" class="collapse" aria-labelledby="heading0" data-parent="#accordionScroll">
                             <div class="card-body">
-
                                 <h6 class="heading-small text-muted mb-4">{{ __('Người dùng') }}</h6>
-
                                 @if (session('status'))
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         {{ session('status') }}
@@ -62,15 +60,13 @@
                                         </button>
                                     </div>
                                 @endif
-
-
                                 <div class="pl-lg-4">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-name">{{ __('Mã cán bộ / Sinh viên / Học sinh') }}</label>
                                         <input type="text" id="input-ms"
                                                class="form-control form-control-alternative"
                                                placeholder="{{ __('Mã cán bộ / Sinh viên / Học sinh') }}"
-                                               value="{{ old('ms', $user->ms) }}" autofocus readonly>
+                                               value="{{ old('ms', $user->ms) }}" readonly>
                                     </div>
 
                                     <div class="form-group">
@@ -78,7 +74,7 @@
                                         <input type="text" id="input-name"
                                                class="form-control form-control-alternative"
                                                placeholder="{{ __('Name') }}"
-                                               value="{{ old('name', $user->name) }}" autofocus readonly>
+                                               value="{{ old('name', $user->name) }}" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-email">{{ __('Email') }}</label>
@@ -90,7 +86,7 @@
                                                for="input-sdt">{{ __('Điện thoại liên hệ') }}</label>
                                         <input type="number" id="input-sdt"
                                                class="form-control form-control-alternative"
-                                               placeholder="{{ __('Số điện thoại') }}" value="{{ old('telephone', $user->telephone) }}" autofocus readonly>
+                                               placeholder="{{ __('Số điện thoại') }}" value="{{ old('telephone', $user->telephone) }}" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-birthDay">{{ __('Ngày sinh') }}</label>
@@ -100,7 +96,7 @@
                                             </div>
                                             <input type="text" id="input-birthDay" data-date-format="yyyy-mm-dd"
                                                    class="form-control form-control-alternative datepicker"
-                                                   placeholder="{{ __('Chọn ngày') }}" value="{{ old('birthDay', $user->birthDay) }}" autofocus readonly>
+                                                   placeholder="{{ __('Chọn ngày') }}" value="{{ old('birthDay', $user->birthDay) }}" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -167,7 +163,7 @@
                                         <input type="text" id="input-street"
                                                class="form-control form-control-alternative"
                                                placeholder="{{ __('Nhập số nhà, tên đường') }}" value="{{ old('street', $user->street) }}"
-                                               autofocus readonly>
+                                               readonly>
                                     </div>
 
                                     <div class="form-group">
@@ -203,7 +199,7 @@
                                         <input type="text" id="input-current-street"
                                                class="form-control form-control-alternative"
                                                placeholder="{{ __('Nhập số nhà, tên đường') }}"
-                                               value="{{ old('current_street', $user->current_street) }}" autofocus readonly>
+                                               value="{{ old('current_street', $user->current_street) }}" readonly>
                                     </div>
 
                                     <div class="form-group">
@@ -215,7 +211,7 @@
                                             </div>
                                             <input type="text" id="input_ngay_vao_doan" data-date-format="yyyy-mm-dd"
                                                    class="form-control datepicker"
-                                                   placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_doan', $user->date_admission_doan) }}" autofocus readonly>
+                                                   placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_doan', $user->date_admission_doan) }}" readonly>
                                         </div>
                                     </div>
 
@@ -228,7 +224,7 @@
                                             </div>
                                             <input type="text" id="input_ngay_vao_dang_du_bi" data-date-format="yyyy-mm-dd"
                                                    class="form-control datepicker"
-                                                   placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_dang_reserve', $user->date_admission_dang_reserve) }}" autofocus readonly>
+                                                   placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_dang_reserve', $user->date_admission_dang_reserve) }}" readonly>
                                         </div>
                                     </div>
 
@@ -243,7 +239,7 @@
                                             <input type="text"
                                                    id="input_ngay_vao_dang_chinh_thuc" data-date-format="yyyy-mm-dd"
                                                    class="form-control datepicker"
-                                                   placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_dang_official', $user->date_admission_dang_official) }}" autofocus readonly>
+                                                   placeholder="{{ __('Chọn ngày') }}" value="{{ old('date_admission_dang_official', $user->date_admission_dang_official) }}" readonly>
                                         </div>
                                     </div>
 
@@ -252,7 +248,7 @@
                                                for="input-chuc_vu_hien_tai">{{ __('Chức vụ Đoàn – Hội hiện tại') }}</label>
                                         <input type="text" id="input-chuc_vu_hien_tai"
                                                class="form-control form-control-alternative"
-                                               placeholder="{{ __('Ghi rõ chức vụ hiện tại') }}" value="{{ old('current_position', $user->current_position) }}" autofocus readonly>
+                                               placeholder="{{ __('Ghi rõ chức vụ hiện tại') }}" value="{{ old('current_position', $user->current_position) }}" readonly>
                                     </div>
 
                                     <div class="form-group">
@@ -260,7 +256,7 @@
                                                for="input-chuc_vu_cao_nhat">{{ __('Chúc vụ Đoàn – Hội cao nhất đã từng đảm nhiệm') }}</label>
                                         <input type="text" id="input-chuc_vu_cao_nhat"
                                                class="form-control form-control-alternative"
-                                               placeholder="{{ __('Ghi rõ chức vụ') }}" value="{{ old('highest_position', $user->highest_position) }}" autofocus readonly>
+                                               placeholder="{{ __('Ghi rõ chức vụ') }}" value="{{ old('highest_position', $user->highest_position) }}" readonly>
                                     </div>
 
                                     <div class="form-group">
@@ -320,44 +316,79 @@
                                                 @endphp
                                                 @if (count($noidungs) > 0)
                                                     @foreach ($noidungs as $noidung)
-                                                        <div class="form-group">
-                                                            <label for="FormControlTextarea{{$noidung->id}}">{!! $noidung->content !!}</label>
-                                                            <textarea class="form-control" id="FormControlTextarea{{$noidung->id}}" rows="7"
-                                                                      placeholder="Điền vào đây ..." readonly>{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidung->id)) ? "" : $reply->reply}}</textarea>
-                                                        </div>
-                                                        <label>Minh chứng</label>
-                                                        <div id="dropzone-multiple-component"
-                                                             class="tab-pane tab-example-result fade active show"
-                                                             role="tabpanel"
-                                                             aria-labelledby="dropzone-multiple-component-tab">
-                                                            <div class="dropzone dropzone-multiple dz-clickable"
-                                                                 data-toggle="dropzone" data-dropzone-multiple id="dropzone"
-                                                                 value="{{$noidung->id}}">
-                                                                <ul class="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
-                                                                </ul>
-                                                                <ul class="dz-preview dz-preview-multiple d-none list-group list-group-lg list-group-flush"
-                                                                    id="preview">
-                                                                    <li class="list-group-item px-0 dz-processing dz-image-preview">
-                                                                        <div class="row align-items-center">
-                                                                            <div class="col-auto">
-                                                                                <img class="avatar img rounded" alt="Ảnh"
-                                                                                     data-dz-thumbnail>
-                                                                            </div>
-                                                                            <div class="col ml--3">
-                                                                                <h4 class="mb-1" data-dz-name="">Ảnh chụp màn
-                                                                                    hình (6).png</h4>
-                                                                                <p class="small text-muted mb-0"
-                                                                                   data-dz-size=""><strong>0.5</strong> MB</p>
-                                                                            </div>
+                                                        <form action="{{route('send-comment')}}" method="post" enctype="multipart/form-data" id="submitForm{{$noidung->id}}">
+                                                            @csrf
+                                                            <div class="form-group">
+                                                                <label class="form-control-label" for="FormControlTextarea{{$noidung->id}}">{!! $noidung->content !!}</label>
+                                                                <textarea class="form-control" id="FormControlTextarea{{$noidung->id}}" rows="7"
+                                                                          placeholder="Điền vào đây ..." readonly>{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidung->id)) ? "" : $reply->reply}}</textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-control-label" for="dropzone-multiple-component">Minh chứng</label>
+                                                                <div id="dropzone-multiple-component"
+                                                                     class="tab-pane tab-example-result fade active show"
+                                                                     role="tabpanel"
+                                                                     aria-labelledby="dropzone-multiple-component-tab">
+                                                                    <div class="dropzone dropzone-multiple dz-clickable"
+                                                                         data-toggle="dropzone" data-dropzone-multiple id="dropzone"
+                                                                         value="{{$noidung->id}}">
+                                                                        <ul class="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
+                                                                        </ul>
+                                                                        <ul class="dz-preview dz-preview-multiple d-none list-group list-group-lg list-group-flush"
+                                                                            id="preview">
+                                                                            <li class="list-group-item px-0 dz-processing dz-image-preview">
+                                                                                <div class="row align-items-center">
+                                                                                    <div class="col-auto">
+                                                                                        <img class="avatar img rounded" alt="Ảnh"
+                                                                                             data-dz-thumbnail>
+                                                                                    </div>
+                                                                                    <div class="col ml--3">
+                                                                                        <h4 class="mb-1" data-dz-name="">Ảnh chụp màn
+                                                                                            hình (6).png</h4>
+                                                                                        <p class="small text-muted mb-0"
+                                                                                           data-dz-size=""><strong>0.5</strong> MB</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <div class="dz-default dz-message d-none">
+                                                                            <span>Kéo thả hoặc chọn file minh chứng để tải lên (Tối đa 10 file, mỗi file tối đa 2MB)</span>
                                                                         </div>
-                                                                    </li>
-                                                                </ul>
-                                                                <div class="dz-default dz-message d-none">
-                                                                    <span>Kéo thả hoặc chọn file minh chứng để tải lên (Tối đa 10 file, mỗi file tối đa 2MB)</span>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <hr class="mt-3 mb-4"/>
+                                                            @role('truong')
+                                                            <div class="form-group">
+                                                                <label class="form-control-label"
+                                                                       for="comment">{{ __('Nhận xét') }}</label>
+                                                                <textarea class="form-control" id="comment" rows="2" name="comment"
+                                                                          placeholder="Điền vào đây ..." autofocus>{{ isset($reply) ? $reply->comment : "" }}</textarea>
+                                                                @if ($errors->has('comment'))
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $errors->first('comment') }}</strong>
+                                                                    </span>
+                                                                @endif
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-control-label" for="evaluateSelected">{{ __('Đánh giá') }}</label>
+                                                                <select class="form-control form-control-alternative m-b" id="evaluateSelected" name="evaluate" autofocus>
+                                                                    <option disabled selected>{{ __('Chọn đánh giá') }}</option>
+                                                                    <option value='Minh chứng đầy đủ' {{ (old('evaluate') == 'Minh chứng đầy đủ' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == "Minh chứng đầy đủ") ? "selected" : ""))}}>Minh chứng đầy đủ</option>
+                                                                    <option value='Minh chứng chưa đủ độ tin cậy' {{ (old('evaluate') == 'Minh chứng chưa đủ độ tin cậy' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Minh chứng chưa đủ độ tin cậy') ? "selected" : ""))}}>Minh chứng chưa đủ độ tin cậy</option>
+                                                                    <option value='Minh chứng không phù hợp' {{  (old('evaluate') == 'Minh chứng không phù hợp' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Minh chứng không phù hợp') ? "selected" : "")) }}>Minh chứng không phù hợp</option>
+                                                                    <option value='Không có minh chứng' {{  (old('evaluate') == 'Không có minh chứng' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Không có minh chứng') ? "selected" : "")) }}>Không có minh chứng</option>
+                                                                </select>
+                                                                @if ($errors->has('evaluate'))
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $errors->first('evaluate') }}</strong>
+                                                                    </span>
+                                                                @endif
+                                                            </div>
+                                                            <input type="hidden" name="id_noidung" value="{{ $noidung->id }}"/>
+                                                            <input type="hidden" name="id_users" value="{{ $user->id }}"/>
+                                                            @endrole
+                                                            <hr class="mt-3 mb-4"/>
+                                                        </form>
                                                     @endforeach
                                                 @else
                                                     <div class="form-group">
@@ -376,6 +407,20 @@
     </div>
 </div>
 <script type="text/javascript">
+    @role('truong')
+    var uploadForm = () => {
+        const listForm = {{ json_encode($allNoiDung->pluck('id')) }};
+        listForm.map(u => {
+            const selector = "#submitForm" + u;
+            const form = $(selector);
+            const posting = $.post(form.attr('action'), form.serialize());
+            posting.done((data) => {
+                console.log(data.success);
+            });
+        });
+    };
+    @endrole
+
     var activeDropzone = () => {
         Dropzone.autoDiscover = false;
         const target = $('[data-toggle="dropzone"]');
@@ -426,7 +471,6 @@
                             }
                         @endforeach
                     @endisset
-
                     this.options.maxFiles = this.options.maxFiles - numMinhChung;
                 }
             };
