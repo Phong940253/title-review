@@ -105,42 +105,50 @@ class TitleData extends Seeder
             'id_tieuchi' => 1,
             'name' => 'Tiêu chuẩn bắt buộc',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'any_option' => False
         ], [
             'id_tieuchi' => 1,
             'name' => 'Tiêu chuẩn khác',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'any_option' => True
         ], [
             'id_tieuchi' => 2,
             'name' => 'Tiêu chuẩn bắt buộc',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'any_option' => False
         ], [
             'id_tieuchi' => 2,
             'name' => 'Tiêu chuẩn khác',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'any_option' => True
         ], [
             'id_tieuchi' => 4,
             'name' => 'Tiêu chuẩn bắt buộc',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'any_option' => False
         ], [
             'id_tieuchi' => 4,
             'name' => 'Tiêu chuẩn khác',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'any_option' => True
         ], [
             'id_tieuchi' => 5,
             'name' => 'Tiêu chuẩn bắt buộc',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'any_option' => False
         ], [
             'id_tieuchi' => 5,
             'name' => 'Tiêu chuẩn khác',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'any_option' => True
         ]];
         DB::table('tieuchuan')->insert($tieuchuan); // Query Builder approach
 

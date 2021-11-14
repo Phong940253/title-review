@@ -2,10 +2,10 @@
     <div class="container">
         <div class="header-body text-center mb-7">
             <div class="col justify-content-center">
-                <img src="{{ asset('argon') }}/img/brand/white.png" style="height: auto;" width="600"/>
+                <img src="{{ asset('argon') }}/img/brand/white.png" class="img-fluid" style="height: auto;" width="600"/>
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-6">
-                        <h1 class="text-white">{{ __('Trang đăng kí xét tuyển danh hiệu') }}</h1>
+                        <h1 class="text-white">{{ __('Chuyên trang đăng ký xét tuyển danh hiệu') }}</h1>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 @section('content')
     @include('users.partials.header', [
         'title' => __('Xin chào') . ' '. isset(auth()->user()->name) ? auth()->user()->name : "",
-        'description' => __('Đây là trang thông tin cơ bản, bạn có thể xem và chỉnh sửa thông tin của mình ở đây.'),
+        'description' => __('Đây là trang thông tin cơ bản, bạn vui lòng điền đầy đủ thông tin.'),
         'class' => 'col-lg-7'
     ])
     <div class="container-fluid mt--7">
@@ -15,7 +15,7 @@
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image">
                                 <a onclick="ChangeAvarta();" id="uploaded_image">
-                                    <img alt="Avatar" id="Avatar" class="rounded-circle" src="{{ asset(isset(auth()->user()->url_image) ? auth()->user()->url_image : 'argon/img/theme/default.jpg') }}">
+                                    <img alt="Avatar" id="Avatar" class="rounded-circle" width="140" height="140" src="{{ asset(isset(auth()->user()->url_image) ? auth()->user()->url_image : 'argon/img/theme/default.jpg') }}">
                                 </a>
                             </div>
                         </div>
@@ -46,8 +46,7 @@
                                             <i class="ni education_hat mr-2"></i>{{auth()->user()->email}}
                                         </div>
                                         <hr class="my-4"/>
-                                        <p>{{ __('Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music.') }}</p>
-                                        <a href="#">{{ __('Show more') }}</a>
+                                        <p>{{ $name_unit ?? "Chưa có đơn vị" }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -529,6 +528,24 @@
     <script src="{{ asset('js/croppie.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/croppie.css') }}"/>
     <script>
+        const toastOptions = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
         const ChangeAvarta = () => {
             $("#upload_image").trigger('click');
         }
@@ -617,45 +634,13 @@
                         success: function (data) {
                             $('#uploadimageModal').modal('hide');
                             if (data.success) {
-                                toastr.options = {
-                                    "closeButton": false,
-                                    "debug": false,
-                                    "newestOnTop": false,
-                                    "progressBar": true,
-                                    "positionClass": "toast-top-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                }
+                                toastr.options = toastOptions;
                                 $("#Avatar").attr("src", data.image);
                                 $("#smallAvatar").attr("src", data.image);
-                                $("#fullAvatar").attr("src", data.image);
+                                // $("#fullAvatar").attr("src", data.image);
                                 toastr['success'](data.msg, "Thành công");
                             } else {
-                                toastr.options = {
-                                    "closeButton": false,
-                                    "debug": false,
-                                    "newestOnTop": false,
-                                    "progressBar": true,
-                                    "positionClass": "toast-top-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "300",
-                                    "hideDuration": "1000",
-                                    "timeOut": "5000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                }
+                                toastr.options = toastOptions;
                                 toastr['error'](data.msg, "Lỗi");
                             }
                         }

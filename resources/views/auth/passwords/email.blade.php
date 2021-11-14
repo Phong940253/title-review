@@ -9,7 +9,7 @@
                 <div class="card bg-secondary shadow border-0">
                     <div class="card-body px-lg-5 py-lg-5">
                         <div class="text-center text-muted mb-4">
-                            <small>{{ __('Reset password') }}</small>
+                            <small>{{ __('Đặt lại mật khẩu') }}</small>
                         </div>
 
                         @if (session('status'))
@@ -41,7 +41,7 @@
                                 @endif
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary my-4">{{ __('Send Password Reset Link') }}</button>
+                                <button type="submit" class="btn btn-primary my-4">{{ __('Gửi đường dẫn khôi phục mật khẩu') }}</button>
                             </div>
                         </form>
                     </div>

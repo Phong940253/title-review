@@ -21,10 +21,10 @@ class ValidRequestDanhHieuDoiTuong
         $id_users = $request->input('id_users');
 
         // Validate
-        Validator::make($request->all(), [
+        $request->validate([
             'id_danhhieu_doituong' => ['string', 'required', 'exists:danhhieu_doituong,id'],
             'id_users' => ['string', 'required', 'exists:users,id'],
-        ])->validate();
+        ]);
 
         return $next($request);
     }

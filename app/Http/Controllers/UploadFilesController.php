@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 /**
@@ -27,6 +28,9 @@ class UploadFilesController extends Controller
 //            Log::debug('receive file');
             $files = $request->file('file');
             foreach ($files as $file) {
+                Validator::make(['file' => $file], [
+                    'file' => 'required|mimes:jpeg,png,jpg,pdf|max:2048',
+                ]);
                 $size = round($file->getSize(), 0);
 
 //                Log::debug('saving file');

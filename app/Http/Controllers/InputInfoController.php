@@ -112,7 +112,7 @@ class InputInfoController extends Controller
     public function validator(array $data)
     {
         return Validator::make($data, [
-            'sdt' => ['required', 'string', 'between:10,11', 'regex:/^[0-9]{10,11}+$/'],
+            'sdt' => ['required', 'string', 'between:10,10', 'regex:/^[0-9]{10,10}+$/'],
             'gender' => ['required', 'between:0,1'],
             'dan_toc' => ['required', 'between:1,55'],
             'religion' => ['required', new ValidReligion],

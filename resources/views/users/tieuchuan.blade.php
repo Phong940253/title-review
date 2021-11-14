@@ -3,7 +3,7 @@
 @section('content')
     @include('users.partials.header-common', [
         'title' => __('Xin chào') . ' '. auth()->user()->name,
-        'description' => __('Đây là trang thông tin cơ bản, bạn có thể xem và chỉnh sửa thông tin của mình ở đây.'),
+        'description' => __('Đây là trang thông tin cơ bản, bạn vui lòng điền đầy đủ thông tin.'),
         'class' => 'col-lg-7'
     ])
     <div class="container-fluid mt--7">
@@ -17,6 +17,11 @@
                     <div class="card-body">
                         <div class="card-title bg-white border-0">
                             <div class="nav-wrapper">
+                                @isset($any_option)
+                                    @if ($any_option)
+                                        <p><i>Đạt 1 trong những nội dung sau</i></p>
+                                    @endif
+                                @endisset
                                 <ul class="nav nav-pills nav-pills-circle flex-column flex-md-row" id="tabs-icons-text"
                                     role="tablist">
                                     @for ($i = 1; $i <= count($noidungs); $i++)
@@ -49,7 +54,7 @@
                                         </div>
                                         <div class="form-group">
                                             {{ csrf_field() }}
-                                            <label>{{__('Minh chứng')}}</label>
+                                            <label>{{__('Minh chứng (file ảnh định dạng jpg, png, jpeg hoặc file pdf)')}}</label>
                                             <div id="dropzone-multiple-component"
                                                  class="tab-pane tab-example-result fade active show"
                                                  role="tabpanel"
@@ -68,8 +73,9 @@
                                                                          data-dz-thumbnail>
                                                                 </div>
                                                                 <div class="col ml--3">
+                                                                    <a class="custom-download" href="">
                                                                     <h4 class="mb-1" data-dz-name="">Ảnh chụp màn
-                                                                        hình (6).png</h4>
+                                                                            hình (6).png</h4></a>
                                                                     <p class="small text-muted mb-0"
                                                                        data-dz-size=""><strong>0.5</strong> MB</p>
                                                                 </div>
@@ -116,6 +122,23 @@
 @section("scripts")
     <script src="{{asset('assets')}}/vendor/dropzone/dist/min/dropzone.min.js"></script>
     <script type="text/javascript">
+        const optionTask = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
         Dropzone.autoDiscover = false;
         $(document).ready(function() {
             const target = $('[data-toggle="dropzone"]');
@@ -130,7 +153,7 @@
                     parallelUploads: 4,
                     maxFilesize: 2,
                     maxFiles: 10,
-                    acceptedFiles: ".pdf,.png,.jpg,.doc,.docx,.xls,.xlsx",
+                    acceptedFiles: ".pdf,.png,.jpg",
                     uploadMultiple: true,
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -139,6 +162,23 @@
                         'noi_dung': $(value).attr('value')
                     },
                     init: function () {
+
+                        this.on("addedfile", function (file) {
+                            // CUSTOM THUMBNAIL FOR FILES OTHER THAN IMAGE TYPE
+                            if (file.type === "application/pdf" || file.type === "pdf") {
+                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/pdf.png") }}";
+                                // } else if (file.type === "text/plain" || file.type === "txt") {
+                                //     file.previewElement.querySelector("[data-dz-thumbnail]").src = "images/txt-icon.png";
+                            } else if (file.type === "application/msword" || file.type === "docx" || file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/word.png") }}";
+                            } else if (file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "xlsx" || file.type === 'xls') {
+                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/pdf.png") }}";
+                            }
+                            // file.previewElement.querySelector("[custom-download]").href = file.dataURL;
+                            // console.log(file.previewElement.querySelector("[custom-download]"));
+                            // console.log("success add file");
+                        });
+
                         // let myDropzone = this;
                         var numMinhChung = 0;
                         @isset ($minhchungs)
@@ -161,6 +201,8 @@
                                     } else {
                                         this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/pdf.png") }}");
                                     }
+                                    // $(".custom-download").href = file.dataURL;
+                                    // console.log(file.previewElement.querySelector("[custom-download]"));
                                 }
                             @endforeach
                         @endisset
@@ -168,39 +210,9 @@
                         this.options.maxFiles = this.options.maxFiles - numMinhChung;
                         console.log(this.options.maxFiles);
 
-
-                        this.on("addedfile", function (file) {
-                            // CUSTOM THUMBNAIL FOR FILES OTHER THAN IMAGE TYPE
-                            if (file.type === "application/pdf" || file.type === "pdf") {
-                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/pdf.png") }}";
-                            // } else if (file.type === "text/plain" || file.type === "txt") {
-                            //     file.previewElement.querySelector("[data-dz-thumbnail]").src = "images/txt-icon.png";
-                            } else if (file.type === "application/msword" || file.type === "docx" || file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/word.png") }}";
-                            } else if (file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "xlsx" || file.type === 'xls') {
-                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/pdf.png") }}";
-                            }
-                        });
-
                         this.on("maxfilesexceeded", function (e) {
                             this.removeFile(e);
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": true,
-                                "positionClass": "toast-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            };
+                            toastr.options = optionTask;
                             toastr['info']("Đã đến giới hạn file tải lên!");
                         });
 
@@ -212,46 +224,14 @@
                                 dataType: 'json',
                                 success: function (data) {
                                     if (data.success) {
-                                        toastr.options = {
-                                            "closeButton": false,
-                                            "debug": false,
-                                            "newestOnTop": false,
-                                            "progressBar": true,
-                                            "positionClass": "toast-top-right",
-                                            "preventDuplicates": false,
-                                            "onclick": null,
-                                            "showDuration": "300",
-                                            "hideDuration": "1000",
-                                            "timeOut": "5000",
-                                            "extendedTimeOut": "1000",
-                                            "showEasing": "swing",
-                                            "hideEasing": "linear",
-                                            "showMethod": "fadeIn",
-                                            "hideMethod": "fadeOut"
-                                        };
+                                        toastr.options = optionTask;
                                         toastr['success'](data.message);
                                     }
                                     // total_photos_counter--;
                                     // $("#counter").text("# " + total_photos_counter);
                                 },
                                 error: function (data) {
-                                    toastr.options = {
-                                        "closeButton": false,
-                                        "debug": false,
-                                        "newestOnTop": false,
-                                        "progressBar": true,
-                                        "positionClass": "toast-top-right",
-                                        "preventDuplicates": false,
-                                        "onclick": null,
-                                        "showDuration": "300",
-                                        "hideDuration": "1000",
-                                        "timeOut": "5000",
-                                        "extendedTimeOut": "1000",
-                                        "showEasing": "swing",
-                                        "hideEasing": "linear",
-                                        "showMethod": "fadeIn",
-                                        "hideMethod": "fadeOut"
-                                    };
+                                    toastr.options = optionTask;
                                     toastr['error']('Có lỗi xảy ra!');
                                 }
                             });
@@ -260,42 +240,10 @@
 
                     success: function (file, data) {
                         if (data.success) {
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": true,
-                                "positionClass": "toast-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
+                            toastr.options = optionTask;
                             toastr['success'](data.message);
                         } else {
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": true,
-                                "positionClass": "toast-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
+                            toastr.options = optionTask;
                             toastr['error'](data.message);
                         }
                     },
@@ -315,42 +263,10 @@
                     const posting = $.post(form.attr('action'), form.serialize());
                     posting.done((data) => {
                         if (data.success) {
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": true,
-                                "positionClass": "toast-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
+                            toastr.options = optionTask;
                             toastr['success'](data.message);
                         } else {
-                            toastr.options = {
-                                "closeButton": false,
-                                "debug": false,
-                                "newestOnTop": false,
-                                "progressBar": true,
-                                "positionClass": "toast-top-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "300",
-                                "hideDuration": "1000",
-                                "timeOut": "5000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
+                            toastr.options = optionTask;
                             toastr['error'](data.message);
                         }
                     })

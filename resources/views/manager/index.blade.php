@@ -9,6 +9,11 @@
         table.dataTable tbody td {
             vertical-align: middle;
         }
+
+        .input-group-text {
+            min-width: 6.375rem!important;
+        }
+
     </style>
 @endsection
 
@@ -54,6 +59,19 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @role('truong')
+                                        <div class="form-group{{ $errors->has('id_unit') ? ' has-danger' : '' }}">
+                                            <div class="input-group input-group-alternative">
+                                                <div class="input-group-prepend">
+                                                    <label class="input-group-text"
+                                                           for="unitSelected">{{ __('Đơn vị') }}</label>
+                                                </div>
+                                                <select class="custom-select form-control form-control-alternative" id="unitSelected" name="id_unit" required>
+                                                    {!! $unit !!}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    @endrole
                                     <div class="form-group">
                                         <button type="button" class="btn btn-primary">In danh sách</button>
                                     </div>
@@ -63,13 +81,16 @@
                                             <tr>
                                                 <th>MSSV/MCB</th>
                                                 <th>Họ và tên</th>
-                                                <th>Email</th>
-                                                <th>Điện thoại</th>
                                                 <th>Giới tính</th>
-                                                <th>Đơn vị</th>
+                                                <th>Điện thoại</th>
+                                                @role('khoa')
+                                                <th>Email</th>
+                                                @endrole
                                                 <th>Xét duyệt</th>
                                                 @role('truong')
-                                                <th>Người duyệt</th>
+                                                <th>Người duyệt cấp khoa</th>
+                                                <th>Xếp loại</th>
+                                                <th>Người duyệt cấp trường</th>
                                                 @endrole
                                             </tr>
                                             </thead>
@@ -150,9 +171,8 @@
             });
         });
 
-
         let table;
-        $("#objectSelected").change(function () {
+        $("#unitSelected").change(function () {
             if ($.fn.dataTable.isDataTable( '#datatable-basic')) {
                 table.destroy();
             }
@@ -181,26 +201,29 @@
                 },
                 'processing': true,
                 'serverSide': true,
-                'ajax': `{!! route('tong-hop-don-vi') !!}?id_title=${$("#titleSelected").val()}&id_object=${$("#objectSelected").val()}`,
+                'ajax': `{!! route('tong-hop-don-vi') !!}?id_title=${$("#titleSelected").val()}&id_object=${$("#objectSelected").val()}&id_unit=${$("#unitSelected").val()}`,
                 'columns': [
                     { data: 'ms', name: 'ms' },
                     { data: 'name', name: 'name' },
-                    { data: 'email', name: 'email' },
-                    { data: 'telephone', name: 'telephone' },
                     { data: 'gender', name: 'gender' },
-                    { data: 'unit_name', name: 'unit_name' },
+                    { data: 'telephone', name: 'telephone' },
+                    @role('khoa')
+                    { data: 'email', name: 'email' },
+                    @endrole
                     { data: 'confirmed', name: 'confirmed'},
                     @role('truong')
-                    {data: 'approved_name', name: 'approved_name'},
+                    { data: 'approved_name', name: 'approved_name'},
+                    { data: 'xeploai', name: 'xeploai'},
+                    { data: 'ranked_name', name: 'ranked_name'}
                     @endrole
                 ],
-                "columnDefs": [
-                    {
-                        "targets": [ 2 ],
-                        "visible": false,
-                        "searchable": false
-                    }
-                ]
+                // "columnDefs": [
+                //     {
+                //         "targets": [ 2 ],
+                //         "visible": false,
+                //         "searchable": false
+                //     }
+                // ]
             });
         });
         let data;

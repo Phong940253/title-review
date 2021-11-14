@@ -9,7 +9,7 @@
                                 <div class="col-lg-3 order-lg-2">
                                     <div class="card-profile-image">
                                         <a id="uploaded_image">
-                                            <img alt="Avatar" id="Avatar" class="rounded-circle" src="{{ $user->url_image ?? 'argon/img/theme/default.jpg' }}">
+                                            <img alt="Avatar" id="Avatar" width="140" height="140" class="rounded-circle" src="{{ $user->url_image ?? 'argon/img/theme/default.jpg' }}">
                                         </a>
                                     </div>
                                 </div>
@@ -30,10 +30,18 @@
                                             <input type="hidden" name="id_danhhieu_doituong" value="{{$id_danhhieu_doituong}}">
                                             <div class="mt-2">
                                                 Xét duyệt:
-                                                <label class="custom-toggle mb--1">
-                                                    <input name="confirmed" class="pl-2" type="checkbox" {{ $xet_duyet->confirmed ? ' checked' : "" }}>
-                                                    <span class="custom-toggle-slider rounded-circle"></span>
-                                                </label>
+                                                @role('khoa')
+                                                    <label class="custom-toggle mb--1">
+                                                        <input name="confirmed" class="pl-2" type="checkbox" {{ $xet_duyet->confirmed ? ' checked' : "" }}>
+                                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                                    </label>
+                                                @endrole
+                                                @role('truong')
+                                                    <div class="custom-toggle mb--1">
+                                                        <input class="pl-2" type="checkbox" {{ $xet_duyet->confirmed ? ' checked' : "" }}>
+                                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                                    </div>
+                                                @endrole
                                             </div>
                                         </div>
                                     </div>
@@ -373,10 +381,12 @@
                                                                 <label class="form-control-label" for="evaluateSelected">{{ __('Đánh giá') }}</label>
                                                                 <select class="form-control form-control-alternative m-b" id="evaluateSelected" name="evaluate" autofocus>
                                                                     <option disabled selected>{{ __('Chọn đánh giá') }}</option>
-                                                                    <option value='Minh chứng đầy đủ' {{ (old('evaluate') == 'Minh chứng đầy đủ' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == "Minh chứng đầy đủ") ? "selected" : ""))}}>Minh chứng đầy đủ</option>
-                                                                    <option value='Minh chứng chưa đủ độ tin cậy' {{ (old('evaluate') == 'Minh chứng chưa đủ độ tin cậy' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Minh chứng chưa đủ độ tin cậy') ? "selected" : ""))}}>Minh chứng chưa đủ độ tin cậy</option>
+                                                                    <option value='Đạt' {{ (old('evaluate') == 'Đạt' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == "Đạt") ? "selected" : ""))}}>Đạt</option>
+                                                                    <option value='Minh chứng chưa có độ tin cậy' {{ (old('evaluate') == 'Minh chứng chưa có độ tin cậy' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Minh chứng chưa có độ tin cậy') ? "selected" : ""))}}>Minh chứng chưa có độ tin cậy</option>
                                                                     <option value='Minh chứng không phù hợp' {{  (old('evaluate') == 'Minh chứng không phù hợp' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Minh chứng không phù hợp') ? "selected" : "")) }}>Minh chứng không phù hợp</option>
                                                                     <option value='Không có minh chứng' {{  (old('evaluate') == 'Không có minh chứng' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Không có minh chứng') ? "selected" : "")) }}>Không có minh chứng</option>
+                                                                    <option value='Không đủ tiêu chuẩn theo quy chế' {{  (old('evaluate') == 'Không đủ tiêu chuẩn theo quy chế' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Không đủ tiêu chuẩn theo quy chế') ? "selected" : "")) }}>Không đủ tiêu chuẩn theo quy chế</option>
+
                                                                 </select>
                                                                 @if ($errors->has('evaluate'))
                                                                     <span class="invalid-feedback" role="alert">
@@ -403,23 +413,80 @@
                         @endforeach
                     @endforeach
                 @endisset
+                <div class="col-xl-12 mb-3">
+                    <div class="card bg-white shadow mb-0">
+                        <div class="card-header bg-white border-0"  id="heading--1" data-toggle="collapse" data-target="#collapse--1" aria-expanded="false" aria-controls="collapse--1">
+                            <div class="row align-items-center">
+                                <h3 class="mb-0 ml-3">{{ __('Tổng kết hồ sơ') }}</h3>
+                            </div>
+                        </div>
+                        <div id="collapse--1" class="collapse" aria-labelledby="heading--1">
+                            <div class="card-body">
+                                <div class="pl-lg-4">
+                                    <div class="form-group">
+                                        <form action="{{route('xep-loai')}}" method="post" enctype="multipart/form-data" id="submitForm-1">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label class="form-control-label"
+                                                       for="rank">{{ __('Xếp loại') }}</label>
+                                                <input type="text" class="form-control form-control-alternative" id="rank" name="rank"
+                                                          placeholder="Điền vào đây ..." autofocus/>
+                                                @if ($errors->has('rank'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('rank') }}</strong>
+                                                    </span>
+                                                @endif
+{{--                                                <input type="number" id="input-sdt"--}}
+{{--                                                       class="form-control form-control-alternative"--}}
+{{--                                                       placeholder="{{ __('Số điện thoại') }}" value="{{ old('telephone', $user->telephone) }}" readonly>--}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-control-label"
+                                                       for="comment-all">{{ __('Ghi chú hồ sơ') }}</label>
+                                                <textarea class="form-control" id="comment-all" rows="3" name="comment"
+                                                          placeholder="Điền vào đây ..." autofocus>{{ isset($reply) ? $reply->comment : "" }}</textarea>
+                                                @if ($errors->has('comment'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('comment') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-control-label"
+                                                       for="comment-special">{{ __('Ghi chú điểm đặc biệt') }}</label>
+                                                <textarea class="form-control" id="comment-special" rows="3" name="comment-special"
+                                                          placeholder="Điền vào đây ..." autofocus>{{ isset($reply) ? $reply->comment : "" }}</textarea>
+                                                @if ($errors->has('comment-special'))
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $errors->first('comment-special') }}</strong>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <input type="hidden" name="id_users" value="{{ $user->id }}"/>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    @role('truong')
     var uploadForm = () => {
-        const listForm = {{ json_encode($allNoiDung->pluck('id')) }};
-        listForm.map(u => {
-            const selector = "#submitForm" + u;
-            const form = $(selector);
-            const posting = $.post(form.attr('action'), form.serialize());
-            posting.done((data) => {
-                console.log(data.success);
+        @role('truong')
+            const listForm = {{ json_encode($allNoiDung->pluck('id')) }};
+            listForm.map(u => {
+                const selector = "#submitForm" + u;
+                const form = $(selector);
+                const posting = $.post(form.attr('action'), form.serialize());
+                posting.done((data) => {
+                    console.log(data.success);
+                });
             });
-        });
+        @endrole
     };
-    @endrole
 
     var activeDropzone = () => {
         Dropzone.autoDiscover = false;

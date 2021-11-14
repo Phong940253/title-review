@@ -2,14 +2,14 @@
 
 @section('content')
     @include('layouts.headers.guest')
-    
+
     <div class="container mt--8 pb-5">
         <div class="row justify-content-center">
             <div class="col-lg-5 col-md-7">
                 <div class="card bg-secondary shadow border-0">
                     <div class="card-body px-lg-5 py-lg-5">
                         <div class="text-center text-muted mb-4">
-                            <small>{{ __('Reset Password') }}</small>
+                            <small>{{ __('Đặt lại mật khẩu') }}</small>
                         </div>
                         <form role="form" method="POST" action="{{ route('password.update') }}">
                             @csrf
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary my-4">{{ __('Reset Password') }}</button>
+                                <button type="submit" class="btn btn-primary my-4">{{ __('Đặt lại mật khẩu') }}</button>
                             </div>
                         </form>
                     </div>

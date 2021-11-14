@@ -42,6 +42,7 @@ class ProfileController extends Controller
         $InputInfoController = new InputInfoController;
         $id_title = $request->session()->get('id_title');
         $id_object = $request->session()->get('id_object');
+        $name_unit = DB::table('unit')->find(auth()->user()->id_unit)->name;
         $params = [
             'tieuchis' => $this->getTieuChuanTieuChi($id_title, $id_object),
             'nation' => $this->getNation('nation'),
@@ -49,6 +50,7 @@ class ProfileController extends Controller
             'city' => $InputInfoController->getProvince('id_province'),
             'current_city' => $InputInfoController->getProvince('id_current_province'),
             'unit' => $this->getUnit('id_unit'),
+            'name_unit' => $name_unit,
             'year' => $this->getYear('year'),
             'class' => 'g-sidenav-hidden',
         ];
@@ -143,7 +145,7 @@ class ProfileController extends Controller
     {
         if ($request->hasFile('image')) {
             $request->validate([
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             ]);
             // Delete old avatar
             $deleteFile = Storage::disk('public')->delete(Str::after(auth()->user()->url_image, "storage/"));
@@ -197,7 +199,7 @@ class ProfileController extends Controller
     public function getUnit($attribute = NULL) : string
     {
         $html = '<option value="" selected disabled>Chọn đơn vị</option>';
-        $units = DB::table('unit')->orderBy('name', 'asc')->get();
+        $units = DB::table('unit')->get();
         foreach ($units as $unit) {
             $html .= '<option ' . (old($attribute) == $unit->id ? "selected" : ((auth()->user()->$attribute == $unit->id) ? "selected" : "")) . ' value="' . $unit->id . '">' . $unit->name . '</option>';
         }

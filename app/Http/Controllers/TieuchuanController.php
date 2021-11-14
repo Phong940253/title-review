@@ -35,6 +35,10 @@ class TieuchuanController extends Controller
         Log::debug($replies);
         $id_title = $request->session()->get('id_title');
         $id_object = $request->session()->get('id_object');
+        if ($request->id_tieuchuan)
+            $any_option = DB::table('tieuchuan')->find($request->id_tieuchuan)->any_option;
+        else
+            $any_option = DB::table('tieuchi')->find($request->id_tieuchi)->any_option;
         $param = [
             'tieuchis' => $ProfileController->getTieuChuanTieuChi($id_title, $id_object),
             'noidungs' => $noidungs,
@@ -44,6 +48,7 @@ class TieuchuanController extends Controller
             'replies' => $replies,
             'minhchungs' => $minhchungs,
             'class' => 'g-sidenav-hidden',
+            'any_option' => $any_option,
         ];
         return view('users.tieuchuan', $param);
     }

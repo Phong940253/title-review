@@ -15,7 +15,7 @@
                 <div class="card bg-secondary shadow border-0">
                     <div class="card-body px-lg-5 py-lg-5">
                         <div class="text-center text-muted mb-4">
-                            {{ __('Đăng kí') }}
+                            {{ __('Đăng ký') }}
                         </div>
                         <form role="form" method="POST" action="{{ route('register') }}">
                             @csrf
@@ -111,16 +111,16 @@
                                 </span>
                                 @enderror
                             </div>
-                            <!-- End Google reCaptcha -->
-                            <div class="text-muted font-italic">
-                                <small>{{ __('độ mạnh mật khẩu') }}: <span class="text-success font-weight-700">{{ __('strong') }}</span></small>
-                            </div>
+{{--                            <!-- End Google reCaptcha -->--}}
+{{--                            <div class="text-muted font-italic">--}}
+{{--                                <small>{{ __('độ mạnh mật khẩu') }}: <span class="text-success font-weight-700">{{ __('strong') }}</span></small>--}}
+{{--                            </div>--}}
                             <div class="row my-4">
                                 <div class="col-12">
                                     <div class="custom-control custom-control-alternative custom-checkbox">
                                         <input class="custom-control-input" id="customCheckRegister" name="accept" type="checkbox" required>
                                         <label class="custom-control-label" for="customCheckRegister">
-                                            <span class="text-muted">{{ __('Đồng ý với các ') }} <a href="#!">{{ __('quy định') }}</a>{{__(' của chương trình')}}</span>
+                                            <span class="text-muted">{{ __('Đồng ý với các quy định của chương trình')}}</span>
                                         </label>
                                     </div>
                                 </div>

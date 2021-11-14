@@ -27,11 +27,17 @@ class ManagerController extends Controller
      */
     public function index() {
         $titles = DB::table('danhhieu')->select('name', 'id')->get();
+        $unit = "";
+        if (auth()->user()->hasRole('truong')) {
+            $ProfileController = new ProfileController();
+            $unit = $ProfileController->getUnit(NULL);
+        }
         $params = [
             'page' => [
                 'currentPage' => 'Tổng hợp đơn vị',
             ],
             'titles' => $titles,
+            'unit' => $unit,
             'class' => 'g-sidenav-hidden',
         ];
         return view('manager.index', $params);
@@ -57,7 +63,6 @@ class ManagerController extends Controller
             ->where('id_doituong', '=', $id_object);
 
         $users = DB::table('users')
-            ->join('unit', 'users.id_unit', '=', 'unit.id')
             ->join('users_danhhieu_doituong', 'users.id', '=', 'users_danhhieu_doituong.id_users')
             ->joinSub($danhhieu_doituong, 'danhhieu_doituong', function($join) {
                 $join->on('id_danhhieu_doituong', '=', 'danhhieu_doituong.id');
@@ -65,11 +70,15 @@ class ManagerController extends Controller
 
         if ($request->user()->hasRole('khoa')) {
             $users = $users->where('id_unit', '=', auth()->user()->id_unit);
-            $users = $users->select(['users.id', 'users.ms', 'users.name as name', 'users.gender', 'users.email', 'users.telephone', 'unit.name as unit_name', 'confirmed', 'id_danhhieu_doituong']);
+            $users = $users->select(['users.id', 'users.ms', 'users.name as name', 'users.gender', 'users.email', 'users.telephone', 'confirmed', 'id_danhhieu_doituong']);
         }
         if ($request->user()->hasRole('truong')) {
-            $users = $users->leftJoin('users AS admin', 'users_danhhieu_doituong.id_approved', '=', 'admin.id');
-            $users = $users->select(['users.id', 'users.ms', 'users.name as name', 'users.gender', 'users.email', 'users.telephone', 'unit.name as unit_name', 'confirmed', 'id_danhhieu_doituong', 'admin.name as approved_name']);
+            $request->validate(['id_unit' => ['string', 'required', 'exists:unit,id']]);
+            $id_unit = $request->input('id_unit');
+            $users = $users->where('users.id_unit', '=', $id_unit);
+            $users = $users->leftJoin('users AS approve', 'users_danhhieu_doituong.id_approved', '=', 'approve.id');
+            $users = $users->leftJoin('users AS rank', 'users_danhhieu_doituong.id_user_ranked', '=', 'rank.id');
+            $users = $users->select(['users.id', 'users.ms', 'users.name as name', 'users.gender', 'users.telephone', 'confirmed', 'id_danhhieu_doituong', 'approve.name as approved_name', 'users_danhhieu_doituong.rank as xeploai', 'rank.name as ranked_name']);
         }
 
         // get response for datatable server-side
@@ -89,10 +98,6 @@ class ManagerController extends Controller
             })
             ->filterColumn('name', function ($query, $keyword) {
                 $sql = "users.name like ?";
-                $query->whereRaw($sql, ["%{$keyword}%"]);
-            })
-            ->filterColumn('unit_name', function ($query, $keyword) {
-                $sql = "unit.name like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
             })
             ->filterColumn('email', function ($query, $keyword) {
@@ -115,12 +120,28 @@ class ManagerController extends Controller
             ->filterColumn('confirmed', function($query, $keyword) {
                 $query->whereRaw('users_danhhieu_doituong.confirmed like ?', ["%{$keyword}%"]);
             });
-        if ($request->user()->hasRole('truong'))
+        if ($request->user()->hasRole('truong')) {
             $table = $table
                 ->filterColumn('approved_name', function ($query, $keyword) {
-                $sql = "admin.name like ?";
-                $query->whereRaw($sql, ["%{$keyword}%"]);
-            });
+                    $sql = "approve.name like ?";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
+                })
+                ->editColumn('xeploai', function ($query) {
+                    return ($query->xeploai ?? "Trống");
+                })
+                ->editColumn('approved_name', function ($query) {
+                    return ($query->approved_name ?? "Trống");
+                })
+                ->editColumn('ranked_name', function ($query) {
+                    return ($query->ranked_name ?? "Trống");
+                })
+                ->filterColumn('xeploai', function($query, $keyword) {
+                    $query->whereRaw('users_danhhieu_doituong.rank like ?', ["%{$keyword}%"]);
+                })
+                ->filterColumn('ranked_name', function($query, $keyword) {
+                    $query->whereRaw('users_danhhieu_doituong.rank like ?', ["%{$keyword}%"]);
+                });
+        }
         $table = $table
             ->rawColumns(['confirmed'])
             ->make(true);
@@ -232,5 +253,24 @@ class ManagerController extends Controller
             'success' => false,
             'message' => 'không thay đổi!'
         ], 200);
+    }
+
+    public function submitRank(Request $request) {
+        $id_danhhieu_doituong = $request->input('id_danhhieu_doituong');
+        $id_users = $request->input('id_users');
+        $update =  DB::table('users_danhhieu_doituong')
+            ->updateOrInsert(
+                ['id_users' => $id_users, 'id_danhhieu_doituong' => $id_danhhieu_doituong],
+                [
+                    'rank' => $request->input('rank'),
+                    'comment'=> $request->input('comment'),
+                    'comment-special' => $request->input('comment-special'),
+                    'updated_at' => now()
+                ],
+            );
+        return Response::json([
+            'success' => true,
+            'message' => 'Lưu thành công!'
+        ]);
     }
 }

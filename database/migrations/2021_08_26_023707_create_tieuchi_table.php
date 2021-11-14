@@ -20,6 +20,7 @@ class CreateTieuchiTable extends Migration
             $table->timestamps();
             $table->foreign('id_danhhieu_doituong')->references('id')->on('danhhieu_doituong')
                 ->onDelete('cascade');
+            $table->boolean('any_option')->nullable();
         });
     }
 

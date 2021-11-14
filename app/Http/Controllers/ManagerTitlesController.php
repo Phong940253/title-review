@@ -31,9 +31,9 @@ class ManagerTitlesController extends Controller
 
     public function viewTitle(Request $request) {
         $id_title = $request->input('id_title');
-        Validator::make($request->all(), [
+        $request->validate([
             'id_title' => ['string', 'required', new ValidIdTitle],
-        ])->validate();
+        ]);
         $title = DB::table('danhhieu')->find($id_title);
         $params = [
             'title' => $title,
@@ -85,9 +85,7 @@ class ManagerTitlesController extends Controller
 
     public function viewAddTitle(Request $request)
     {
-        $params = [
-            'add-title' => True,
-        ];
+        $params = [];
         return view('manager.view-title', $params);
     }
 
