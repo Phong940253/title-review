@@ -303,6 +303,102 @@
                                             <h3 class="mb-0 ml-3">{{ $tieuchi->name }}</h3>
                                         </div>
                                     </div>
+
+                                    <div id="collapse{{ $tieuchi->id }}" class="collapse" aria-labelledby="heading{{$tieuchi->id}}">
+                                        <div class="card-body">
+                                            <div class="pl-lg-4">
+                                                @php
+                                                    $noidungs = $TieuchuanController->getNoidung($tieuchi->id, NULL);
+                                                    $allNoiDung = $allNoiDung->concat($noidungs);
+                                                    $replies = isset($noidungs) ? $TieuchuanController->getReplies($noidungs->pluck('id'), $user->id) : "";
+                                                @endphp
+                                                @if (count($noidungs) > 0)
+                                                    @foreach ($noidungs as $noidung)
+                                                        <form action="{{route('send-comment')}}" method="post" enctype="multipart/form-data" id="submitForm{{$noidung->id}}">
+                                                            @csrf
+                                                            <div class="form-group">
+                                                                <label class="form-control-label" for="FormControlTextarea{{$noidung->id}}">{!! $noidung->content !!}</label>
+                                                                <textarea class="form-control" id="FormControlTextarea{{$noidung->id}}" rows="7"
+                                                                          placeholder="Điền vào đây ..." readonly>{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidung->id)) ? "" : $reply->reply}}</textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-control-label" for="dropzone-multiple-component">Minh chứng</label>
+                                                                <div id="dropzone-multiple-component"
+                                                                     class="tab-pane tab-example-result fade active show"
+                                                                     role="tabpanel"
+                                                                     aria-labelledby="dropzone-multiple-component-tab">
+                                                                    <div class="dropzone dropzone-multiple dz-clickable"
+                                                                         data-toggle="dropzone" data-dropzone-multiple id="dropzone"
+                                                                         value="{{$noidung->id}}">
+                                                                        <ul class="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
+                                                                        </ul>
+                                                                        <ul class="dz-preview dz-preview-multiple d-none list-group list-group-lg list-group-flush"
+                                                                            id="preview">
+                                                                            <li class="list-group-item px-0 dz-processing dz-image-preview">
+                                                                                <div class="row align-items-center">
+                                                                                    <div class="col-auto">
+                                                                                        <img class="avatar img rounded" alt="Ảnh"
+                                                                                             data-dz-thumbnail>
+                                                                                    </div>
+                                                                                    <div class="col ml--3">
+                                                                                        <a class="custom-download" href="" target="_blank">
+                                                                                            <h4 class="mb-1" data-dz-name="">Ảnh chụp màn
+                                                                                                hình (6).png</h4></a>
+                                                                                        <p class="small text-muted mb-0"
+                                                                                           data-dz-size=""><strong>0.5</strong> MB</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <div class="dz-default dz-message d-none">
+                                                                            <span>Kéo thả hoặc chọn file minh chứng để tải lên (Tối đa 10 file, mỗi file tối đa 2MB)</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @role('truong')
+                                                            <div class="form-group">
+                                                                <label class="form-control-label"
+                                                                       for="comment">{{ __('Nhận xét') }}</label>
+                                                                <textarea class="form-control" id="comment" rows="2" name="comment"
+                                                                          placeholder="Điền vào đây ..." autofocus>{{ isset($reply) ? $reply->comment : "" }}</textarea>
+                                                                @if ($errors->has('comment'))
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $errors->first('comment') }}</strong>
+                                                                    </span>
+                                                                @endif
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-control-label" for="evaluateSelected">{{ __('Đánh giá') }}</label>
+                                                                <select class="form-control form-control-alternative m-b" id="evaluateSelected" name="evaluate" autofocus>
+                                                                    <option disabled selected>{{ __('Chọn đánh giá') }}</option>
+                                                                    <option value='Đạt' {{ (old('evaluate') == 'Đạt' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == "Đạt") ? "selected" : ""))}}>Đạt</option>
+                                                                    <option value='Minh chứng chưa có độ tin cậy' {{ (old('evaluate') == 'Minh chứng chưa có độ tin cậy' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Minh chứng chưa có độ tin cậy') ? "selected" : ""))}}>Minh chứng chưa có độ tin cậy</option>
+                                                                    <option value='Minh chứng không phù hợp' {{  (old('evaluate') == 'Minh chứng không phù hợp' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Minh chứng không phù hợp') ? "selected" : "")) }}>Minh chứng không phù hợp</option>
+                                                                    <option value='Không có minh chứng' {{  (old('evaluate') == 'Không có minh chứng' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Không có minh chứng') ? "selected" : "")) }}>Không có minh chứng</option>
+                                                                    <option value='Không đủ tiêu chuẩn theo quy chế' {{  (old('evaluate') == 'Không đủ tiêu chuẩn theo quy chế' ? "selected" : (((isset($reply) ? $reply->evaluate : "") == 'Không đủ tiêu chuẩn theo quy chế') ? "selected" : "")) }}>Không đủ tiêu chuẩn theo quy chế</option>
+
+                                                                </select>
+                                                                @if ($errors->has('evaluate'))
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $errors->first('evaluate') }}</strong>
+                                                                    </span>
+                                                                @endif
+                                                            </div>
+                                                            <input type="hidden" name="id_noidung" value="{{ $noidung->id }}"/>
+                                                            <input type="hidden" name="id_users" value="{{ $user->id }}"/>
+                                                            @endrole
+                                                            <hr class="mt-3 mb-4"/>
+                                                        </form>
+                                                    @endforeach
+                                                @else
+                                                    <div class="form-group">
+                                                        <label for="FormControlTextarea{{$noidung->id}}">{{ __('Không có nội dung') }}</label>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         @endif
