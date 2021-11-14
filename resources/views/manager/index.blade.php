@@ -172,7 +172,7 @@
         });
 
         let table;
-        $("#unitSelected").change(function () {
+        $("#{{ (auth()->user()->hasRole('khoa')) ? 'objectSelected' : 'unitSelected' }}").change(function () {
             if ($.fn.dataTable.isDataTable( '#datatable-basic')) {
                 table.destroy();
             }
@@ -242,8 +242,9 @@
             e.preventDefault();
             const form = $(this);
             console.log(form.attr('action'));
-            const posting = $.post(form.attr('action'), form.serialize());
             uploadForm();
+            @role('khoa')
+            const posting = $.post(form.attr('action'), form.serialize());
             posting.done(function (data) {
                 if (data.success) {
                     table.ajax.reload( null, false );
@@ -258,6 +259,7 @@
                 toastr.options = optionTask;
                 toastr['error'](data.message ? data.message : data.responseJSON.message);
             })
+            @endrole
             $('#close-button').trigger('click');
         })
     </script>

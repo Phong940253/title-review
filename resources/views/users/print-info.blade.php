@@ -134,7 +134,7 @@
                     </div>
                     <div class="col-9">
                         <div class="row">
-                            1. Họ và tên: {{ mb_strtoupper($user->name) ?? "không có"  }}
+                            {{ __('1. Họ và tên: ') }}<pre class="m-0"> </pre><b>{{ mb_strtoupper($user->name) ?? "không có"  }}</b>
                         </div>
                         <div class="row">
                             <div class="col p-0">
@@ -142,7 +142,7 @@
                                 <div>3. Dân tộc: {{ Setting("nation" . $user->nation) }}</div>
                             </div>
                             <div class="col p-0">
-                                <div>3. Ngày sinh: {{ $user->birthDay ??  "không có" }}</div>
+                                <div>3. Ngày sinh: {{ $birthDay ??  "không có" }}</div>
                                 <div>5. Tôn
                                     giáo: {{ DB::table('religion')->find($user->id_religion)->name }}</div>
                             </div>
@@ -155,17 +155,14 @@
                 <div class="row pt-2" style="padding-left: 15px">9. Ngày kết nạp
                     Đoàn: {{ $date_admission_doan ?? "không có" }}</div>
                 <div class="row" style="padding-left: 15px">10. Ngày kết nạp Đảng (nếu có):
-                    Dự
-                    bị: {{ $date_admission_dang_reserve ?? "Không có;" }}
-                    Chính
-                    thức: {{ $date_admission_dang_official ?? "không có" }}
+                    {{ __('Dự
+                    bị:') }} {{ $date_admission_dang_reserve ?? "Không có;" }}
+                    {{ __('- Chính thức:') }} {{ $date_admission_dang_official ?? "không có" }}
                 </div>
                 <div>11. Chức vụ hiện tại: {{ $user->current_position ?? "không có" }}</div>
                 <div>12. Chức vụ cao nhất: {{ $user->highest_position ?? "không có" }}</div>
-                <div class="row">
-                    <div class="col-7">13. Đơn vị trực thuộc: {{ DB::table('unit')->find($user->id_unit)->name }}</div>
-                    <div class="col-5 pl-4">{{__('14. Sinh viên năm:') . $user->year}}</div>
-                </div>
+                <div>13. Đơn vị trực thuộc: {{ DB::table('unit')->find($user->id_unit)->name }}</div>
+                <div>{{__('14. Sinh viên năm: ') . $user->year}}</div>
                 <div style="margin-top: 15px"><b>PHẦN B. THÀNH TÍCH TIÊU BIỂU</b></div>
                 @isset($tieuchis)
                     @for ($i = 0; $i < count($tieuchis); $i++)

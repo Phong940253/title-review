@@ -53,7 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::group(['middleware' => 'danhhieu.doituong'], function() {
                 Route::get('duyet', 'App\Http\Controllers\ManagerController@getUser')->name('duyet');
                 Route::post('acceptDeCu', 'App\Http\Controllers\ManagerController@acceptDeCu')->name('acceptDeCu');
-                Route::post('xep-loai', 'App\Http\Controllers\ManagerController@')->name('xep-loai');
+                Route::post('xep-loai', 'App\Http\Controllers\ManagerController@submitRank')->name('xep-loai');
             });
             Route::post('send-comment', 'App\Http\Controllers\ManagerController@submitComment')->name('send-comment');
 
@@ -72,7 +72,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('form-them-doi-tuong', 'App\Http\Controllers\ManagerObjectsController@viewAddObject')->name('form-them-doi-tuong');
             });
 
-
+            Route::get('doi-mat-khau', 'App\Http\Controllers\ChangePasswordController@index')->name('doi-mat-khau');
 
 
 //            Route::get('map', function () {

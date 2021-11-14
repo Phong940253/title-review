@@ -73,7 +73,7 @@ class TitleData extends Seeder
         ]];
         DB::table('danhhieu_doituong')->insert($danhhieu_doituong);
 
-        $tieuchi = [[
+        DB::table('tieuchi')->insert([[
             'id_danhhieu_doituong' => 1,
             'name' => 'Đạo đức tốt',
             'created_at' => now(),
@@ -83,12 +83,17 @@ class TitleData extends Seeder
             'name' => 'Học tập tốt',
             'created_at' => now(),
             'updated_at' => now()
-        ], [
+        ]]);
+
+        DB::table('tieuchi')->insert([[
             'id_danhhieu_doituong' => 1,
             'name' => 'Thể lực tốt',
             'created_at' => now(),
-            'updated_at' => now()
-        ], [
+            'updated_at' => now(),
+            'any_option' => True
+        ]]);
+
+         DB::table('tieuchi')->insert([[
             'id_danhhieu_doituong' => 1,
             'name' => 'Tình nguyện tốt',
             'created_at' => now(),
@@ -98,8 +103,9 @@ class TitleData extends Seeder
             'name' => 'Hội nhập tốt',
             'created_at' => now(),
             'updated_at' => now()
-        ]];
-        DB::table('tieuchi')->insert($tieuchi); // Query Builder approach
+        ]]);
+
+
 
         $tieuchuan = [[
             'id_tieuchi' => 1,

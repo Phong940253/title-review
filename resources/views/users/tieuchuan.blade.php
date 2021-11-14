@@ -19,7 +19,7 @@
                             <div class="nav-wrapper">
                                 @isset($any_option)
                                     @if ($any_option)
-                                        <p><i>Đạt 1 trong những nội dung sau</i></p>
+                                        <p><i>Đạt 01 (một) trong những nội dung sau</i></p>
                                     @endif
                                 @endisset
                                 <ul class="nav nav-pills nav-pills-circle flex-column flex-md-row" id="tabs-icons-text"
@@ -50,7 +50,7 @@
                                         <p class="card-text">{{$noidungs[$i - 1]->content}}</p>
                                         <div class="form-group">
                                             <textarea name="content" class="form-control" id="FormControlTextarea{{$i}}" rows="8"
-                                                      placeholder="Điền vào đây ...">{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidungs[$i - 1]->id)) ? "" : $reply->reply}}</textarea>
+                                                      {{ isset($disable) ? 'disabled' : "" }}        placeholder="Điền vào đây ...">{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidungs[$i - 1]->id)) ? "" : $reply->reply}}</textarea>
                                         </div>
                                         <div class="form-group">
                                             {{ csrf_field() }}
@@ -73,13 +73,14 @@
                                                                          data-dz-thumbnail>
                                                                 </div>
                                                                 <div class="col ml--3">
-                                                                    <a class="custom-download" href="">
+                                                                    <a class="custom-download" href="" target="_blank">
                                                                     <h4 class="mb-1" data-dz-name="">Ảnh chụp màn
                                                                             hình (6).png</h4></a>
                                                                     <p class="small text-muted mb-0"
                                                                        data-dz-size=""><strong>0.5</strong> MB</p>
                                                                 </div>
                                                                 <div class="col-auto">
+                                                                    @if (!isset($disable))
                                                                     <div class="dropdown">
                                                                         <a href="#"
                                                                            class="dropdown-ellipses dropdown-toggle"
@@ -96,17 +97,18 @@
                                                                             </a>
                                                                         </div>
                                                                     </div>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </li>
                                                     </ul>
-                                                    <div class="dz-default dz-message">
+                                                    <div class="dz-default dz-message {{ isset($disable) ? 'd-none' : ""}}">
                                                         <span>Kéo thả hoặc chọn file minh chứng để tải lên (Tối đa 10 file, mỗi file tối đa 2MB)</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary my-2">Lưu</button>
+                                        <button type="submit" {{ isset($disable) ? 'd-none' : "" }} class="btn btn-primary my-2">Lưu</button>
                                     </form>
                                 </div>
                             @endfor
@@ -163,22 +165,6 @@
                     },
                     init: function () {
 
-                        this.on("addedfile", function (file) {
-                            // CUSTOM THUMBNAIL FOR FILES OTHER THAN IMAGE TYPE
-                            if (file.type === "application/pdf" || file.type === "pdf") {
-                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/pdf.png") }}";
-                                // } else if (file.type === "text/plain" || file.type === "txt") {
-                                //     file.previewElement.querySelector("[data-dz-thumbnail]").src = "images/txt-icon.png";
-                            } else if (file.type === "application/msword" || file.type === "docx" || file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/word.png") }}";
-                            } else if (file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "xlsx" || file.type === 'xls') {
-                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/pdf.png") }}";
-                            }
-                            // file.previewElement.querySelector("[custom-download]").href = file.dataURL;
-                            // console.log(file.previewElement.querySelector("[custom-download]"));
-                            // console.log("success add file");
-                        });
-
                         // let myDropzone = this;
                         var numMinhChung = 0;
                         @isset ($minhchungs)
@@ -191,24 +177,35 @@
                                         dataURL: "{{ asset($minhchung->url) }}"
                                     };
                                     this.options.addedfile.call(this, mockFile);
-                                    var extension = mockFile.name.split('.')[1];
-                                    if (extension === "png" || extension === "jpg") {
-                                        this.options.thumbnail.call(this, mockFile, "{{ asset($minhchung->url) }}");
-                                    } else if (extension === "doc" || extension === "docx") {
-                                        this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/word.png") }}");
-                                    } else if (extension === "xls" || extension === "xlsx") {
-                                        this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/excel.png") }}");
-                                    } else {
-                                        this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/pdf.png") }}");
-                                    }
-                                    // $(".custom-download").href = file.dataURL;
-                                    // console.log(file.previewElement.querySelector("[custom-download]"));
+                                    // var extension = mockFile.name.split('.')[1];
+                                    // if (extension === "png" || extension === "jpg") {
+                                    this.options.thumbnail.call(this, mockFile, "{{ asset($minhchung->url) }}");
+                                    {{--} else if (extension === "doc" || extension === "docx") {--}}
+                                    {{--    this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/word.png") }}");--}}
+                                    {{--} else if (extension === "xls" || extension === "xlsx") {--}}
+                                    {{--    this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/excel.png") }}");--}}
+                                    {{--} else {--}}
+                                    {{--    this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/pdf.png") }}");--}}
+                                    // }
                                 }
                             @endforeach
                         @endisset
 
                         this.options.maxFiles = this.options.maxFiles - numMinhChung;
-                        console.log(this.options.maxFiles);
+                        // console.log(this.options.maxFiles);
+
+                        this.on("addedfile", function (file) {
+                            // CUSTOM THUMBNAIL FOR FILES OTHER THAN IMAGE TYPE
+                            if (file.type === "application/pdf" || file.type === "pdf") {
+                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/pdf.png") }}";
+                                // } else if (file.type === "text/plain" || file.type === "txt") {
+                                //     file.previewElement.querySelector("[data-dz-thumbnail]").src = "images/txt-icon.png";
+                            } else if (file.type === "application/msword" || file.type === "docx" || file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/word.png") }}";
+                            } else if (file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "xlsx" || file.type === 'xls') {
+                                file.previewElement.querySelector("[data-dz-thumbnail]").src = "{{ asset("argon/img/icons/common/pdf.png") }}";
+                            }
+                        });
 
                         this.on("maxfilesexceeded", function (e) {
                             this.removeFile(e);
@@ -255,6 +252,20 @@
                 $(value).dropzone(option);
             });
 
+            const image = $('.avatar.img.rounded');
+            console.log(image);
+            image.map((index, value) => {
+                let src = value.src;
+                let target = $(value);
+                if (src != "") {
+                    let component = target.parent().parent()
+                    component.map((index, value) => {
+                        let text = $(value).find('.custom-download')
+                        text.attr("href", src);
+                    });
+                }
+            })
+            // console.log(image);
 
             @for ($i = 1; $i <= count($noidungs); $i++)
                 $("#form{{$noidungs[$i - 1]->id}}").submit(function (e) {

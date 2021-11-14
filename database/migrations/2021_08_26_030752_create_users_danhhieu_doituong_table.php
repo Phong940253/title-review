@@ -18,8 +18,8 @@ class CreateUsersDanhhieuDoiTuongTable extends Migration
             $table->unsignedInteger('id_danhhieu_doituong');
             $table->boolean('confirmed')->default(false);
             $table->text('comment')->nullable();
-            $table->text('comment-special')->nullable();
-            $table->string('rank', 1)->nullable();
+            $table->text('comment_special')->nullable();
+            $table->string('rank')->nullable();
             $table->unsignedBigInteger('id_approved')->nullable();
             $table->unsignedBigInteger('id_user_ranked')->nullable();
             $table->boolean('edit')->default(false);

@@ -23,6 +23,7 @@ class PrintInfoController extends Controller
         if (auth()->user()->date_admission_dang_reserve)
             $date_admission_dang_reserve = Carbon::createFromFormat('Y-m-d', auth()->user()->date_admission_dang_reserve)->format('d/m/Y');
         $date_admission_dang_official = "không có";
+        if (auth()->user()->date_admission_dang_official)
             $date_admission_dang_official = Carbon::createFromFormat('Y-m-d', auth()->user()->date_admission_dang_official)->format('d/m/Y');
         $params = [
             'tieuchis' => $ProfileController->getTieuChuanTieuChi($id_title, $id_object),

@@ -126,15 +126,15 @@ class ManagerController extends Controller
                     $sql = "approve.name like ?";
                     $query->whereRaw($sql, ["%{$keyword}%"]);
                 })
-                ->editColumn('xeploai', function ($query) {
-                    return ($query->xeploai ?? "Trống");
-                })
-                ->editColumn('approved_name', function ($query) {
-                    return ($query->approved_name ?? "Trống");
-                })
-                ->editColumn('ranked_name', function ($query) {
-                    return ($query->ranked_name ?? "Trống");
-                })
+//                ->editColumn('xeploai', function ($query) {
+//                    return ($query->xeploai ?? "Trống");
+//                })
+//                ->editColumn('approved_name', function ($query) {
+//                    return ($query->approved_name ?? "Trống");
+//                })
+//                ->editColumn('ranked_name', function ($query) {
+//                    return ($query->ranked_name ?? "Trống");
+//                })
                 ->filterColumn('xeploai', function($query, $keyword) {
                     $query->whereRaw('users_danhhieu_doituong.rank like ?', ["%{$keyword}%"]);
                 })
@@ -264,8 +264,9 @@ class ManagerController extends Controller
                 [
                     'rank' => $request->input('rank'),
                     'comment'=> $request->input('comment'),
-                    'comment-special' => $request->input('comment-special'),
-                    'updated_at' => now()
+                    'comment_special' => $request->input('comment_special'),
+                    'updated_at' => now(),
+                    'id_user_ranked' => $request->user()->id,
                 ],
             );
         return Response::json([

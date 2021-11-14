@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -39,6 +40,10 @@ class TieuchuanController extends Controller
             $any_option = DB::table('tieuchuan')->find($request->id_tieuchuan)->any_option;
         else
             $any_option = DB::table('tieuchi')->find($request->id_tieuchi)->any_option;
+        $title = DB::table('danhhieu')->find($id_title);
+        $start = Carbon::createFromFormat('Y-m-d h:i:s', $title->start);
+        $finish = Carbon::createFromFormat('Y-m-d h:i:s', $title->finish);
+        $disable = Carbon::now() > $start && Carbon::now() < $finish;
         $param = [
             'tieuchis' => $ProfileController->getTieuChuanTieuChi($id_title, $id_object),
             'noidungs' => $noidungs,
@@ -49,6 +54,7 @@ class TieuchuanController extends Controller
             'minhchungs' => $minhchungs,
             'class' => 'g-sidenav-hidden',
             'any_option' => $any_option,
+            'disable' => $disable,
         ];
         return view('users.tieuchuan', $param);
     }

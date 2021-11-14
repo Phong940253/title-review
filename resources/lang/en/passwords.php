@@ -14,7 +14,7 @@ return [
     */
 
     'reset' => 'Mật khẩu của bạn đã được đặt lại!',
-    'sent' => 'Chúng tôi đã gửi link đặt lại mật khẩu vào email của bạn!',
+    'sent' => 'Chúng tôi đã gửi đường dẫn đặt lại mật khẩu vào email của bạn! Vui lòng kiểm tra cả hộp thư spam',
     'throttled' => 'Vui lòng chờ trước khi thử lại.',
     'token' => 'Token đặt lại mật khẩu không đúng.',
     'user' => "Chúng tôi không tìm thấy người dúng với địa chỉ email này.",

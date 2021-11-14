@@ -351,8 +351,9 @@
                                                                                              data-dz-thumbnail>
                                                                                     </div>
                                                                                     <div class="col ml--3">
-                                                                                        <h4 class="mb-1" data-dz-name="">Ảnh chụp màn
-                                                                                            hình (6).png</h4>
+                                                                                        <a class="custom-download" href="" target="_blank">
+                                                                                            <h4 class="mb-1" data-dz-name="">Ảnh chụp màn
+                                                                                                hình (6).png</h4></a>
                                                                                         <p class="small text-muted mb-0"
                                                                                            data-dz-size=""><strong>0.5</strong> MB</p>
                                                                                     </div>
@@ -413,6 +414,7 @@
                         @endforeach
                     @endforeach
                 @endisset
+                @role('truong')
                 <div class="col-xl-12 mb-3">
                     <div class="card bg-white shadow mb-0">
                         <div class="card-header bg-white border-0"  id="heading--1" data-toggle="collapse" data-target="#collapse--1" aria-expanded="false" aria-controls="collapse--1">
@@ -423,6 +425,8 @@
                         <div id="collapse--1" class="collapse" aria-labelledby="heading--1">
                             <div class="card-body">
                                 <div class="pl-lg-4">
+                                    @php
+                                    @endphp
                                     <div class="form-group">
                                         <form action="{{route('xep-loai')}}" method="post" enctype="multipart/form-data" id="submitForm-1">
                                             @csrf
@@ -430,21 +434,18 @@
                                                 <label class="form-control-label"
                                                        for="rank">{{ __('Xếp loại') }}</label>
                                                 <input type="text" class="form-control form-control-alternative" id="rank" name="rank"
-                                                          placeholder="Điền vào đây ..." autofocus/>
+                                                          placeholder="Điền vào đây ..." value="{{ isset($xet_duyet) ? $xet_duyet->rank : "" }}" autofocus/>
                                                 @if ($errors->has('rank'))
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $errors->first('rank') }}</strong>
                                                     </span>
                                                 @endif
-{{--                                                <input type="number" id="input-sdt"--}}
-{{--                                                       class="form-control form-control-alternative"--}}
-{{--                                                       placeholder="{{ __('Số điện thoại') }}" value="{{ old('telephone', $user->telephone) }}" readonly>--}}
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-control-label"
                                                        for="comment-all">{{ __('Ghi chú hồ sơ') }}</label>
                                                 <textarea class="form-control" id="comment-all" rows="3" name="comment"
-                                                          placeholder="Điền vào đây ..." autofocus>{{ isset($reply) ? $reply->comment : "" }}</textarea>
+                                                          placeholder="Điền vào đây ..." autofocus>{{ isset($xet_duyet) ? $xet_duyet->comment : "" }}</textarea>
                                                 @if ($errors->has('comment'))
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $errors->first('comment') }}</strong>
@@ -453,16 +454,17 @@
                                             </div>
                                             <div class="form-group">
                                                 <label class="form-control-label"
-                                                       for="comment-special">{{ __('Ghi chú điểm đặc biệt') }}</label>
-                                                <textarea class="form-control" id="comment-special" rows="3" name="comment-special"
-                                                          placeholder="Điền vào đây ..." autofocus>{{ isset($reply) ? $reply->comment : "" }}</textarea>
-                                                @if ($errors->has('comment-special'))
+                                                       for="comment_special">{{ __('Ghi chú điểm đặc biệt') }}</label>
+                                                <textarea class="form-control" id="comment_special" rows="3" name="comment_special"
+                                                          placeholder="Điền vào đây ..." autofocus>{{ isset($xet_duyet) ? $xet_duyet->comment_special : "" }}</textarea>
+                                                @if ($errors->has('comment_special'))
                                                     <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $errors->first('comment-special') }}</strong>
+                                                        <strong>{{ $errors->first('comment_special') }}</strong>
                                                     </span>
                                                 @endif
                                             </div>
                                             <input type="hidden" name="id_users" value="{{ $user->id }}"/>
+                                            <input type="hidden" name="id_danhhieu_doituong" value="{{$id_danhhieu_doituong}}">
                                         </form>
                                     </div>
                                 </div>
@@ -470,6 +472,7 @@
                         </div>
                     </div>
                 </div>
+                @endrole
         </div>
     </div>
 </div>
@@ -485,6 +488,18 @@
                     console.log(data.success);
                 });
             });
+            const last_posting = $("#submitForm-1");
+            const posting_l = $.post(last_posting.attr('action'), last_posting.serialize());
+            posting_l.done((data) => {
+                if (data.success) {
+                    table.ajax.reload( null, false );
+                    toastr.options = optionTask;
+                    toastr['success'](data.message);
+                } else {
+                    toastr.options = optionTask;
+                    toastr['warning'](data.message);
+                }
+            })
         @endrole
     };
 
@@ -525,16 +540,16 @@
                                     dataURL: "{{ asset($minhchung->url) }}"
                                 };
                                 this.options.addedfile.call(this, mockFile);
-                                var extension = mockFile.name.split('.')[1];
-                                if (extension === "png" || extension === "jpg") {
-                                    this.options.thumbnail.call(this, mockFile, "{{ asset($minhchung->url) }}");
-                                } else if (extension === "doc" || extension === "docx") {
-                                    this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/word.png") }}");
-                                } else if (extension === "xls" || extension === "xlsx") {
-                                    this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/excel.png") }}");
-                                } else {
-                                    this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/pdf.png") }}");
-                                }
+                                // var extension = mockFile.name.split('.')[1];
+                                // if (extension === "png" || extension === "jpg") {
+                                this.options.thumbnail.call(this, mockFile, "{{ asset($minhchung->url) }}");
+                                {{--} else if (extension === "doc" || extension === "docx") {--}}
+                                {{--    this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/word.png") }}");--}}
+                                {{--} else if (extension === "xls" || extension === "xlsx") {--}}
+                                {{--    this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/excel.png") }}");--}}
+                                {{--} else {--}}
+                                {{--    this.options.thumbnail.call(this, mockFile, "{{ asset("argon/img/icons/common/pdf.png") }}");--}}
+                                // }
                             }
                         @endforeach
                     @endisset
@@ -543,6 +558,19 @@
             };
             $(value).dropzone(option);
         });
+        const image = $('.avatar.img.rounded');
+        console.log(image);
+        image.map((index, value) => {
+            let src = value.src;
+            let target = $(value);
+            if (src != "") {
+                let component = target.parent().parent()
+                component.map((index, value) => {
+                    let text = $(value).find('.custom-download')
+                    text.attr("href", src);
+                });
+            }
+        })
     };
 </script>
 @endcan
