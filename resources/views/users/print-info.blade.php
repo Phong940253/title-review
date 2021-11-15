@@ -119,9 +119,9 @@
                     <div class="col-12 text-center" style="margin-top: 15px;">
                         <span style="font-size: 16pt;"><b>BẢN GIỚI THIỆU THÀNH TÍCH</b></span><br>
                         <b>DỀ CỬ
-                            "{{ is_null(session('id_title')) ? "" : mb_strtoupper(DB::table('danhhieu')->find(session('id_title'))->name) }}"<br></b>
+                            "{{ isset($id_title) ? mb_strtoupper(DB::table('danhhieu')->find($id_title)->name) : "" }}"<br></b>
                         <b><i>(Dành
-                                cho {{ is_null(session('id_object')) ? "" : DB::table('doituong')->find(session('id_object'))->name }})</i></b>
+                                cho {{ isset($id_object) ? DB::table('doituong')->find($id_object)->name : "" }})</i></b>
                     </div>
                 </div>
             </div>
@@ -200,7 +200,7 @@
                                     @php
                                         $reply = DB::table('replies')->where('id_noidung', '=', $noidungs[$k]->id)->where('id_users', '=', $user->id)->first();
                                     @endphp
-                                    @if (isset($reply))
+                                    @if (isset($reply) && $reply->reply != "")
                                         <div style="text-indent: 40px;">{{ $reply->reply }}</div>
                                     @else
                                         <div style="text-indent: 40px;">{{__('Không có')}}</div>

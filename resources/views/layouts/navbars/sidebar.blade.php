@@ -69,13 +69,13 @@
                         @endrole
                         @role('khoa')
                         <li class="nav-item">
-                            <a class="nav-link {{ isset($nav) ? ($nav == 1 ? "active" : "") : "active"}}" href="{{ route('doi-mat-khau') }}">
+                            <a class="nav-link {{ isset($nav) ? ($nav == 1 ? "active" : "") : "active"}}" href="{{ route('home') }}">
                                 <i class="fas fa-tasks text-primary"></i>
                                 <span class="nav-link-text"> {{ __('Tổng hợp đơn vị') }}</span>
                             </a>
                         </li>\
                         <li class="nav-item">
-                            <a class="nav-link {{ isset($nav) ? ($nav == 2 ? "active" : "") : ""}}">
+                            <a class="nav-link {{ isset($nav) ? ($nav == 2 ? "active" : "") : ""}}" href="{{ route('doi-mat-khau') }}">
                                 <i class="fas fa-key"></i>
                                 <span class="nav-link-text"> {{ __('Đổi mật khẩu') }}</span>
                             </a>
@@ -157,6 +157,12 @@
                             <a class="nav-link {{ isset($nav) ? ($nav == 4 ? "active" : "") : ""}}" href="{{ route('home') }}">
                                 <i class="fas fa-users text-primary"></i>
                                 <span class="nav-link-text"> {{ __('Quản lý tài khoản quản lý') }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ isset($nav) ? ($nav == 5 ? "active" : "") : ""}}" href="{{ route('home') }}">
+                                <i class="fas fa-id-badge text-primary"></i>
+                                <span class="nav-link-text"> {{ __('Quản lý hồ sơ') }}</span>
                             </a>
                         </li>
                         @endrole

@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('submit-reply', 'App\Http\Controllers\TieuchuanController@submitReply')->name('submit-reply');
 
             Route::get('print-info', 'App\Http\Controllers\PrintInfoController@index')->name('print-info');
+            Route::get('phieu-tham-dinh', 'App\Http\Controllers\PrintInfoController@printPhieuThamDinh')->name('phieu-tham-dinh');
 
             // For khoa managerment
             Route::get('tong-hop-don-vi', 'App\Http\Controllers\ManagerController@getListUserByTitle')->name('tong-hop-don-vi');

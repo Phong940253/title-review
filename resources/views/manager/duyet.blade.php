@@ -60,14 +60,6 @@
                         <div id="collapse0" class="collapse" aria-labelledby="heading0" data-parent="#accordionScroll">
                             <div class="card-body">
                                 <h6 class="heading-small text-muted mb-4">{{ __('Người dùng') }}</h6>
-                                @if (session('status'))
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        {{ session('status') }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                @endif
                                 <div class="pl-lg-4">
                                     <div class="form-group">
                                         <label class="form-control-label" for="input-name">{{ __('Mã cán bộ / Sinh viên / Học sinh') }}</label>

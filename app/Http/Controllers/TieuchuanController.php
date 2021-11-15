@@ -43,7 +43,11 @@ class TieuchuanController extends Controller
         $title = DB::table('danhhieu')->find($id_title);
         $start = Carbon::createFromFormat('Y-m-d h:i:s', $title->start);
         $finish = Carbon::createFromFormat('Y-m-d h:i:s', $title->finish);
-        $disable = Carbon::now() > $start && Carbon::now() < $finish;
+        Log::debug(Carbon::now());
+        Log::debug($start);
+        Log::debug($finish);
+        $disable = (Carbon::now() < $start) || (Carbon::now() > $finish);
+        Log::debug($disable);
         $param = [
             'tieuchis' => $ProfileController->getTieuChuanTieuChi($id_title, $id_object),
             'noidungs' => $noidungs,

@@ -126,24 +126,18 @@ class ManagerController extends Controller
                     $sql = "approve.name like ?";
                     $query->whereRaw($sql, ["%{$keyword}%"]);
                 })
-//                ->editColumn('xeploai', function ($query) {
-//                    return ($query->xeploai ?? "Trống");
-//                })
-//                ->editColumn('approved_name', function ($query) {
-//                    return ($query->approved_name ?? "Trống");
-//                })
-//                ->editColumn('ranked_name', function ($query) {
-//                    return ($query->ranked_name ?? "Trống");
-//                })
                 ->filterColumn('xeploai', function($query, $keyword) {
                     $query->whereRaw('users_danhhieu_doituong.rank like ?', ["%{$keyword}%"]);
                 })
                 ->filterColumn('ranked_name', function($query, $keyword) {
                     $query->whereRaw('users_danhhieu_doituong.rank like ?', ["%{$keyword}%"]);
+                })
+                ->addColumn('bao-cao', function($query) {
+                   return '<a target="_blank" href="' . route('phieu-tham-dinh') . '?id_danhhieu_doituong=' . $query->id_danhhieu_doituong . '&id_user=' . $query->id . '"><i class="fas fa-eye"></i></a>';
                 });
         }
         $table = $table
-            ->rawColumns(['confirmed'])
+            ->rawColumns(auth()->user()->hasRole('truong') ? ['confirmed', 'bao-cao'] : ['confirmed'])
             ->make(true);
         return $table;
     }

@@ -50,7 +50,7 @@
                                         <p class="card-text">{{$noidungs[$i - 1]->content}}</p>
                                         <div class="form-group">
                                             <textarea name="content" class="form-control" id="FormControlTextarea{{$i}}" rows="8"
-                                                      {{ isset($disable) ? 'disabled' : "" }}        placeholder="Điền vào đây ...">{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidungs[$i - 1]->id)) ? "" : $reply->reply}}</textarea>
+                                                      {{ empty($disable) ? "" : disabled }}        placeholder="Điền vào đây ...">{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidungs[$i - 1]->id)) ? "" : $reply->reply}}</textarea>
                                         </div>
                                         <div class="form-group">
                                             {{ csrf_field() }}
@@ -80,7 +80,7 @@
                                                                        data-dz-size=""><strong>0.5</strong> MB</p>
                                                                 </div>
                                                                 <div class="col-auto">
-                                                                    @if (!isset($disable))
+                                                                    @if (empty($disable))
                                                                     <div class="dropdown">
                                                                         <a href="#"
                                                                            class="dropdown-ellipses dropdown-toggle"
@@ -102,13 +102,13 @@
                                                             </div>
                                                         </li>
                                                     </ul>
-                                                    <div class="dz-default dz-message {{ isset($disable) ? 'd-none' : ""}}">
+                                                    <div class="dz-default dz-message {{ empty($disable) ? "" : 'd-none'}}">
                                                         <span>Kéo thả hoặc chọn file minh chứng để tải lên (Tối đa 10 file, mỗi file tối đa 2MB)</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="submit" {{ isset($disable) ? 'd-none' : "" }} class="btn btn-primary my-2">Lưu</button>
+                                        <button type="submit"  class="btn btn-primary my-2 {{ empty($disable) ? "" : 'd-none' }}">Lưu</button>
                                     </form>
                                 </div>
                             @endfor
