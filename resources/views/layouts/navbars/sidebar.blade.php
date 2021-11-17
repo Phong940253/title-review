@@ -160,9 +160,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ isset($nav) ? ($nav == 5 ? "active" : "") : ""}}" href="{{ route('home') }}">
+                            <a class="nav-link {{ isset($nav) ? ($nav == 5 ? "active" : "") : ""}}" href="{{ route('quan-ly-ho-so') }}">
                                 <i class="fas fa-id-badge text-primary"></i>
                                 <span class="nav-link-text"> {{ __('Quản lý hồ sơ') }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ isset($nav) ? ($nav == 6 ? "active" : "") : ""}}" href="{{ route('thong-ke-don-vi') }}">
+                                <i class="fas fa-chart-pie text-primary"></i>
+                                <span class="nav-link-text"> {{ __('Thống kê đơn vị') }}</span>
                             </a>
                         </li>
                         @endrole

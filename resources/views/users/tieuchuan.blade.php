@@ -50,7 +50,7 @@
                                         <p class="card-text">{{$noidungs[$i - 1]->content}}</p>
                                         <div class="form-group">
                                             <textarea name="content" class="form-control" id="FormControlTextarea{{$i}}" rows="8"
-                                                      {{ empty($disable) ? "" : disabled }}        placeholder="Điền vào đây ...">{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidungs[$i - 1]->id)) ? "" : $reply->reply}}</textarea>
+                                                      {{ empty($disable) ? "" : "disabled" }}        placeholder="Điền vào đây ...">{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidungs[$i - 1]->id)) ? "" : $reply->reply}}</textarea>
                                         </div>
                                         <div class="form-group">
                                             {{ csrf_field() }}
@@ -69,7 +69,7 @@
                                                         <li class="list-group-item px-0 dz-processing dz-image-preview">
                                                             <div class="row align-items-center">
                                                                 <div class="col-auto">
-                                                                    <img class="avatar img rounded" alt="Ảnh"
+                                                                    <img class="avatar img rounded d-none" alt="Ảnh"
                                                                          data-dz-thumbnail>
                                                                 </div>
                                                                 <div class="col ml--3">

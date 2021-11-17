@@ -144,11 +144,11 @@
                             <div class="col p-0">
                                 <div>3. Ngày sinh: {{ $birthDay ??  "không có" }}</div>
                                 <div>5. Tôn
-                                    giáo: {{ DB::table('religion')->find($user->id_religion)->name }}</div>
+                                    giáo: {{ isset($user->id_religion) ? DB::table('religion')->find($user->id_religion)->name : "không có" }}</div>
                             </div>
                         </div>
-                        <div class="row p-0">6. Địa chỉ hiện tại: {{ $user->current_street }}, {{ DB::table('wards')->find($user->id_current_ward)->name }}, {{ DB::table('districts')->find($user->id_current_district)->name }}, {{ DB::table('provinces')->find($user->id_current_province)->name }}</div>
-                        <div class="row p-0">7. Địa chỉ thường trú: {{ $user->street }}, {{ DB::table('wards')->find($user->id_ward)->name }}, {{ DB::table('districts')->find($user->id_district)->name }}, {{ DB::table('provinces')->find($user->id_province)->name }}</div>
+                        <div class="row p-0">6. Địa chỉ hiện tại: {{ $user->current_street ?? "" }}, {{ isset($user->id_current_ward) ? DB::table('wards')->find($user->id_current_ward)->name : "" }}, {{ isset($user->id_current_district) ? DB::table('districts')->find($user->id_current_district)->name : '' }}, {{ isset($user->id_current_province) ? DB::table('provinces')->find($user->id_current_province)->name : "" }}</div>
+                        <div class="row p-0">7. Địa chỉ thường trú: {{ $user->street ?? "" }}, {{ isset($user->id_ward) ? DB::table('wards')->find($user->id_ward)->name : "" }}, {{ isset($user->id_district) ? DB::table('districts')->find($user->id_district)->name : "" }}, {{ isset($user->id_province) ? DB::table('provinces')->find($user->id_province)->name : "" }}</div>
                         <div class="row p-0">8. Email: {{ $user->email }}</div>
                     </div>
                 </div>
@@ -162,7 +162,7 @@
                 <div>11. Chức vụ hiện tại: {{ $user->current_position ?? "không có" }}</div>
                 <div>12. Chức vụ cao nhất: {{ $user->highest_position ?? "không có" }}</div>
                 <div>13. Đơn vị trực thuộc: {{ DB::table('unit')->find($user->id_unit)->name }}</div>
-                <div>{{__('14. Sinh viên năm: ') . $user->year}}</div>
+                <div>{{__('14. Sinh viên năm: ') . ($user->year ?? "không có")}}</div>
                 <div style="margin-top: 15px"><b>PHẦN B. THÀNH TÍCH TIÊU BIỂU</b></div>
                 @isset($tieuchis)
                     @for ($i = 0; $i < count($tieuchis); $i++)

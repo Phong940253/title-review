@@ -69,23 +69,32 @@ class ManagerController extends Controller
             });
 
         if ($request->user()->hasRole('khoa')) {
-            $users = $users->where('id_unit', '=', auth()->user()->id_unit);
-            $users = $users->select(['users.id', 'users.ms', 'users.name as name', 'users.gender', 'users.email', 'users.telephone', 'confirmed', 'id_danhhieu_doituong']);
+            $users = $users
+                ->where('id_unit', '=', auth()->user()->id_unit)
+                ->select(['users.id', 'users.ms', 'users.name as name', 'users.gender', 'users.email', 'users.telephone', 'confirmed', 'id_danhhieu_doituong']);
         }
         if ($request->user()->hasRole('truong')) {
             $request->validate(['id_unit' => ['string', 'required', 'exists:unit,id']]);
             $id_unit = $request->input('id_unit');
-            $users = $users->where('users.id_unit', '=', $id_unit);
-            $users = $users->leftJoin('users AS approve', 'users_danhhieu_doituong.id_approved', '=', 'approve.id');
-            $users = $users->leftJoin('users AS rank', 'users_danhhieu_doituong.id_user_ranked', '=', 'rank.id');
-            $users = $users->select(['users.id', 'users.ms', 'users.name as name', 'users.gender', 'users.telephone', 'confirmed', 'id_danhhieu_doituong', 'approve.name as approved_name', 'users_danhhieu_doituong.rank as xeploai', 'rank.name as ranked_name']);
+            $users = $users
+                ->where('users.id_unit', '=', $id_unit)
+                ->leftJoin('users AS approve', 'users_danhhieu_doituong.id_approved', '=', 'approve.id')
+                ->leftJoin('users AS rank', 'users_danhhieu_doituong.id_user_ranked', '=', 'rank.id')
+                ->select(['users.id', 'users.ms', 'users.name as name', 'users.gender', 'users.telephone', 'confirmed', 'id_danhhieu_doituong', 'approve.name as approved_name', 'users_danhhieu_doituong.rank as xeploai', 'rank.name as ranked_name']);
+        }
+        if ($request->user()->hasRole('admin')) {
+            $id_unit = $request->input('id_unit');
+            if ($id_unit)
+                $users = $users->where('users.id_unit', '=', $id_unit);
+            $users = $users
+                ->join('unit', 'users.id_unit', '=', 'unit.id')
+                ->leftJoin('users AS approve', 'users_danhhieu_doituong.id_approved', '=', 'approve.id')
+                ->leftJoin('users AS rank', 'users_danhhieu_doituong.id_user_ranked', '=', 'rank.id')
+                ->select(['users.id', 'users.ms', 'users.name as name', 'users.telephone', 'users.email', 'unit.name as unit_name', 'confirmed', 'id_danhhieu_doituong', 'approve.name as approved_name', 'users_danhhieu_doituong.rank as xeploai', 'rank.name as ranked_name', 'comment', 'comment_special']);
         }
 
         // get response for datatable server-side
         $table = DataTables::of($users)
-            ->editColumn('gender', function ($user) {
-                return ($user->gender ? "Nữ" : "Nam"); // Nam if value gender 0 else Nu
-            })
             ->editColumn('confirmed', function ($user) {
                 return '<div class="custom-toggle">
                         <input type="checkbox"' . ($user->confirmed ? ' checked' : "") . '>' .
@@ -104,15 +113,6 @@ class ManagerController extends Controller
                 $sql = "users.email like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
             })
-            ->filterColumn('gender', function ($query, $keyword) {
-                $newKey = mb_strtolower($keyword);
-                if (mb_strpos("nam", $newKey) !== false)
-                    $keyword = 0;
-                if (mb_strpos("nữ", $newKey) !== false)
-                    $keyword = 1;
-                $sql = "users.gender like ?";
-                $query->whereRaw($sql, ["%{$keyword}%"]);
-            })
             ->filterColumn('telephone', function ($query, $keyword) {
                 $sql = "users.telephone like ?";
                 $query->whereRaw($sql, ["%{$keyword}%"]);
@@ -120,8 +120,35 @@ class ManagerController extends Controller
             ->filterColumn('confirmed', function($query, $keyword) {
                 $query->whereRaw('users_danhhieu_doituong.confirmed like ?', ["%{$keyword}%"]);
             });
+        if ($request->user()->hasRole('khoa')) {
+            $table = $table
+                ->editColumn('gender', function ($user) {
+                    return ($user->gender ? "Nữ" : "Nam"); // Nam if value gender 0 else Nu
+                })
+                ->filterColumn('gender', function ($query, $keyword) {
+                    $newKey = mb_strtolower($keyword);
+                    if (mb_strpos("nam", $newKey) !== false)
+                        $keyword = 0;
+                    if (mb_strpos("nữ", $newKey) !== false)
+                        $keyword = 1;
+                    $sql = "users.gender like ?";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
+                });
+        }
         if ($request->user()->hasRole('truong')) {
             $table = $table
+                ->editColumn('gender', function ($user) {
+                    return ($user->gender ? "Nữ" : "Nam"); // Nam if value gender 0 else Nu
+                })
+                ->filterColumn('gender', function ($query, $keyword) {
+                    $newKey = mb_strtolower($keyword);
+                    if (mb_strpos("nam", $newKey) !== false)
+                        $keyword = 0;
+                    if (mb_strpos("nữ", $newKey) !== false)
+                        $keyword = 1;
+                    $sql = "users.gender like ?";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
+                })
                 ->filterColumn('approved_name', function ($query, $keyword) {
                     $sql = "approve.name like ?";
                     $query->whereRaw($sql, ["%{$keyword}%"]);
@@ -134,6 +161,28 @@ class ManagerController extends Controller
                 })
                 ->addColumn('bao-cao', function($query) {
                    return '<a target="_blank" href="' . route('phieu-tham-dinh') . '?id_danhhieu_doituong=' . $query->id_danhhieu_doituong . '&id_user=' . $query->id . '"><i class="fas fa-eye"></i></a>';
+                });
+        }
+        if ($request->user()->hasRole('admin')) {
+            $table = $table
+                ->filterColumn('approved_name', function ($query, $keyword) {
+                    $sql = "approve.name like ?";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
+                })
+                ->filterColumn('xeploai', function($query, $keyword) {
+                    $query->whereRaw('users_danhhieu_doituong.rank like ?', ["%{$keyword}%"]);
+                })
+                ->filterColumn('ranked_name', function($query, $keyword) {
+                    $query->whereRaw('users_danhhieu_doituong.rank like ?', ["%{$keyword}%"]);
+                })
+                ->filterColumn('unit_name', function($query, $keyword) {
+                    $query->whereRaw('unit.name like ?', ["%{$keyword}%"]);
+                })
+                ->filterColumn('comment', function($query, $keyword) {
+                    $query->whereRaw('users_danhhieu_doituong.comment like ?', ["%{$keyword}%"]);
+                })
+                ->filterColumn('comment_special', function($query, $keyword) {
+                    $query->whereRaw('users_danhhieu_doituong.comment_special like ?', ["%{$keyword}%"]);
                 });
         }
         $table = $table

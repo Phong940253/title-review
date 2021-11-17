@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('object/get_by_title', 'App\Http\Controllers\SelectTitleController@get_by_title')->name('user.object.get_by_title');
     Route::get('select-title', 'App\Http\Controllers\SelectTitleController@index')->name('select-title');
     Route::post('select-title', 'App\Http\Controllers\SelectTitleController@submitSelect')->name('select-title');
-
+    Route::get('get-unit-by-title', 'App\Http\Controllers\UnitStatisticController@getUnitByIdTitle')->name('get-unit-by-title');
     Route::group(['middleware' => 'select.title'], function () {
         Route::get('input-info', 'App\Http\Controllers\InputInfoController@index')->name('input-info');
         Route::get('get-district', 'App\Http\Controllers\InputInfoController@getDistrictByIdProvince')->name('get-district');
@@ -58,7 +58,6 @@ Route::group(['middleware' => 'auth'], function () {
             });
             Route::post('send-comment', 'App\Http\Controllers\ManagerController@submitComment')->name('send-comment');
 
-
             Route::group(['middleware' => 'admin'], function() {
                 Route::get('quan-ly-danh-hieu', 'App\Http\Controllers\ManagerTitlesController@Title')->name('quan-ly-danh-hieu');
                 Route::get('lay-danh-hieu', 'App\Http\Controllers\ManagerTitlesController@getTitle')->name('lay-danh-hieu');
@@ -71,6 +70,12 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('lay-doi-tuong', 'App\Http\Controllers\ManagerObjectsController@getObjects')->name('lay-doi-tuong');
                 Route::get('xem-doi-tuong', 'App\Http\Controllers\ManagerObjectsController@viewObject')->name('xem-doi-tuong');
                 Route::get('form-them-doi-tuong', 'App\Http\Controllers\ManagerObjectsController@viewAddObject')->name('form-them-doi-tuong');
+
+                Route::get('quan-ly-ho-so', 'App\Http\Controllers\RecordManagementController@index')->name('quan-ly-ho-so');
+                Route::get('xuat-ho-so', 'App\Http\Controllers\ExportRecordController@export')->name('xuat-ho-so');
+
+                Route::get('thong-ke-don-vi', 'App\Http\Controllers\UnitStatisticController@index')->name('thong-ke-don-vi');
+                Route::get('danh-sach-thong-ke-don-vi', 'App\Http\Controllers\UnitStatisticController@getListUnitStatistic')->name('danh-sach-thong-ke-don-vi');
             });
 
             Route::get('doi-mat-khau', 'App\Http\Controllers\ChangePasswordController@index')->name('doi-mat-khau');

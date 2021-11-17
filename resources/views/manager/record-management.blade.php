@@ -18,14 +18,13 @@
     @include('users.partials.header-common', [
         'class' => 'col-lg-7'
     ])
-    @can('duyệt - xem đề cử')
         <div class="container-fluid mt--7">
             <div class="row">
                 <div class="col-12 mb-5">
                     <div class="accordion" id="accordionExample">
                         <div class="card shadow rounded">
                             <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                <h4 class="mb-0">Danh sách tổng hợp cá nhân của đơn vị</h4>
+                                <h4 class="mb-0">Danh sách hồ sơ đề cử cá nhân của đơn vị</h4>
                             </div>
                             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div class="card-body  pt-0 pt-md-4">
@@ -56,21 +55,19 @@
                                             </select>
                                         </div>
                                     </div>
-                                    @role('truong')
-                                        <div class="form-group{{ $errors->has('id_unit') ? ' has-danger' : '' }}">
-                                            <div class="input-group input-group-alternative">
-                                                <div class="input-group-prepend">
-                                                    <label class="input-group-text" style="min-width: 6.375rem!important;"
-                                                           for="unitSelected">{{ __('Đơn vị') }}</label>
-                                                </div>
-                                                <select class="custom-select form-control form-control-alternative" id="unitSelected" name="id_unit" required>
-                                                    {!! $unit !!}
-                                                </select>
+                                    <div class="form-group{{ $errors->has('id_unit') ? ' has-danger' : '' }}">
+                                        <div class="input-group input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" style="min-width: 6.375rem!important;"
+                                                       for="unitSelected">{{ __('Đơn vị') }}</label>
                                             </div>
+                                            <select class="custom-select form-control form-control-alternative" id="unitSelected" name="id_unit" required>
+                                                {!! $unit !!}
+                                            </select>
                                         </div>
-                                    @endrole
+                                    </div>
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary">In danh sách</button>
+                                        <a target="_blank" id="xuat-ho-so" href=""><button type="button" class="btn btn-primary">In danh sách</button></a>
                                     </div>
                                     <div class="table-responsive py-4">
                                         <table class="table table-flush dataTable stripe display compact" id="datatable-basic">
@@ -78,18 +75,15 @@
                                             <tr>
                                                 <th>MSSV/MCB</th>
                                                 <th>Họ và tên</th>
-                                                <th>Giới tính</th>
                                                 <th>Điện thoại</th>
-                                                @role('khoa')
                                                 <th>Email</th>
-                                                @endrole
+                                                <th>Đơn vị</th>
                                                 <th>Xét duyệt</th>
-                                                @role('truong')
                                                 <th>Người duyệt cấp khoa</th>
                                                 <th>Xếp loại</th>
                                                 <th>Người duyệt cấp trường</th>
-                                                <th>Xem báo cáo</th>
-                                                @endrole
+                                                <th>Ghi chú</th>
+                                                <th>Ghi chú điểm dặc biệt</th>
                                             </tr>
                                             </thead>
                                             <tfoot>
@@ -101,42 +95,9 @@
                         </div>
                     </div>
                 </div>
-            <div class="col-12 mb-5">
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <form action="{{route('acceptDeCu')}}" method="post" enctype="multipart/form-data" id="submitForm">
-                                @csrf
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Thông tin hồ sơ</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body" id="modal-duyet">
-                                </div>
-                                <div class="modal-footer">
-                                    <button id="close-button" type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                                    @role('khoa')
-                                    <a id="in-bao-cao" href="" target="_blank" class="btn btn-neutral btn-documentation btn-icon">
-                                        <span class="btn-inner--icon">
-                                            <i class="fas fa-print mr-2"></i>
-                                        </span>
-                                        <span class="nav-link-inner--text">In đề cử</span>
-                                    </a>
-                                    @endrole
-                                    <button id="submit" type="submit" form="submitForm" class="btn btn-primary">Lưu thay đổi</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         @include('layouts.footers.auth')
     </div>
-    @endcan
 @endsection
 
 @section('scripts')
@@ -178,10 +139,11 @@
         });
 
         let table;
-        $("#{{ (auth()->user()->hasRole('khoa')) ? 'objectSelected' : 'unitSelected' }}").change(function () {
+        $("#unitSelected").change(function () {
             if ($.fn.dataTable.isDataTable( '#datatable-basic')) {
                 table.destroy();
             }
+            $('#xuat-ho-so').attr('href', `{{ route('xuat-ho-so') }}?id_title=${$("#titleSelected").val()}&id_object=${$("#objectSelected").val()}&id_unit=${$("#unitSelected").val()}`)
             table = $('#datatable-basic').DataTable({
                 "stateSave": true,
                 "pagingType": "full_numbers",
@@ -211,18 +173,15 @@
                 'columns': [
                     { data: 'ms', name: 'ms' },
                     { data: 'name', name: 'name' },
-                    { data: 'gender', name: 'gender' },
                     { data: 'telephone', name: 'telephone' },
-                    @role('khoa')
                     { data: 'email', name: 'email' },
-                    @endrole
+                    { data: 'unit_name', name: 'unit_name'},
                     { data: 'confirmed', name: 'confirmed'},
-                    @role('truong')
                     { data: 'approved_name', name: 'approved_name'},
                     { data: 'xeploai', name: 'xeploai'},
                     { data: 'ranked_name', name: 'ranked_name'},
-                    { data: 'bao-cao', name: 'bao-cao' }
-                    @endrole
+                    { data: 'comment', name: 'comment' },
+                    { data: 'comment_special', name: 'comment_special'}
                 ],
                 // "columnDefs": [
                 //     {
@@ -233,43 +192,6 @@
                 // ]
             });
         });
-        let data;
-        $('#datatable-basic').on('click', 'tbody > tr', function () {
-            data = table.row(this).data();
-            var modal = $("#exampleModalLong");
-            modal.modal({backdrop: 'static', keyboard: false});
-            $('#in-bao-cao').attr('href', `{{ route('print-info') }}?id_title=${$("#titleSelected").val()}&id_object=${$("#objectSelected").val()}&id_user=${data.id}`)
-            modal.modal('show');
-            $.get(`{{route('duyet')}}?id_danhhieu_doituong=${data.id_danhhieu_doituong}&id_users=${data.id}`, (response) => {
-                $('#modal-duyet').empty().append(response);
-                activeDropzone();
-            })
-        });
-
-        $("#submitForm").on('submit', function (e) {
-            e.preventDefault();
-            const form = $(this);
-            console.log(form.attr('action'));
-            uploadForm();
-            @role('khoa')
-            const posting = $.post(form.attr('action'), form.serialize());
-            posting.done(function (data) {
-                if (data.success) {
-                    table.ajax.reload( null, false );
-                    toastr.options = optionTask;
-                    toastr['success'](data.message);
-                } else {
-                    toastr.options = optionTask;
-                    toastr['warning'](data.message);
-                }
-            })
-            posting.fail((data) => {
-                toastr.options = optionTask;
-                toastr['error'](data.message ? data.message : data.responseJSON.message);
-            })
-            @endrole
-            $('#close-button').trigger('click');
-        })
     </script>
     <script src="{{asset('assets')}}/vendor/dropzone/dist/min/dropzone.min.js"></script>
 @endsection

@@ -112,29 +112,19 @@
         <div class="sub-page ">
             <div id="header">
                 <div class="row">
-                    <table style="width:100%" class="mx-3">
-                        <tbody><tr>
-                            <td style="border: 2px solid #000000; text-align: center;">
-                                <p><b>PHIẾU THẨM ĐỊNH</b></p><b>
-                                    <p><b></b></p><b>
-                                    </b></b></td>
-                            <td style="border: 2px solid #000000; ;text-align: center;">
-                            <span>
-                                <b>Phiếu thẩm định “{{ isset($danhhieu_doituong) ? mb_strtoupper($danhhieu_doituong->name) : "" }}”<br>{{ isset($danhhieu_doituong) ? mb_strtoupper($danhhieu_doituong->name) : "" }}</b><br>
-                            </span>
-                                <span>
-                                <b>Họ tên: {{ $user->name ?? "" }}</b><br>
-                                <b>Đơn vị: {{ $name_unit ?? "" }}</b><br>
-                                <b>Cán bộ thẩm định: {{ $user_danhhieu_doituong->name ?? "Không có" }}
-                                </b>
-                            </span>
-                            </td>
-                        </tr>
-                        </tbody></table>
+                    <div class="col-12 text-center">
+                    <span>
+                        <b>PHIẾU THẨM ĐỊNH “{{ isset($danhhieu_doituong) ? mb_strtoupper($danhhieu_doituong->name) : "" }}”<br></b>
+                    </span>
+                        <span>
+                        <b>Họ tên: {{ $user->name ?? "" }}</b><br>
+                        <b>Đơn vị: {{ $name_unit ?? "" }}</b><br>
+                        <b>Cán bộ thẩm định: {{ $user_danhhieu_doituong->name ?? "Không có" }}
+                        </b>
+                    </span>
+                    </div>
                 </div>
             </div>
-            <br>
-            <br>
             <br>
             <div id="content">
                 <table border="1">

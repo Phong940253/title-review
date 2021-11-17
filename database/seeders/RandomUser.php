@@ -16,7 +16,7 @@ class RandomUser extends Seeder
      */
     public function run()
     {
-        $users = User::factory()->count(100)
+        $users = User::factory()->count(2000)
             ->has(UserDanhHieuDoiTuong::factory()->count(1), 'selectTitle')
             ->create();
 
