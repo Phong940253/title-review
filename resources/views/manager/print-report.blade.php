@@ -148,7 +148,7 @@
                                                         {{ __(' - Họ và tên: ') }}<b>{{ mb_strtoupper($value->name) ?? "không có"  }}</b>
                                                         <div> - Giới tính: {{ $value->gender ? "Nữ" : "Nam" }}</div>
                                                         <div> - Dân tộc: {{ $value->nation ? Setting("nation" . $value->nation) : "không có"}}</div>
-                                                        <div> - Ngày sinh: {{ $birthDay ??  "không có" }}</div>
+                                                        <div> - Ngày sinh: {{ isset($value->birthDay) ? Illuminate\Support\Carbon::createFromFormat('Y-m-d', $value->birthDay)->format('d/m/Y') : "không có" }}</div>
                                                         <div> - Địa chỉ hiện tại: {{ $value->current_street ?? "" }}, {{ isset($value->id_current_ward) ? DB::table('wards')->find($value->id_current_ward)->name : "" }}, {{ isset($value->id_current_district) ? DB::table('districts')->find($value->id_current_district)->name : '' }}, {{ isset($value->id_current_province) ? DB::table('provinces')->find($value->id_current_province)->name : "" }}</div>
                                                         <div> - Địa chỉ thường trú: {{ $value->street ?? "" }}, {{ isset($value->id_ward) ? DB::table('wards')->find($value->id_ward)->name : "" }}, {{ isset($value->id_district) ? DB::table('districts')->find($value->id_district)->name : "" }}, {{ isset($value->id_province) ? DB::table('provinces')->find($value->id_province)->name : "" }}</div>
                                                         <div> - Điện thoại: {{ $value->telephone }}</div>

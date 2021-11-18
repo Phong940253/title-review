@@ -103,7 +103,7 @@
 
                             <!-- Google reCaptcha -->
                             <div class="form-group @error('g-recaptcha-response') is-invalid @enderror">
-                                <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY')  }}"></div>
+                                <div class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ config('app.site_key') }}"></div>
 
                                 @error('g-recaptcha-response')
                                 <span class="help-block with-errors text-danger">

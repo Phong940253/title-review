@@ -243,4 +243,15 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Google key
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
+    'site_key' => env('GOOGLE_RECAPTCHA_KEY', ''),
+    'secret_key' => env('GOOGLE_RECAPTCHA_SECRET', '')
+
 ];

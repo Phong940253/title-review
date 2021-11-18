@@ -71,16 +71,16 @@ class RecordUsers implements FromCollection, WithHeadings
 
 //        Log::debug($selecting);
         $table = DB::table('users')
-            ->join('replies', 'users.id', '=', 'replies.id_users')
+            ->leftJoin('replies', 'users.id', '=', 'replies.id_users')
             ->join('unit', 'users.id_unit', '=', 'unit.id');
 
         if ($this->id_unit)
             $table = $table->where('users.id_unit', '=', $this->id_unit);
         $table = $table
-            ->join('noidung', 'noidung.id', '=', 'replies.id_noidung')
+            ->leftJoin('noidung', 'noidung.id', '=', 'replies.id_noidung')
             ->join('users_danhhieu_doituong', 'users_danhhieu_doituong.id_users', '=', 'users.id')
-            ->join('users as approve', 'approve.id', '=', 'users_danhhieu_doituong.id_approved')
-            ->join('users as rank', 'rank.id', '=', 'users_danhhieu_doituong.id_user_ranked')
+            ->leftJoin('users as approve', 'approve.id', '=', 'users_danhhieu_doituong.id_approved')
+            ->leftJoin('users as rank', 'rank.id', '=', 'users_danhhieu_doituong.id_user_ranked')
             ->where('users_danhhieu_doituong.id_danhhieu_doituong', '=', $this->id_danhhieu_doituong->id)
             ->groupByRaw($this->base)
             ->selectRaw($this->selecting)

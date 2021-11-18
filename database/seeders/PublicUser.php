@@ -15,6 +15,16 @@ class PublicUser extends Seeder
      */
     public function run()
     {
+        $admin = User::create([
+            'name' => 'Admin Admin',
+            'email' => 'khenthuong.hcmue@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('dhsuphamhcm@'),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        $admin->assignRole('admin');
+
         $listTruong = [
             ['Bộ phận thẩm định Đoàn Trường', 'vpdoantn@hcmue.edu.vn'],
             ['Bộ phận thẩm định Hội SVVN Trường', 'vphoisinhvien@hcmue.edu.vn'],
