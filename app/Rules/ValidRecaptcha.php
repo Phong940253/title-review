@@ -35,7 +35,7 @@ class ValidRecaptcha implements Rule
         // Gui du lieu cho recapcha xu li
         $response = $client->post('siteverify', [
             'query' => [
-                'secret' => config('app.site_key'),
+                'secret' => config('app.secret_key'),
                 'response' => $value,
                 'remoteip' => request()->getClientIp(),
             ]
