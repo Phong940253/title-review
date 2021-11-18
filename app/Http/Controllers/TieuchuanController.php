@@ -41,8 +41,8 @@ class TieuchuanController extends Controller
         else
             $any_option = DB::table('tieuchi')->find($request->id_tieuchi)->any_option;
         $title = DB::table('danhhieu')->find($id_title);
-        $start = Carbon::createFromFormat('Y-m-d h:i:s', $title->start);
-        $finish = Carbon::createFromFormat('Y-m-d h:i:s', $title->finish);
+        $start = Carbon::createFromFormat('Y-m-d H:i:s', $title->start);
+        $finish = Carbon::createFromFormat('Y-m-d H:i:s', $title->finish);
         Log::debug(Carbon::now());
         Log::debug($start);
         Log::debug($finish);
