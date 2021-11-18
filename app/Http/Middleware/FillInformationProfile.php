@@ -41,8 +41,7 @@ class FillInformationProfile
             $this->isFillInformation())
             return $next($request);
         else {
-            return redirect('input-info');
+            return redirect()->route('input-info');
         }
-
     }
 }

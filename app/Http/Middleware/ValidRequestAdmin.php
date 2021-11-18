@@ -18,6 +18,6 @@ class ValidRequestAdmin
     {
         if ($request->user()->hasRole('admin'))
             return $next($request);
-        return redirect('home');
+        return redirect()->route('home');
     }
 }

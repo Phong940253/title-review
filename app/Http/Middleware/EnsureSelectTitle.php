@@ -19,7 +19,7 @@ class EnsureSelectTitle
     public function handle(Request $request, Closure $next)
     {
         if (auth()->user()->can('chọn đề cử') && is_null($request->session()->get('id_title')) && is_null($request->session()->get('id_object')))
-            return redirect('select-title');
+            return redirect()->route('select-title');
         return $next($request);
     }
 }
