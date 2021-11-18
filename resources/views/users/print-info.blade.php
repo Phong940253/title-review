@@ -118,7 +118,7 @@
                 <div class="row" style="padding-top: 15px">
                     <div class="col-12 text-center" style="margin-top: 15px;">
                         <span style="font-size: 16pt;"><b>BẢN GIỚI THIỆU THÀNH TÍCH</b></span><br>
-                        <b>DỀ CỬ
+                        <b>ĐỀ CỬ
                             "{{ isset($id_title) ? mb_strtoupper(DB::table('danhhieu')->find($id_title)->name) : "" }}"<br></b>
                         <b><i>(Dành
                                 cho {{ isset($id_object) ? DB::table('doituong')->find($id_object)->name : "" }})</i></b>
