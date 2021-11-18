@@ -69,9 +69,13 @@
                                             </div>
                                         </div>
                                     @endrole
+                                    @role('khoa')
                                     <div class="form-group">
+                                        <a target="_blank" id="xuat-bao-cao" href="{{ route('xuat-bao-cao') }}">
                                         <button type="button" class="btn btn-primary">In danh sách</button>
+                                        </a>
                                     </div>
+                                    @endrole
                                     <div class="table-responsive py-4">
                                         <table class="table table-flush dataTable stripe display compact" id="datatable-basic">
                                             <thead class="thead-light">
@@ -182,6 +186,9 @@
             if ($.fn.dataTable.isDataTable( '#datatable-basic')) {
                 table.destroy();
             }
+            @role('khoa')
+                $('#xuat-bao-cao').attr('href', `{{ route('xuat-bao-cao') }}?id_title=${$("#titleSelected").val()}&id_object=${$("#objectSelected").val()}`)
+            @endrole
             table = $('#datatable-basic').DataTable({
                 "stateSave": true,
                 "pagingType": "full_numbers",
@@ -224,13 +231,6 @@
                     { data: 'bao-cao', name: 'bao-cao' }
                     @endrole
                 ],
-                // "columnDefs": [
-                //     {
-                //         "targets": [ 2 ],
-                //         "visible": false,
-                //         "searchable": false
-                //     }
-                // ]
             });
         });
         let data;
@@ -238,7 +238,9 @@
             data = table.row(this).data();
             var modal = $("#exampleModalLong");
             modal.modal({backdrop: 'static', keyboard: false});
-            $('#in-bao-cao').attr('href', `{{ route('print-info') }}?id_title=${$("#titleSelected").val()}&id_object=${$("#objectSelected").val()}&id_user=${data.id}`)
+            @role('khoa')
+                $('#in-bao-cao').attr('href', `{{ route('print-info') }}?id_title=${$("#titleSelected").val()}&id_object=${$("#objectSelected").val()}&id_user=${data.id}`)
+            @endrole
             modal.modal('show');
             $.get(`{{route('duyet')}}?id_danhhieu_doituong=${data.id_danhhieu_doituong}&id_users=${data.id}`, (response) => {
                 $('#modal-duyet').empty().append(response);

@@ -165,52 +165,44 @@
                 <div>{{__('14. Sinh viên năm: ') . ($user->year ?? "không có")}}</div>
                 <div style="margin-top: 15px"><b>PHẦN B. THÀNH TÍCH TIÊU BIỂU</b></div>
                 @isset($tieuchis)
-                    @for ($i = 0; $i < count($tieuchis); $i++)
-                        <div class="tieu-chi"><b>{{$i + 1}}. {{ $tieuchis[$i]->name}}</b></div>
-                        @if (count($tieuchis[$i]->tieuchuans) <= 0)
+                    @foreach($tieuchis as $i=>$tieuchi)
+                        <div class="tieu-chi"><b>{{$i + 1}}. {{ $tieuchi->name}}</b></div>
+                        @if (count($tieuchi->tieuchuans) <= 0)
                             @php
                                 $TieuchuanController = new \App\Http\Controllers\TieuchuanController;
-                                $noidungs = $TieuchuanController->getNoiDung($tieuchis[$i]->id, NULL);
+                                $noidungs = $TieuchuanController->getNoiDung($tieuchi->id, NULL);
                             @endphp
                             @if (count($noidungs) > 0)
-                                @for ($l = 0; $l < count($noidungs); $l++)
-                                    <div class="tab" style="text-indent: 40px; text-align: justify;"><b><i>{{$i + 1}}.{{$l + 1}}. {{$noidungs[$l]->content}}</i></b></div>
+                                @foreach($noidungs as $l=>$noidung)
+                                    <div class="tab" style="text-indent: 40px; text-align: justify;"><b><i>{{$i + 1}}.{{$l + 1}}. {{$noidung->content}}</i></b></div>
                                     @php
-                                        $reply = DB::table('replies')->where('id_noidung', '=', $noidungs[$l]->id)->where('id_users', '=', $user->id)->first();
+                                        $reply = DB::table('replies')->where('id_noidung', '=', $noidung->id)->where('id_users', '=', $user->id)->first();
                                     @endphp
-                                    @if (isset($reply))
-                                        <div style="text-indent: 40px;">{{ $reply->reply }}</div>
-                                    @else
-                                        <div style="text-indent: 40px;">{{__('Không có')}}</div>
-                                    @endif
-                                @endfor
+                                    <div style="text-indent: 40px;">{{ $reply->reply ?? "không có" }}</div>
+                                @endforeach
                             @else
                                 <div style="text-indent: 40px;">{{__('Không có')}}</div>
                             @endif
                         @endif
-                        @for ($j = 0; $j < count($tieuchis[$i]->tieuchuans); $j++)
-                            <div class="tab" style="text-indent: 40px;"><b>{{$i + 1}}.{{$j + 1}}. {{$tieuchis[$i]->tieuchuans[$j]->name}}</b></div>
+                        @foreach ($tieuchi->tieuchuans as $j=>$tieuchuan)
+                            <div class="tab" style="text-indent: 40px;"><b>{{$i + 1}}.{{$j + 1}}. {{$tieuchuan->name}}</b></div>
                             @php
                                 $TieuchuanController = new \App\Http\Controllers\TieuchuanController;
-                                $noidungs = $TieuchuanController->getNoidung($tieuchis[$i]->id, $tieuchis[$i]->tieuchuans[$j]->id);
+                                $noidungs = $TieuchuanController->getNoidung($tieuchi->id, $tieuchuan->id);
                             @endphp
                             @if (count($noidungs) > 0)
-                                @for ($k = 0; $k < count($noidungs); $k++)
-                                    <div class="tab" style="text-indent: 40px;text-align: justify;"><b><i>{{$i + 1}}.{{$j + 1}}.{{$k + 1}}. {{$noidungs[$k]->content}}</i></b></div>
+                                @foreach ($noidungs as $k=>$noidung)
+                                    <div class="tab" style="text-indent: 40px;text-align: justify;"><b><i>{{$i + 1}}.{{$j + 1}}.{{$k + 1}}. {{$noidung->content}}</i></b></div>
                                     @php
-                                        $reply = DB::table('replies')->where('id_noidung', '=', $noidungs[$k]->id)->where('id_users', '=', $user->id)->first();
+                                        $reply = DB::table('replies')->where('id_noidung', '=', $noidung->id)->where('id_users', '=', $user->id)->first();
                                     @endphp
-                                    @if (isset($reply) && $reply->reply != "")
-                                        <div style="text-indent: 40px;">{{ $reply->reply }}</div>
-                                    @else
-                                        <div style="text-indent: 40px;">{{__('Không có')}}</div>
-                                    @endif
-                                @endfor
+                                    <div style="text-indent: 40px;">{{ $reply->reply ?? "không có" }}</div>
+                                @endforeach
                             @else
                                 <div style="text-indent: 40px;">{{__('Không có')}}</div>
                             @endif
-                        @endfor
-                    @endfor
+                        @endforeach
+                    @endforeach
                 @endisset
             </div>
             <div id="footer">

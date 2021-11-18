@@ -24,15 +24,15 @@
                                 @endisset
                                 <ul class="nav nav-pills nav-pills-circle flex-column flex-md-row" id="tabs-icons-text"
                                     role="tablist">
-                                    @for ($i = 1; $i <= count($noidungs); $i++)
+                                    @foreach ($noidungs as $i=>$noidung)
                                         <li class="nav-item">
-                                            <a class="nav-link mb-sm-3 mb-md-2 {{($i == 1) ? 'active' : ''}}"
-                                               id="tabs-icons-text-{{$i}}-tab" data-toggle="tab"
-                                               href="#tabs-icons-text-{{$i}}" role="tab"
-                                               aria-controls="tabs-icons-text-{{$i}}"
-                                               aria-selected="{{($i == 1) ? 'true' : 'false'}}">{{$i}}</a>
+                                            <a class="nav-link mb-sm-3 mb-md-2 {{($i == 0) ? 'active' : ''}}"
+                                               id="tabs-icons-text-{{$noidung->id}}-tab" data-toggle="tab"
+                                               href="#tabs-icons-text-{{$noidung->id}}" role="tab"
+                                               aria-controls="tabs-icons-text-{{$noidung->id}}"
+                                               aria-selected="{{($i == 0) ? 'true' : 'false'}}">{{$i + 1}}</a>
                                         </li>
-                                    @endfor
+                                    @endforeach
                                 </ul>
                             </div>
                             @if (count($noidungs) == 0)
@@ -40,17 +40,17 @@
                             @endif
                         </div>
                         <div class="tab-content" id="myTabContent">
-                            @for ($i = 1; $i <= count($noidungs); $i++)
-                                <div class="tab-pane fade show {{($i == 1) ? 'active' : ''}}"
-                                     id="tabs-icons-text-{{$i}}" role="tabpanel"
-                                     aria-labelledby="tabs-icons-text-{{$i}}-tab">
+                            @foreach ($noidungs as $i=>$noidung)
+                                <div class="tab-pane fade show {{($i == 0) ? 'active' : ''}}"
+                                     id="tabs-icons-text-{{$noidung->id}}" role="tabpanel"
+                                     aria-labelledby="tabs-icons-text-{{$noidung->id}}-tab">
                                     <form action="{{route('submit-reply')}}" enctype="multipart/form-data" method="post"
-                                          class="d-flex flex-column justify-content-center" id="form{{$noidungs[$i-1]->id}}">
-                                        <input type="hidden" name="id_noidung" value="{{$noidungs[$i-1]->id}}">
-                                        <p class="card-text">{{$noidungs[$i - 1]->content}}</p>
+                                          class="d-flex flex-column justify-content-center" id="form{{$noidung->id}}">
+                                        <input type="hidden" name="id_noidung" value="{{$noidung->id}}">
+                                        <p class="card-text">{{$noidung->content}}</p>
                                         <div class="form-group">
                                             <textarea name="content" class="form-control" id="FormControlTextarea{{$i}}" rows="8"
-                                                      {{ empty($disable) ? "" : "disabled" }}        placeholder="Điền vào đây ...">{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidungs[$i - 1]->id)) ? "" : $reply->reply}}</textarea>
+                                                      {{ empty($disable) ? "" : "disabled" }}        placeholder="Điền vào đây ...">{{ is_null($reply = $replies->firstWhere('id_noidung', '=', $noidung->id)) ? "" : $reply->reply}}</textarea>
                                         </div>
                                         <div class="form-group">
                                             {{ csrf_field() }}
@@ -61,7 +61,7 @@
                                                  aria-labelledby="dropzone-multiple-component-tab">
                                                 <div class="dropzone dropzone-multiple dz-clickable"
                                                      data-toggle="dropzone" data-dropzone-multiple id="dropzone"
-                                                     value="{{$noidungs[$i-1]->id}}">
+                                                     value="{{$noidung->id}}">
                                                     <ul class="dz-preview dz-preview-multiple list-group list-group-lg list-group-flush">
                                                     </ul>
                                                     <ul class="dz-preview dz-preview-multiple d-none list-group list-group-lg list-group-flush"
@@ -111,7 +111,7 @@
                                         <button type="submit"  class="btn btn-primary my-2 {{ empty($disable) ? "" : 'd-none' }}">Lưu</button>
                                     </form>
                                 </div>
-                            @endfor
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -267,11 +267,14 @@
             })
             // console.log(image);
 
-            @for ($i = 1; $i <= count($noidungs); $i++)
-                $("#form{{$noidungs[$i - 1]->id}}").submit(function (e) {
+            @foreach ($noidungs as $i=>$noidung)
+                $("#form{{$noidung->id}}").submit(function (e) {
                     e.preventDefault();
                     const form = $(this);
                     const posting = $.post(form.attr('action'), form.serialize());
+                    @if ($i + 1 < count($noidungs))
+                        $('#tabs-icons-text-{{$noidungs[$i + 1]->id}}-tab').trigger('click');
+                    @endif
                     posting.done((data) => {
                         if (data.success) {
                             toastr.options = optionTask;
@@ -282,7 +285,7 @@
                         }
                     })
                 });
-            @endfor
+            @endforeach
         });
     </script>
 @endsection

@@ -47,6 +47,51 @@ class PrintInfoController extends Controller
         return view('users.print-info', $params);
     }
 
+    public function printListRecord(Request $request) {
+        $user = auth()->user();
+        $ProfileController = new ProfileController;
+        $TieuchuanController = new TieuchuanController();
+
+        $id_danhhieu_doituong = $request->input('id_danhhieu_doituong');
+
+        $danhhieu_doituong = DB::table('danhhieu_doituong')
+            ->join('danhhieu', 'danhhieu.id', '=', 'danhhieu_doituong.id_danhhieu')
+            ->where('danhhieu_doituong.id', '=', $id_danhhieu_doituong)
+            ->first();
+        $id_title = $request->input('id_title');
+        $id_object = $request->input('id_object');
+        $tieuchis = $ProfileController->getTieuChuanTieuChi($id_title, $id_object);
+        $count_tieuchuan = 0;
+        foreach ($tieuchis as $tieuchi) {
+            if (count($tieuchi->tieuchuans) <= 0) {
+                $tieuchi->noidungs = $TieuchuanController->getNoidung($tieuchi->id, NULL);
+                $count_tieuchuan += 1;
+            } else $count_tieuchuan += count($tieuchi->tieuchuans);
+            foreach ($tieuchi->tieuchuans as $tieuchuan)
+                $tieuchuan->noidungs = $TieuchuanController->getNoidung($tieuchi->id, $tieuchuan->id);
+        }
+
+        $list_user = DB::table('users')
+            ->where('id_unit', '=', $user->id_unit)
+            ->join('users_danhhieu_doituong', 'users_danhhieu_doituong.id_users', '=', 'users.id')
+            ->join('danhhieu_doituong', 'danhhieu_doituong.id', '=', 'users_danhhieu_doituong.id_danhhieu_doituong')
+            ->where('danhhieu_doituong.id_danhhieu', '=', $id_title)
+            ->where('danhhieu_doituong.id_doituong', '=', $id_object)
+            ->where('users_danhhieu_doituong.confirmed', '=', 1)
+            ->selectRaw('users.*')
+            ->get();
+
+        $params = [
+            'user' => $user,
+            'id_title' => $id_title,
+            'id_object' => $id_object,
+            'tieuchis' => $tieuchis,
+            'list_user' => $list_user,
+            'count_tieuchuan' => $count_tieuchuan,
+        ];
+        return view('manager.print-report', $params);
+    }
+
     public function printPhieuThamDinh(Request $request) {
         $request->validate([
             'id_user' => ['required', 'string', 'exists:users,id'],
