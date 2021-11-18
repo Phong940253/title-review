@@ -117,7 +117,7 @@
                 </div>
                 <div class="row" style="padding-top: 15px">
                     <div class="col-12 text-center" style="margin-top: 15px;">
-                        <span style="font-size: 16pt;"><b>BẢN TỔNG HỢP</b></span><br>
+                        <span style="font-size: 16pt;"><b>BẢNG TỔNG HỢP</b></span><br>
                         <b>ĐỀ CỬ
                             "{{ isset($id_title) ? mb_strtoupper(DB::table('danhhieu')->find($id_title)->name) : "" }}"<br></b>
                         <b><i>(Dành
