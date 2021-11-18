@@ -35,7 +35,7 @@ class ValidRecaptcha implements Rule
         // Gui du lieu cho recapcha xu li
         $response = $client->post('siteverify', [
             'query' => [
-                'secret' => env('GOOGLE_RECAPTCHA_SECRET'),
+                'secret' => config('app.site_key'),
                 'response' => $value,
                 'remoteip' => request()->getClientIp(),
             ]
