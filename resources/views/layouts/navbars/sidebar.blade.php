@@ -73,7 +73,7 @@
                                 <i class="fas fa-tasks text-primary"></i>
                                 <span class="nav-link-text"> {{ __('Tổng hợp đơn vị') }}</span>
                             </a>
-                        </li>\
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link {{ isset($nav) ? ($nav == 2 ? "active" : "") : ""}}" href="{{ route('doi-mat-khau') }}">
                                 <i class="fas fa-key"></i>
