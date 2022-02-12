@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label" for="titleSelected">{{ __('Danh hiệu liên kết') }}</label>
-                                    <select id="selected" class="custom-select form-control form-control-alternative" id="titleSelected" name="id_title" multiple="multiple" required>
+                                    <select id="selected" class="custom-select form-control form-control-alternative" id="titleSelected" name="id_title[]" multiple="multiple" required>
                                         {!! $listTitle ?? "" !!}
                                     </select>
                                 </div>

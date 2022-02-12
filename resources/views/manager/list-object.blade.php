@@ -56,7 +56,7 @@
                 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
-                            <form action="{{route('sua-danh-hieu')}}" method="post" enctype="multipart/form-data" id="submitForm">
+                            <form action="{{route('sua-doi-tuong')}}" method="post" enctype="multipart/form-data" id="submitForm">
                                 @csrf
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLongTitle">Thông tin đối tượng</h5>
@@ -192,7 +192,7 @@
                 'id': $('#input-id').val()
             };
             console.log(formData)
-            const posting = $.post('{{ route('xoa-danh-hieu') }}', formData);
+            const posting = $.post('{{ route('xoa-doi-tuong') }}', formData);
             posting.done(function (data)  {
                 if (data.success) {
                     table.ajax.reload(null, false);

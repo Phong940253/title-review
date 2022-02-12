@@ -70,6 +70,8 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('quan-ly-doi-tuong', 'App\Http\Controllers\ManagerObjectsController@index')->name('quan-ly-doi-tuong');
                 Route::get('lay-doi-tuong', 'App\Http\Controllers\ManagerObjectsController@getObjects')->name('lay-doi-tuong');
                 Route::get('xem-doi-tuong', 'App\Http\Controllers\ManagerObjectsController@viewObject')->name('xem-doi-tuong');
+                Route::post('sua-doi-tuong', 'App\Http\Controllers\ManagerObjectsController@editObject')->name('sua-doi-tuong');
+                Route::post('xoa-doi-tuong', 'App\Http\Controllers\ManagerObjectsController@deleteObject')->name('xoa-doi-tuong'); // TODO
                 Route::get('form-them-doi-tuong', 'App\Http\Controllers\ManagerObjectsController@viewAddObject')->name('form-them-doi-tuong');
 
                 Route::get('quan-ly-ho-so', 'App\Http\Controllers\RecordManagementController@index')->name('quan-ly-ho-so');
