@@ -144,6 +144,7 @@ class TieuchuanController extends Controller
              ->join('doituong', 'doituong.id', '=', 'id_doituong')
              ->where('id_danhhieu', '=', $id_title)
              ->where('id_doituong', '=', $id_object)
+             ->select('danhhieu_doituong.id')
              ->first();
     }
 
@@ -170,6 +171,9 @@ class TieuchuanController extends Controller
             if (isset($id_title) && isset($id_object)) {
                 $danhhieu_doituong = $this->getIdDanhHieuDoiTuong($id_title, $id_object);
                 if (isset($danhhieu_doituong)) {
+//                    Log::debug($id_title);
+//                    Log::debug($id_object);
+//                    Log::debug($danhhieu_doituong->id);
                     $editReply = UserDanhHieuDoiTuong::updateOrCreate(
                         ['id_users' => $request->user()->id, 'id_danhhieu_doituong' => $danhhieu_doituong->id],
                         ['edit' => 1],
