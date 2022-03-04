@@ -93,16 +93,25 @@
         };
 
         let table;
+        let numColumn = 0;
         $("#titleSelected").change(function () {
-            if ($.fn.dataTable.isDataTable( '#datatable-basic')) {
+            if ($.fn.dataTable.isDataTable('#datatable-basic')) {
                 table.destroy();
             }
 
             $.get(`{{ route('get-unit-by-title') }}?id_title=${$(this).val()}`, data => {
                 data = JSON.parse(data);
+
+                // remove head column
+                for (let i = 0; i < numColumn; ++i)
+                    $('#column').children().last().remove();
+                for (let i = 0; i < numColumn - data.length - 2; ++i)
+                    $('tbody').children().last().remove();
+
                 // console.log(data);
                 const optionColumns = [{data: 'name', name: 'name'}];
-                $('#column').append(`<th>Tên đơn vị</th>`)
+                $('#column').append(`<th>Tên đơn vị</th>`);
+                numColumn = data.length + 2;
                 data.map((value, index) => {
                     console.log(value);
                     $('#column').append(`<th>${value.name}</th>`)
@@ -112,10 +121,10 @@
                 optionColumns.push({data: 'tonghop', name: 'tonghop'});
                 console.log(optionColumns);
                 table = $('#datatable-basic').DataTable({
-                    "stateSave": true,
+                    "stateSave": false,
                     "ordering": false,
                     "paging": false,
-                    scrollX: false,
+                    "scrollX": false,
                     "language": {
                         "lengthMenu": "Hiển thị _MENU_ bản ghi mỗi trang",
                         "zeroRecords": "Không tìm thấy kết quả",

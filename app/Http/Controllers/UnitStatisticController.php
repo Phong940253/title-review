@@ -56,6 +56,7 @@ class UnitStatisticController extends Controller
     {
         $request->validate(['id_title' => ['required', 'string', 'exists:danhhieu,id']]);
         $id_title = $request->input('id_title');
+//        Log::debug($id_title);
         $objects = $this->getObjectByIdTitle($id_title);
         $selecting = "name";
         foreach ($objects as $object) {
@@ -66,6 +67,7 @@ class UnitStatisticController extends Controller
         $statistic = DB::table('users')
             ->join('users_danhhieu_doituong', 'users_danhhieu_doituong.id_users', '=', 'users.id')
             ->join('danhhieu_doituong', 'danhhieu_doituong.id', '=', 'users_danhhieu_doituong.id_danhhieu_doituong')
+            ->where('danhhieu_doituong.id_danhhieu', '=', $id_title)
             ->join('unit', 'users.id_unit', '=', 'unit.id')
             ->groupBy('unit.name', 'danhhieu_doituong.id_doituong')
             ->selectRaw("unit.name as name, danhhieu_doituong.id_doituong as id, COUNT(CASE WHEN users_danhhieu_doituong.confirmed = 1 THEN 1 END) as 'duyet', COUNT(users_danhhieu_doituong.confirmed) as 'tonghop'");
