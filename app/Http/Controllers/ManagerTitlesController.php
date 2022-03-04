@@ -18,7 +18,7 @@ class ManagerTitlesController extends Controller
             'subnav' => 1,
             'page' => [
                 'currentPage' => "Danh hiệu",
-                'parentPage' => "Quản lý danh hiệu",
+                'parentPage' => "Quản lý",
             ]
         ];
         return view('manager.list-title', $params);

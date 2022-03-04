@@ -32,8 +32,8 @@ class ManagerObjectsController extends Controller
             'nav' => 1,
             'subnav' => 2,
             'page' => [
-                'currentPage' => "Quản lý đối tượng",
-                'parentPage' => "Quản lý danh hiệu",
+                'currentPage' => "Đối tượng",
+                'parentPage' => "Quản lý",
             ]
         ];
         return view('manager.list-object', $params);
