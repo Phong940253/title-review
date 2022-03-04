@@ -14,7 +14,7 @@
                         <div class="text-center text-muted mb-4">
                             {{ __('Chọn đề cử') }}
                         </div>
-                        <form role="form" method="POST" action="{{ route('select-title') }}">
+                        <form role="form" method="POST" action="{{ route('select-title-post') }}">
                             @csrf
                             <div class="form-group{{ $errors->has('id_title') ? ' has-danger' : '' }}">
                                 <div class="input-group input-group-alternative">

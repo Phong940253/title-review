@@ -22,7 +22,7 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('object/get_by_title', 'App\Http\Controllers\SelectTitleController@get_by_title')->name('user.object.get_by_title');
     Route::get('select-title', 'App\Http\Controllers\SelectTitleController@index')->name('select-title');
-    Route::post('select-title', 'App\Http\Controllers\SelectTitleController@submitSelect')->name('select-title');
+    Route::post('select-title-post', 'App\Http\Controllers\SelectTitleController@submitSelect')->name('select-title-post');
     Route::get('get-unit-by-title', 'App\Http\Controllers\UnitStatisticController@getUnitByIdTitle')->name('get-unit-by-title');
     Route::group(['middleware' => 'select.title'], function () {
         Route::get('input-info', 'App\Http\Controllers\InputInfoController@index')->name('input-info');
@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('fill-info', 'App\Http\Controllers\InputInfoController@submitInfo')->name('fill-info');
 
         Route::group(['middleware' => 'fill.info'], function () {
-            Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
+            Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home0');
             Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 //            Route::resource('user', 'App\Http\Controllers\ManagerUserController', ['except' => ['show']]);
 
