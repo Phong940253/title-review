@@ -36,3 +36,10 @@
 ![demo](Image/2.png)
 
 ![demo](Image/3.png)
+
+![image](https://user-images.githubusercontent.com/40328498/169665387-707979a3-41ea-4fde-9c85-7b71901ed7b6.png)
+
+![image](https://user-images.githubusercontent.com/40328498/169665395-a443efb6-c08a-4b03-a10e-bff684440c9f.png)
+
+![image](https://user-images.githubusercontent.com/40328498/169665565-5a304e44-8c05-4c82-a2b5-032d1f7b8e88.png)
+
